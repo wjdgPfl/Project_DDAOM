@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>DDAOM_joinform</title>
+    <link rel="stylesheet" href="signup.css">
+    <script src="signup.js"></script>
+</head>
+<body>
+    <div class="totalContainer">
+        <h2>DDAOM</h2>
+    <form action="백그라운드 url" method="post" >   
+        <table class="signupContainer">
+            <tr>
+                <td> 이름 : <input type = "text" name = "name" style="margin-left:8px"></td>
+            </tr>
+            <tr>
+                <td> 아이디 : <input type = "text" class="userId_input" name = "id"  check_result="fail" style="margin-left:8px" required /></td>
+                <td><button id="overlapButton" type="button" class="id_overlap_button" onclick="id_overlap_check()">중복검사</button></td>
+                <img id="id_check_sucess" style="display: none;">
+            </tr>    
+            <tr>
+                <td> 비밀번호 : <input type = "text" name = "password" style="margin-left:8px"></td>
+            </tr>
+            <tr>
+        </table>
+        <button id="signupButton" type="submit">가입하기</button>
+    </form>
+</body>
+</html>

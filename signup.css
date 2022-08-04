@@ -1,0 +1,34 @@
+body {font-family: Arial, Helvetica, sans-serif;}
+/* header */
+h2{
+    text-align: center;
+}
+/* container */
+.totalContainer{
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.signupContainer{
+    border-top: solid rgb(53, 99, 16);
+    
+}
+/*input box*/
+input[type=text]{
+    float: right;
+}
+/*button*/
+#signupButton{
+    height: 100%;
+    width: 100%;
+    float:inline-end;
+}
+#overlapButton{
+    float: right;
+}
+
+/*button hover*/
+button:hover {
+  opacity: 0.3;
+}
