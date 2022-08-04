@@ -1,0 +1,176 @@
+body,
+html {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+}
+
+/* < -- nav --> */
+nav {
+  margin: 0;
+  float: left;
+  background-color: blueviolet;
+  height: calc(100% - 55px);
+  width: 250px;
+}
+.navbutton {
+  width: 100%;
+  height: 60px;
+  background-color: transparent;
+  border: 3px solid greenyellow;
+}
+.navbutton:hover {
+  background-color: aquamarine;
+}
+@media screen and (max-width: 1000px) {
+  nav {
+    display: none;
+  }
+}
+/* < -- nav --> */
+
+/* < -- header --> */
+header {
+  height: 55px;
+  width: 100%;
+  background-color: aquamarine;
+}
+
+#headerBar {
+  padding: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+#mainLogo {
+  width: 250px;
+  height: 55px;
+  background-color: pink;
+
+  border: 0px;
+}
+
+#inputBox {
+  height: 55px;
+  display: flex;
+  flex: 1;
+
+  align-items: center;
+  justify-content: center;
+}
+
+#welcomeMent {
+  width: 250px;
+  height: 55px;
+  padding-right: 30px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#userNameBox {
+  height: 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+#userName {
+  font-weight: bold;
+}
+
+#welcome {
+  height: 20px;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+/* < -- header --> */
+
+/* <-- section --> */
+section {
+  margin: 0px;
+  overflow: scroll;
+
+  min-width: calc(100% - 250px);
+  height: calc(100% - 55px);
+  background-color: antiquewhite;
+
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+}
+
+#sectionBox {
+  margin-top: 20px;
+  padding: 0 10% 0 10%;
+  width: fit-content;
+  height: fit-content;
+}
+
+.sectionDiv {
+  margin-top: 40px;
+  min-height: 10px;
+
+  display: flex;
+  flex-direction: row;
+}
+
+.sectionText {
+  margin-right: 10px;
+  min-width: 100px;
+
+  font-weight: bold;
+}
+
+#getProjectName, #addMembers {
+  width: 720px;
+}
+
+#TodayDiv {
+  margin-left: 30px;
+}
+
+#projectDetail {
+  width: 720px;
+  height: 250px;
+}
+
+#addNewLinkDiv {
+  padding-left: 110px;
+}
+
+#addLinkName {
+  width: 150px;
+  margin-right: 10px;
+}
+
+#addLinkURL {
+  width: 510px;
+  margin-right: 10px;
+}
+
+#addNewLinkButton {
+  width: 30px;
+}
+
+#saveOrCancleDiv {
+  margin-bottom: 40px;
+}
+
+.bottomButton {
+  width: 70px;
+  height: 25px;
+  margin-right: 15px;
+  text-align: center;
+}
+/* <-- section --> */
+
+img{
+    height:10rem;
+    width:10rem;
+}
