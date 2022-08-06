@@ -1,40 +1,22 @@
 <template>
   <div>
-    <!DOCTYPE html>
-    <html>
-      <head>
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <meta charset="utf-8" />
-        <title>DDAOM_login</title>
-      </head>
-      <body>
-        <div class="totalContainer">
-          <h2>DDAOM</h2>
-          <div class="loginContainer">
-            <p></p>
-            <form class="ddaomLogin" action="백그라운드url" method="post">
-              <label for="userID"><b>아이디</b></label>
-              <input
-                type="text"
-                placeholder="Enter ID"
-                name="userID"
-                required
-              />
-              <label for="psw"><b>비밀번호</b></label>
-              <input
-                type="password"
-                placeholder="Enter Password"
-                name="psw"
-                required
-              />
-              <button type="submit">로그인</button>
-            </form>
-            <button>회원가입</button>
-          </div>
-        </div>
-      </body>
-    </html>
-    Footer
+    <title>DDAOM_login</title>
+    <div class="totalContainer">
+      <h2>DDAOM</h2>
+      <div class="loginContainer">
+        <label for="userID"><b>아이디</b></label>
+        <input type="text" placeholder="Enter ID" name="userID" required />
+        <label for="psw"><b>비밀번호</b></label>
+        <input
+          type="password"
+          placeholder="Enter Password"
+          name="psw"
+          required
+        />
+        <button type="submit" @click="MoveMainPage()">로그인</button>
+        <button @click="MoveSignup()">회원가입</button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -50,7 +32,14 @@ export default {
   created() {},
   mounted() {},
   unmounted() {},
-  methods: {}
+  methods: {
+    MoveSignup() {
+      this.$router.push('/signup')
+    },
+    MoveMainPage() {
+      this.$router.push('/main')
+    }
+  }
 }
 </script>
 

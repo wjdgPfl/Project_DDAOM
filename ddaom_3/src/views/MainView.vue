@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Frame msg="Welcome to Your Vue.js App" />
+    <Frame />
     <v-app id="inspire">
       <v-row class="fill-height">
         <v-col>
