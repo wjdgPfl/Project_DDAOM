@@ -1,5 +1,6 @@
 <template>
   <div id="app">
+    <Frame msg="Welcome to Your Vue.js App" />
     <v-app id="inspire">
       <v-row class="fill-height">
         <v-col>
@@ -105,7 +106,12 @@
 </template>
 
 <script>
+import Frame from '@/components/Frame.vue'
+
 export default {
+  components: {
+    Frame
+  },
   data: () => ({
     focus: '',
     type: 'month',
