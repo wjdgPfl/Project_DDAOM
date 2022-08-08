@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="bigbody">
     <Frame msg="Welcome to Your Vue.js App" />
     <section>
       <div id="sectionBox">
@@ -116,17 +116,16 @@ export default {
 }
 </script>
 <style>
-template {
+#bigbody {
   width: 100%;
   height: 100%;
 }
 section {
   margin: 0px;
-  overflow: hidden;
-
   min-width: calc(100% - 250px);
   height: calc(100% - 55px);
   background-color: antiquewhite;
+  overflow: scroll;
 
   display: flex;
   position: relative;
@@ -175,6 +174,7 @@ section {
 }
 
 #projectDetail {
+  resize: none;
   width: 720px;
   height: 250px;
 }

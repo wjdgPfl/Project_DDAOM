@@ -1,154 +1,176 @@
 <template>
-  <div>
+  <div id="bigbody">
     <Frame />
-    <head>
-      <title>따옴</title>
-      <link
-        href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-        rel="stylesheet"
-        integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-        crossorigin="anonymous"
-      />
-    </head>
+    <section>
+      <select style="float: right">
+        <option value="doing" selected>ongoing</option>
+        <option value="theEnd">complete</option>
+      </select>
+      <table id="projectlisttb">
+        <tr>
+          <td id="projecttitle">
+            <p>project_1</p>
+            <img
+              src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
+              alt="대표이미지"
+            />
+          </td>
+          <td>
+            <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
+            <p>일정:</p>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 25%"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                25%
+              </div>
+            </div>
+            <p></p>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              style="float: right"
+              @click="openClose()"
+            >
+              view more
+            </button>
+          </td>
+        </tr>
+        <tr id="more">
+          <td></td>
+          <td>
+            <p>
+              세부사항 : Lorem ipsum dolor sit amet consectetur, adipisicing
+              elit. Ducimus tempore iure voluptate nam optio fugit ratione
+              laborum. Officia sapiente, consectetur adipisci deleniti deserunt
+              repellendus minus? Aspernatur minima dolorum recusandae beatae.
+              Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ducimus
+              tempore iure voluptate nam optio fugit ratione laborum. Officia
+              sapiente, consectetur adipisci deleniti deserunt repellendus
+              minus? Aspernatur minima dolorum recusandae beatae.
+            </p>
+            <p>관련 링크 :</p>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 25%"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                25%
+              </div>
+            </div>
+          </td>
+        </tr>
 
-    <select style="float: right">
-      <option value="doing" selected>ongoing</option>
-      <option value="theEnd">complete</option>
-    </select>
-    <table>
-      <tr>
-        <td>
-          <p>project_1</p>
-          <img
-            src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
-            alt="대표이미지"
-          />
-        </td>
-        <td>
-          <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
-          <p>일정:</p>
-          <div class="progress">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              style="width: 25%"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
-            >
-              25%
+        <tr>
+          <td>
+            <p>project_2</p>
+            <img
+              src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
+              alt="대표이미지"
+            />
+          </td>
+          <td>
+            <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
+            <p>일정:</p>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 25%"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                25%
+              </div>
             </div>
-          </div>
-          <p></p>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            style="float: right"
-          >
-            view more
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>project_2</p>
-          <img
-            src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
-            alt="대표이미지"
-          />
-        </td>
-        <td>
-          <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
-          <p>일정:</p>
-          <div class="progress">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              style="width: 25%"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
+            <p></p>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              style="float: right"
             >
-              25%
+              view more
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>project_3</p>
+            <img
+              src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
+              alt="대표이미지"
+            />
+          </td>
+          <td>
+            <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
+            <p>일정:</p>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 25%"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                25%
+              </div>
             </div>
-          </div>
-          <p></p>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            style="float: right"
-          >
-            view more
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>project_3</p>
-          <img
-            src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
-            alt="대표이미지"
-          />
-        </td>
-        <td>
-          <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
-          <p>일정:</p>
-          <div class="progress">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              style="width: 25%"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
+            <p></p>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              style="float: right"
             >
-              25%
+              view more
+            </button>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <p>project_3</p>
+            <img
+              src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
+              alt="대표이미지"
+            />
+          </td>
+          <td>
+            <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
+            <p>일정:</p>
+            <div class="progress">
+              <div
+                class="progress-bar"
+                role="progressbar"
+                style="width: 25%"
+                aria-valuenow="25"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                25%
+              </div>
             </div>
-          </div>
-          <p></p>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            style="float: right"
-          >
-            view more
-          </button>
-        </td>
-      </tr>
-      <tr>
-        <td>
-          <p>project_3</p>
-          <img
-            src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
-            alt="대표이미지"
-          />
-        </td>
-        <td>
-          <p>함께하는 사람:이채원, 정혜리, 최진선, 이종훈</p>
-          <p>일정:</p>
-          <div class="progress">
-            <div
-              class="progress-bar"
-              role="progressbar"
-              style="width: 25%"
-              aria-valuenow="25"
-              aria-valuemin="0"
-              aria-valuemax="100"
+            <p></p>
+            <button
+              type="button"
+              class="btn btn-secondary btn-sm"
+              style="float: right"
             >
-              25%
-            </div>
-          </div>
-          <p></p>
-          <button
-            type="button"
-            class="btn btn-secondary btn-sm"
-            style="float: right"
-          >
-            view more
-          </button>
-        </td>
-      </tr>
-    </table>
+              view more
+            </button>
+          </td>
+        </tr>
+      </table>
+    </section>
   </div>
 </template>
 
@@ -160,12 +182,30 @@ export default {
   name: '',
   components: {
     Frame
+  },
+  methods: {
+    openClose() {
+      if (document.getElementById('more').style.display === 'inline-block') {
+        document.getElementById('more').style.display = 'none'
+        // document.getElementById('toc-toggle').textContent = '보이기'
+      } else {
+        document.getElementById('more').style.display = 'inline-block'
+        // document.getElementById('toc-toggle').textContent = '숨기기'
+      }
+    }
   }
 }
 </script>
 
 <style>
 /* < -- table --> */
+#bigbody {
+  width: 100vw;
+  height: 100vh;
+}
+section {
+  overflow-y: scroll;
+}
 img {
   height: 10rem;
   width: 10rem;
@@ -216,6 +256,12 @@ img {
 
 .dropdown:hover .dropdown-content {
   display: block;
+}
+#projecttitle {
+  width: 300px;
+}
+#projectlisttb {
+  width: 65vw;
 }
 /*< -- table -->*/
 </style>

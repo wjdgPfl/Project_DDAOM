@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div id="bigbody">
     <Frame msg="Welcome to Your Vue.js App" />
     <section>
       <div id="sectionBox">
@@ -23,14 +23,14 @@
         <div class="sectionDiv" id="startDateDiv">
           <span class="sectionText">시작 일자 :</span>
           <input type="date" id="startDate" @change="sameDatePlan()" />
-          <div id="TodayDiv">
-            <span>당일</span>
-            <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
-          </div>
         </div>
         <div class="sectionDiv" id="deadlineDateDiv">
           <span class="sectionText">마감 일자 :</span>
           <input type="date" id="deadlineDate" @change="sameDatePlan()" />
+          <div id="TodayDiv">
+            <span>당일</span>
+            <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
+          </div>
         </div>
         <div class="sectionDiv" id="projectDetailDiv">
           <span class="sectionText">상세 설명 :</span>
@@ -52,7 +52,9 @@
               id="addLinkURL"
               placeholder="URL을 입력해주세요."
             />
-            <button id="addNewLinkButton" @click="createNewLinkDiv()">+</button>
+            <button id="addNewLinkButton" v-on:click="createNewLinkDiv()">
+              +
+            </button>
           </div>
         </div>
         <div class="sectionDiv" id="addReoresehtativePictureDiv">
@@ -94,15 +96,21 @@ export default {
       addLinkURL.type = 'text'
       addLinkURL.setAttribute('id', 'addLinkURL')
       addLinkURL.setAttribute('placeholder', 'URL을 입력해주세요.')
-      const addNewLinkButton = document.createElement('button')
-      addNewLinkButton.setAttribute('id', 'addNewLinkButton')
-      addNewLinkButton.setAttribute('onclick', 'createNewLinkDiv()')
-      addNewLinkButton.innerText = '+'
+
+      const removeLinkButton = document.createElement('button')
+      removeLinkButton.setAttribute('id', 'removeLinkButton')
+      removeLinkButton.setAttribute('v-on:click', 'removeLink(this)')
+      removeLinkButton.innerText = 'x'
+
       const linkDiv = document.getElementById('linkDiv')
       linkDiv.appendChild(addNewLinkDiv)
       addNewLinkDiv.appendChild(addLinkName)
       addNewLinkDiv.appendChild(addLinkURL)
-      addNewLinkDiv.appendChild(addNewLinkButton)
+      addNewLinkDiv.appendChild(removeLinkButton)
+    },
+    removeLink(e) {
+      const parentlink = e.parentNodes()
+      parentlink.remove()
     },
     sameDatePlan() {
       const startDate = document.getElementById('startDate').value
@@ -135,14 +143,16 @@ export default {
 }
 </script>
 <style>
+#bigbody {
+  width: 100vw;
+  height: 100vh;
+}
 section {
   margin: 0px;
-  overflow: scroll;
-
+  overflow-y: scroll;
   min-width: calc(100% - 250px);
   height: calc(100% - 55px);
   background-color: antiquewhite;
-
   display: flex;
   position: relative;
   flex-direction: column;
@@ -175,12 +185,19 @@ section {
 #addMembers {
   width: 720px;
 }
-
+#startDateDiv {
+  margin-right: 100px;
+  float: left;
+}
+#deadlineDateDiv {
+  margin-left: 50px;
+}
 #TodayDiv {
   margin-left: 30px;
 }
 
 #projectDetail {
+  resize: none;
   width: 720px;
   height: 250px;
 }
@@ -199,7 +216,8 @@ section {
   margin-right: 10px;
 }
 
-#addNewLinkButton {
+#addNewLinkButton,
+#romoveLinkButton {
   width: 30px;
 }
 
