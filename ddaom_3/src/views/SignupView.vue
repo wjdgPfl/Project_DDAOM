@@ -68,7 +68,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
