@@ -197,14 +197,22 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 /* < -- table --> */
 #bigbody {
   width: 100vw;
   height: 100vh;
 }
 section {
+  margin: 0px;
   overflow-y: scroll;
+  min-width: calc(100% - 250px);
+  height: calc(100% - 55px);
+  background-color: antiquewhite;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
 }
 img {
   height: 10rem;
