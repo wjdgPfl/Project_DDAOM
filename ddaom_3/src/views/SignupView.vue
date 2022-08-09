@@ -84,6 +84,8 @@ h2 {
   transform: translate(-50%, -50%);
 }
 .signupContainer {
+  margin-top: 15px;
+  padding-top: 15px;
   border-top: solid rgb(53, 99, 16);
 }
 /*input box*/

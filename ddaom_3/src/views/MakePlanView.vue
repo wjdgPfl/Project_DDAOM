@@ -5,7 +5,7 @@
       <div id="sectionBox">
         <div class="sectionDiv" id="typeOfPlanDiv">
           <div class="typeOfPlan" id="personalPlan">
-            <span>개인</span>
+            <span style="margin-right: 15px">개인</span>
             <input
               type="radio"
               name="typeOfPlanChoose"
@@ -14,7 +14,7 @@
             />
           </div>
           <div class="typeOfPlan" id="projectPlan">
-            <span>프로젝트</span>
+            <span style="margin-right: 15px">프로젝트</span>
             <input
               type="radio"
               name="typeOfPlanChoose"
@@ -33,26 +33,36 @@
           <input
             type="text"
             id="getProjectName"
+            class="inputBoxes"
             placeholder="제목을 입력해주세요."
             autofocus
           />
         </div>
         <div class="sectionDiv" id="startDateDiv">
           <span class="sectionText">시작 일자 :</span>
-          <input type="date" id="startDate" @change="sameDatePlan()" />
+          <input
+            type="date"
+            id="startDate"
+            class="inputBoxes"
+            @change="sameDatePlan()" />
           <div id="TodayDiv">
-            <span>당일</span>
+            <span style="margin-right: 15px">당일</span>
             <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
           </div>
         </div>
         <div class="sectionDiv" id="deadlineDateDiv">
           <span class="sectionText">마감 일자 :</span>
-          <input type="date" id="deadlineDate" @change="sameDatePlan()" />
+          <input
+            type="date"
+            id="deadlineDate"
+            class="inputBoxes"
+            @change="sameDatePlan()" />
         </div>
         <div class="sectionDiv" id="projectDetailDiv">
           <span class="sectionText">상세 설명 :</span>
           <textarea
             id="projectDetail"
+            class="inputBoxes"
             placeholder="상세 설명을 입력해주세요."
           ></textarea>
         </div>
@@ -119,23 +129,19 @@ export default {
 #bigbody {
   width: 100%;
   height: 100%;
+  margin: 0;
 }
 section {
   margin: 0px;
-  min-width: calc(100% - 250px);
+  width: calc(100% - 250px);
   height: calc(100% - 55px);
-  background-color: antiquewhite;
-  overflow: scroll;
+  background-color: white;
 
   display: flex;
-  position: relative;
   flex-direction: column;
-  align-items: center;
-  width: calc(100%-250px);
 }
 
 #sectionBox {
-  margin-top: 20px;
   padding: 0 10% 0 10%;
   width: 100%;
   height: 100%;
@@ -144,6 +150,17 @@ section {
 .typeOfPlan {
   min-width: 100px;
   margin-right: 15px;
+}
+
+.inputBoxes {
+  background-color: white;
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 5px;
+  padding: 5px;
+}
+
+#projectChoose {
+  margin-left: 15px;
 }
 
 #projectList {
@@ -190,5 +207,13 @@ section {
   height: 25px;
   margin-right: 15px;
   text-align: center;
+
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 5px;
+}
+
+.bottomButton:hover {
+  background-color: rgb(53, 99, 16);
+  color: white;
 }
 </style>
