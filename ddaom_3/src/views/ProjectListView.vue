@@ -25,7 +25,7 @@
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                25%
+                35%
               </div>
             </div>
             <br />
