@@ -141,6 +141,7 @@ nav {
   width: 250px;
   padding-top: 15px;
   padding-bottom: 25px;
+  margin: 0;
 
   float: left;
   display: flex;

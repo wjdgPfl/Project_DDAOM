@@ -127,18 +127,20 @@ export default {
 </script>
 <style scoped>
 #bigbody {
-  margin: 0;
   width: 100vw;
   height: 100vh;
+  margin: 0;
 }
+
 section {
   margin: 0px;
-  width: calc(100% - 250px);
-  height: calc(100% - 55px);
+  width: calc(100vw - 250px);
+  height: calc(100vh - 55px);
   background-color: white;
 
   display: flex;
   flex-direction: column;
+  overflow-y: scroll;
 }
 
 #sectionBox {
