@@ -1,13 +1,19 @@
 <template>
   <div id="body">
     <header>
-      <div>
-        <button @click="Isnone()">햄버거</button>
+      <button @click="Isnone()" id="asideBarButton">
+        <b-icon icon="list">햄</b-icon>
+      </button>
+      <div style="width:70px"></div>
+      <div id="mainLogo">
+        <router-link to="/main" id="logo">DDAOM</router-link>
       </div>
-      <router-link to="/main"><h1>DDAOM</h1></router-link>
+      <div id="userNameBox">
+        <span>{{ username }} 님</span>
+        <span> 환영합니다.</span>
+      </div>
       <div style="display: flex; flex-direction: row">
-        <p>{{ username }}님 환영합니다.</p>
-        <button class="navbutton" @click="MoveProjectList()">List</button>
+        <button class="navbutton" id="listButton" @click="MoveProjectList()">List</button>
       </div>
     </header>
 
@@ -83,22 +89,63 @@ template {
 header {
   height: 55px;
   width: 100%;
-  background-color: aquamarine;
+  background-color: #fcc820;
 
   display: flex;
-  justify-content: space-between;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+#asideBarButton {
+  margin-left: 15px;
+  width: 50px;
+}
+
+#mainLogo {
+  width: calc(100% - 210px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#logo {
+  color: black;
+  text-decoration: none;
+
+  font-size: 30px;
+  font-weight: bold;
+}
+
+#userNameBox {
+  width: 100px;
+  height: 55px;
+  margin-right: 15px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+#listButton {
+  margin: 0px 15px 0px 0px;
+  height: 30px;
+  width: 70px;
 }
 
 /* nav */
 nav {
-  background-color: blueviolet;
+  background-color: rgb(235, 235, 235);
   height: calc(100vh - 55px);
   width: 250px;
-  float: left;
+  padding-top: 15px;
+  padding-bottom: 25px;
 
+  float: left;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content:space-between;
 }
 
 .navv {
@@ -106,15 +153,18 @@ nav {
 }
 
 .navbutton {
-  width: 100%;
-  height: 60px;
-  background-color: transparent;
-  border: 1px solid black;
-  border-radius: 25px;
+  width: 200px;
+  height: 50px;
+  margin: 15px 25px 0px 25px;
+
+  background-color: white;
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 10px;
 }
 
 .navbutton:hover {
-  background-color: aquamarine;
+  color: white;
+  background-color: rgb(53, 99, 16);
 }
 
 nav a {

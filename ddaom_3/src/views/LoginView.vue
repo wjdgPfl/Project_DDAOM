@@ -2,7 +2,7 @@
   <div>
     <title>DDAOM_login</title>
     <div class="totalContainer">
-      <h2>DDAOM</h2>
+      <span id="logo">DDAOM</span>
       <div class="loginContainer">
         <label for="userID"><b>아이디</b></label>
         <input type="text" placeholder="Enter ID" name="userID" required />
@@ -47,10 +47,17 @@ export default {
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
+
 /* header */
-h2 {
-  text-align: center;
+#logo {
+  color: black;
+  font-size: 30px;
+  font-weight: bold;
+
+  display: flex;
+  justify-content: center;
 }
+
 /* container */
 .totalContainer {
   position: absolute;
@@ -58,9 +65,13 @@ h2 {
   left: 50%;
   transform: translate(-50%, -50%);
 }
+
 .loginContainer {
+  margin-top: 15px;
+  padding-top: 15px;
   border-top: solid rgb(53, 99, 16);
 }
+
 /* input box */
 input[type='text'],
 input[type='password'] {
@@ -87,6 +98,7 @@ button[type='submit'] {
 button {
   float: right;
   border: none;
+  margin-top: 8px;
   background-color: white;
 }
 

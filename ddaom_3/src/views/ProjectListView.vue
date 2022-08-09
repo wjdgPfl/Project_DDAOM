@@ -89,23 +89,26 @@ export default {
   list-style: none;
 }
 #bigbody {
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
+  margin: 0;
 }
+
 select {
   margin-top: 50px;
 }
+
 section {
   margin: 0px;
-  overflow-y: scroll;
-  min-width: calc(100% - 250px);
+  width: calc(100% - 250px);
   height: calc(100% - 55px);
-  background-color: antiquewhite;
+  background-color: white;
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
 }
+
 .mainphoto {
   height: 10rem;
   width: 10rem;
