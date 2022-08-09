@@ -99,7 +99,10 @@ export default {
 
       const removeLinkButton = document.createElement('button')
       removeLinkButton.setAttribute('id', 'removeLinkButton')
-      removeLinkButton.setAttribute('v-on:click', 'removeLink(this)')
+      removeLinkButton.addEventListener('click', function () {
+        const parentlink = this.parentElement
+        parentlink.remove()
+      })
       removeLinkButton.innerText = 'x'
 
       const linkDiv = document.getElementById('linkDiv')
@@ -107,10 +110,6 @@ export default {
       addNewLinkDiv.appendChild(addLinkName)
       addNewLinkDiv.appendChild(addLinkURL)
       addNewLinkDiv.appendChild(removeLinkButton)
-    },
-    removeLink(e) {
-      const parentlink = e.parentNodes()
-      parentlink.remove()
     },
     sameDatePlan() {
       const startDate = document.getElementById('startDate').value
