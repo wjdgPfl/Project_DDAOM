@@ -2,9 +2,9 @@
   <div id="body">
     <header>
       <button @click="Isnone()" id="asideBarButton">
-        <b-icon icon="list">햄</b-icon>
+        <v-icon>mdi-menu</v-icon>
       </button>
-      <div style="width:70px"></div>
+      <div style="width: 70px"></div>
       <div id="mainLogo">
         <router-link to="/main" id="logo">DDAOM</router-link>
       </div>
@@ -13,7 +13,9 @@
         <span> 환영합니다.</span>
       </div>
       <div style="display: flex; flex-direction: row">
-        <button class="navbutton" id="listButton" @click="MoveProjectList()">List</button>
+        <button class="navbutton" id="listButton" @click="MoveProjectList()">
+          List
+        </button>
       </div>
     </header>
 
@@ -146,7 +148,7 @@ nav {
   float: left;
   display: flex;
   flex-direction: column;
-  justify-content:space-between;
+  justify-content: space-between;
 }
 
 .navv {

@@ -1,6 +1,6 @@
 <template>
   <div id="bigbody">
-    <Frame msg="Welcome to Your Vue.js App" />
+    <Frame />
     <section>
       <div id="sectionBox">
         <div class="sectionDiv" id="typeOfPlanDiv">
@@ -44,7 +44,8 @@
             type="date"
             id="startDate"
             class="inputBoxes"
-            @change="sameDatePlan()" />
+            @change="sameDatePlan()"
+          />
           <div id="TodayDiv">
             <span style="margin-right: 15px">당일</span>
             <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
@@ -56,7 +57,8 @@
             type="date"
             id="deadlineDate"
             class="inputBoxes"
-            @change="sameDatePlan()" />
+            @change="sameDatePlan()"
+          />
         </div>
         <div class="sectionDiv" id="projectDetailDiv">
           <span class="sectionText">상세 설명 :</span>
@@ -134,8 +136,8 @@ export default {
 
 section {
   margin: 0px;
-  width: calc(100vw - 250px);
-  height: calc(100vh - 55px);
+  width: calc(100% - 250px);
+  height: calc(100% - 55px);
   background-color: white;
 
   display: flex;
