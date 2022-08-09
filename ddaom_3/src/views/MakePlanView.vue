@@ -127,9 +127,9 @@ export default {
 </script>
 <style scoped>
 #bigbody {
-  width: 100%;
-  height: 100%;
   margin: 0;
+  width: 100vw;
+  height: 100vh;
 }
 section {
   margin: 0px;

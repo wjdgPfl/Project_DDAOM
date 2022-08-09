@@ -24,6 +24,15 @@
         </button>
         <button class="navbutton" @click="MoveMakePlan()">Make Plan</button>
       </div>
+      <div id="filter">
+        <p>필터</p>
+        <ul>
+          <li><input type="checkbox" name="" id="" />qwe</li>
+          <li><input type="checkbox" name="" id="" />project_1</li>
+          <li><input type="checkbox" name="" id="" />project_2</li>
+          <li><input type="checkbox" name="" id="" />project_3</li>
+        </ul>
+      </div>
       <div>
         <button class="navbutton" @click="MoveLogin()">로그아웃하기</button>
       </div>
@@ -66,6 +75,9 @@ export default {
 </script>
 
 <style scoped>
+* {
+  list-style: none;
+}
 /* tmplate */
 template {
   height: 100%;
@@ -158,5 +170,14 @@ nav {
 nav a {
   font-weight: bold;
   color: #2c3e50;
+}
+#filter p {
+  margin-left: 20px;
+}
+#filter {
+  margin-left: 20px;
+}
+input[type='checkbox'] {
+  margin-right: 20px;
 }
 </style>
