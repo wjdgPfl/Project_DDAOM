@@ -161,28 +161,31 @@ export default {
 }
 </script>
 <style scoped>
-#bigbody {
+
+template, #bigbody {
   width: 100%;
-  height: 100%;
+  height: 100vh;
   margin: 0;
 }
 
 section {
   margin: 0px;
+  padding: 0 5% 0 5%;
   width: calc(100% - 250px);
-  height: calc(100% - 55px);
+  height: calc(100vh - 55px);
   background-color: white;
 
   display: flex;
-  position: relative;
   flex-direction: column;
+  overflow-y: scroll;
   align-items: center;
 }
 
 #sectionBox {
-  padding: 0 10% 0 10%;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .inputBoxes {
