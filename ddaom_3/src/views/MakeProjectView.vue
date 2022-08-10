@@ -53,7 +53,7 @@
         </div>
         <div id="linkDiv">
           <div class="sectionDiv" id="addLinkDiv">
-            <span class="sectionText" id="linkText">링크 :   </span>
+            <span class="sectionText" id="linkText">링크 :</span>
             <button id="blank"></button>
             <input
               type="text"
