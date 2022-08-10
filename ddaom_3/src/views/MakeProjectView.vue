@@ -53,7 +53,8 @@
         </div>
         <div id="linkDiv">
           <div class="sectionDiv" id="addLinkDiv">
-            <span class="sectionText" id="linkText">링크 :</span>
+            <span class="sectionText" id="linkText">링크 :   </span>
+            <button id="blank"></button>
             <input
               type="text"
               id="addLinkName"
@@ -66,7 +67,7 @@
               class="inputBoxes"
               placeholder="URL을 입력해주세요."
             />
-            <button id="addNewLinkButton" v-on:click="createNewLinkDiv()">
+            <button class="addNewLinkButton" v-on:click="createNewLinkDiv()">
               +
             </button>
           </div>
@@ -84,10 +85,10 @@
             multiple="multiple"
             id="addFile" />
         </div>
-      </div>
-      <div class="sectionDiv" id="saveOrCancleDiv">
-        <button class="bottomButton" id="save">저장</button>
-        <button class="bottomButton" id="cancle">취소</button>
+        <div class="sectionDiv" id="saveOrCancleDiv">
+          <button class="bottomButton" id="save">저장</button>
+          <button class="bottomButton" id="cancle">취소</button>
+        </div>
       </div>
     </section>
   </div>
@@ -105,24 +106,28 @@ export default {
   methods: {
     createNewLinkDiv() {
       const addNewLinkDiv = document.createElement('div')
-      addNewLinkDiv.className = 'sectionDiv'
+      addNewLinkDiv.className = 'linkSectionDiv'
       addNewLinkDiv.setAttribute('id', 'addNewLinkDiv')
+
       const addLinkName = document.createElement('input')
       addLinkName.type = 'text'
+      addLinkName.className = 'inputBoxes'
       addLinkName.setAttribute('id', 'addLinkName')
       addLinkName.setAttribute('placeholder', '링크명을 입력해주세요.')
+
       const addLinkURL = document.createElement('input')
       addLinkURL.type = 'text'
+      addLinkURL.className = 'inputBoxes'
       addLinkURL.setAttribute('id', 'addLinkURL')
       addLinkURL.setAttribute('placeholder', 'URL을 입력해주세요.')
 
       const removeLinkButton = document.createElement('button')
-      removeLinkButton.setAttribute('id', 'removeLinkButton')
+      removeLinkButton.className = 'addNewLinkButton'
+      removeLinkButton.innerText = 'x'
       removeLinkButton.addEventListener('click', function () {
         const parentlink = this.parentElement
         parentlink.remove()
       })
-      removeLinkButton.innerText = 'x'
 
       const linkDiv = document.getElementById('linkDiv')
       linkDiv.appendChild(addNewLinkDiv)
@@ -160,7 +165,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 
 template, #bigbody {
   width: 100%;
@@ -169,7 +174,7 @@ template, #bigbody {
 }
 
 section {
-  margin: 0px;
+  margin: 0;
   padding: 0 5% 0 5%;
   width: calc(100% - 250px);
   height: calc(100vh - 55px);
@@ -197,9 +202,11 @@ section {
 
 .sectionDiv {
   margin-top: 40px;
-
   display: flex;
-  flex-direction: row;
+}
+
+.linkSectionDiv {
+  margin-top: 10px;
 }
 
 .sectionText {
@@ -237,13 +244,19 @@ section {
   font-size: 13px;
 }
 
-#addNewLinkButton,
-#romoveLinkButton {
+.addNewLinkButton {
   width: 30px;
+  text-align: center;
+}
+
+#blank {
+  width: 10px;
 }
 
 #saveOrCancleDiv {
-  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottomButton {
