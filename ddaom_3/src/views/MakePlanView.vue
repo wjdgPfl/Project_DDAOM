@@ -5,7 +5,7 @@
       <div id="sectionBox">
         <div class="sectionDiv" id="typeOfPlanDiv">
           <div class="typeOfPlan" id="personalPlan">
-            <span style="margin-right: 15px">개인</span>
+            <span style="margin-right: 15px">개인 일정</span>
             <input
               type="radio"
               name="typeOfPlanChoose"
@@ -14,7 +14,7 @@
             />
           </div>
           <div class="typeOfPlan" id="projectPlan">
-            <span style="margin-right: 15px">프로젝트</span>
+            <span style="margin-right: 15px">협업 일정</span>
             <input
               type="radio"
               name="typeOfPlanChoose"
