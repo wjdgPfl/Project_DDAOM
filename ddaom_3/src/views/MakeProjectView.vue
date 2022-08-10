@@ -1,6 +1,6 @@
 <template>
   <div id="bigbody">
-    <Frame msg="Welcome to Your Vue.js App" />
+    <Frame />
     <section>
       <div id="sectionBox">
         <div class="sectionDiv" id="getProjectNameDiv">
@@ -29,7 +29,8 @@
             id="startDate"
             class="inputBoxes"
             style="margin-right: 15px"
-            @change="sameDatePlan()" />
+            @change="sameDatePlan()"
+          />
           <div id="TodayDiv">
             <span style="margin-right: 15px">당일</span>
             <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
@@ -41,7 +42,8 @@
             type="date"
             id="deadlineDate"
             class="inputBoxes"
-            @change="sameDatePlan()" />
+            @change="sameDatePlan()"
+          />
         </div>
         <div class="sectionDiv" id="projectDetailDiv">
           <span class="sectionText">상세 설명 :</span>
@@ -73,16 +75,11 @@
         </div>
         <div class="sectionDiv" id="addReoresehtativePictureDiv">
           <span class="sectionText">대표사진 :</span>
-          <input
-            type="file"
-            id="addReoresehtativePicture" />
+          <input type="file" id="addReoresehtativePicture" />
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
-          <input
-            type="file"
-            multiple="multiple"
-            id="addFile" />
+          <input type="file" multiple="multiple" id="addFile" />
         </div>
       </div>
       <div class="sectionDiv" id="saveOrCancleDiv">
@@ -161,29 +158,34 @@ export default {
 }
 </script>
 <style scoped>
+template, #bigbody {
+  width: 100%;
+}
+
 #bigbody {
-  width: 100vw;
   height: 100vh;
   margin: 0;
 }
 
 section {
   margin: 0px;
-  width: calc(100vw - 250px);
+  padding: 0 5% 0 5%;
+  width: calc(100% - 250px);
   height: calc(100vh - 55px);
   background-color: white;
 
   display: flex;
-  position: relative;
   flex-direction: column;
+  overflow-y: scroll;
   align-items: center;
   overflow-y: scroll;
 }
 
 #sectionBox {
-  padding: 0 10% 0 10%;
-  width: 100%;
-  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 .inputBoxes {
