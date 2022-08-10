@@ -86,7 +86,7 @@
             id="addFile" />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
-          <button class="bottomButton" id="save">저장</button>
+          <input type="submit" class="bottomButton" id="save">
           <button class="bottomButton" id="cancle">취소</button>
         </div>
       </div>
