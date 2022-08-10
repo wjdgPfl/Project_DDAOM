@@ -2,20 +2,20 @@
   <div id="bigbody">
     <Frame />
     <section>
-      <select style="float: right">
+      <select class="selectbox">
         <option value="doing" selected>ongoing</option>
         <option value="theEnd">complete</option>
       </select>
 
-      <ul>
+      <ul :key="i" v-for="(project, i) in projectList">
+        <li class="projectname">
+          <h4>{{ project.name }}</h4>
+        </li>
         <li class="projectlist">
-          <img
-            class="mainphoto"
-            src="https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg"
-          />
+          <img class="mainphoto" :src="project.img_url" />
           <div class="projectinf">
-            <p class="with">함께하는 사람:</p>
-            <p>일정:</p>
+            <p class="with">함께하는 사람: {{ project.peer }}</p>
+            <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
             <div class="progress">
               <div
                 class="progress-bar"
@@ -31,19 +31,12 @@
             <br />
             <div id="viewmore">
               <p class="with">
-                세부사항: Lorem ipsum dolor sit amet consectetur adipisicing
-                elit. Illum eveniet ex quia cumque libero quis unde, officia
-                amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque
-                blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet
-                consectetur adipisicing elit. Illum eveniet ex quia cumque
-                libero quis unde, officia amet iste, maxime voluptatibus tempora
-                nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem
-                ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet
-                ex quia cumque libero quis unde, officia amet iste, maxime
-                voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis
-                cumque placeat?
+                {{ project.desc }}
               </p>
-              <p>관련 링크:</p>
+              <div>
+                관련 링크:
+                <!-- <a :href="project.link.chae"></a> -->
+              </div>
             </div>
             <button
               type="button"
@@ -69,6 +62,24 @@ export default {
   components: {
     Frame
   },
+  data() {
+    return {
+      projectList: [
+        {
+          name: 'DDAOM 프로젝트',
+          img_url:
+            'https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg',
+          peer: '이채원, 이종훈, 정혜리, 최진선',
+          Date: ['2022. 08. 02', '2022. 08. 05'],
+          desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
+          link: {
+            chae: 'https://www.naver.com/',
+            ccc: 'https://www.naver.com/'
+          }
+        }
+      ]
+    }
+  },
   methods: {
     openClose() {
       if (document.getElementById('viewmore').style.display === 'block') {
@@ -88,9 +99,10 @@ export default {
 * {
   list-style: none;
 }
+
 #bigbody {
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   margin: 0;
 }
 
@@ -100,27 +112,41 @@ select {
 
 section {
   margin: 0px;
-  width: calc(100% - 250px);
-  height: calc(100% - 55px);
+  width: calc(100vw - 250px);
+  height: calc(100vh - 55px);
   background-color: white;
+
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
+  overflow-y: scroll;
 }
+
+/* project */
 
 .mainphoto {
   height: 10rem;
   width: 10rem;
-  /* float: left; */
   margin-right: 100px;
+  margin-left: 200px;
 }
+
 #viewmore {
   display: none;
 }
+
 .projectinf {
   width: 800px;
 }
+
+/* 프로젝트명 li */
+.projectname {
+  margin-left: 200px;
+  margin-bottom: 20px;
+}
+
+/* 프로젝트 리스트 li */
 .projectlist {
   display: flex;
   /* width: 1000px; */
