@@ -3,8 +3,11 @@
     <Frame msg="Welcome to Your Vue.js App" />
     <section>
       <div id="sectionBox">
+        <div class="sectionDiv" style="color:grey">
+          * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
+        </div>
         <div class="sectionDiv" id="getProjectNameDiv">
-          <span class="sectionText">프로젝트 명 :</span>
+          <span class="sectionText">* 프로젝트 명 :</span>
           <input
             type="text"
             id="getProjectName"
@@ -14,7 +17,7 @@
           />
         </div>
         <div class="sectionDiv" id="addMembersDiv">
-          <span class="sectionText">팀원 추가 :</span>
+          <span class="sectionText">* 팀원 추가 :</span>
           <input
             type="text"
             id="addMembers"
@@ -23,7 +26,7 @@
           />
         </div>
         <div class="sectionDiv" id="startDateDiv">
-          <span class="sectionText">시작 일자 :</span>
+          <span class="sectionText">* 시작 일자 :</span>
           <input
             type="date"
             id="startDate"
@@ -36,7 +39,7 @@
           </div>
         </div>
         <div class="sectionDiv" id="deadlineDateDiv">
-          <span class="sectionText">마감 일자 :</span>
+          <span class="sectionText">* 마감 일자 :</span>
           <input
             type="date"
             id="deadlineDate"
@@ -213,7 +216,7 @@ section {
 
 .sectionText {
   margin-right: 10px;
-  min-width: 90px;
+  min-width: 100px;
 
   font-size: 15px;
   font-weight: bold;
