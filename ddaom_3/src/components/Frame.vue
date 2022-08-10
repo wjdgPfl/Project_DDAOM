@@ -2,7 +2,7 @@
   <div id="body">
     <header>
       <button @click="Isnone()" id="asideBarButton">
-        <b-icon icon="list">햄</b-icon>
+      행
       </button>
       <div style="width:70px"></div>
       <div id="mainLogo">
@@ -80,8 +80,8 @@ export default {
 }
 /* tmplate */
 template {
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
   margin: 0;
 }
 
