@@ -141,7 +141,9 @@ export default {
       const todayCheckBox = document.getElementById('todayCheckBox')
 
       if (deadlineDate === startDate) {
-        todayCheckBox.checked = true
+        if (startDate === '') {
+          todayCheckBox.checked = false
+        } else { todayCheckBox.checked = true }
       } else {
         todayCheckBox.checked = false
       }
