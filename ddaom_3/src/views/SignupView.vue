@@ -4,11 +4,13 @@
     <div class="totalContainer">
       <h2>DDAOM</h2>
       <table class="signupContainer">
+        <p></p>
         <tr>
           <td>
             이름 : <input type="text" name="name" style="margin-left: 8px" />
           </td>
         </tr>
+        <p></p>
         <tr>
           <td>
             아이디 :
@@ -21,17 +23,15 @@
               required
             />
           </td>
+        </tr>
+        <p></p>
+        <tr>
           <td>
-            <button
-              id="overlapButton"
-              type="button"
-              class="id_overlap_button"
-              onclick="id_overlap_check()"
-            >
-              중복검사
-            </button>
+            <p id="duplicate">ID중복 여부를 확인해주세요.</p>
           </td>
-          <img id="id_check_sucess" style="display: none" />
+          <span>
+            <button id="duplicate_button">&nbsp;ID 중복 검사&nbsp;</button>
+          </span>
         </tr>
         <tr>
           <td>
@@ -39,10 +39,25 @@
             <input type="text" name="password" style="margin-left: 8px" />
           </td>
         </tr>
+        <p></p>
+        <tr>
+          <td>
+            <p style="color: red;">8자 이상 영문 대소문자와 숫자로만 입력해주세요.</p>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <button id="signupButton" type="submit" @click="MoveLogin()">
+              가입하기
+            </button>
+          </td>
+            <span>
+              <button id="backButton" @click="MoveBack()">
+                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU">
+              </button>
+            </span>
+        </tr>
       </table>
-      <button id="signupButton" type="submit" @click="MoveLogin()">
-        가입하기
-      </button>
     </div>
   </div>
 </template>
@@ -63,6 +78,9 @@ export default {
     MoveLogin() {
       this.$router.push('/')
       alert('회원가입 성공!')
+    },
+    MoveBack() {
+      this.$router.push('/')
     }
   }
 }
@@ -90,20 +108,41 @@ h2 {
 }
 /*input box*/
 input[type='text'] {
-  float: right;
+  background-color: rgb(238, 235, 235);
+  border: 1px solid rgb(172, 171, 171);
 }
 /*button*/
 #signupButton {
   height: 100%;
   width: 100%;
-  float: inline-end;
+  float: center;
+  background-color: #fcc820;
+  color: white;
+  border: none;
+  cursor: pointer;
 }
 #overlapButton {
   float: right;
 }
-
+#backButton {
+  float:right;
+}
 /*button hover*/
 button:hover {
   opacity: 0.3;
+}
+/*img*/
+img {
+  height: 2vh;
+  width: 2vw;
+}
+
+/* 중복여부 */
+#duplicate {
+  color: red;
+}
+#duplicate_button {
+  background-color: rgb(238, 235, 235);
+  border: 1px solid rgb(172, 171, 171);
 }
 </style>
