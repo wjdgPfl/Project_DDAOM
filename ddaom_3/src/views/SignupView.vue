@@ -2,7 +2,7 @@
   <div>
     <title>DDAOM_joinform</title>
     <div class="totalContainer">
-      <h2><b>DDAOM</b></h2>
+      <span id="logo"><img src="../assets/logo.png" /></span>
       <table class="signupContainer">
         <p></p>
         <tr>
@@ -36,7 +36,7 @@
         <tr>
           <td>
             비밀번호 :
-            <input v-model="signup.password" type="password" maxlength="16" @blur="passwordValid" style="margin-left: 8px" />
+            <input v-model="signup.password" type="password" maxlength="16" @blur="passwordValid">
             <div v-if="!passwordValidFlag">
               유효하지 않은 비밀번호 입니다.
             </div>
@@ -51,7 +51,7 @@
         <tr>
           <td>
             비밀번호 확인:
-            <input v-model="passwordCheck" type="password" maxlength="16" @blur="passwordCheckValid" style="margin-left: 8px" />
+            <input v-model="passwordCheck" type="password" maxlength="16" @blur="passwordCheckValid">
             <div v-if="!passwordCheckFlag">
               비밀번호가 동일하지 않습니다.
             </div>
@@ -66,7 +66,7 @@
           </td>
             <span>
               <button id="backButton" @click="MoveBack()">
-                <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU">
+                <img id="back" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU">
               </button>
             </span>
         </tr>
@@ -87,6 +87,7 @@ export default {
         pwhintans: null
       },
       passwordCheck: '',
+      passwordCheckFlag: true,
       passwordValidFlag: true
     }
   },
@@ -170,11 +171,20 @@ button:hover {
   opacity: 0.3;
 }
 /*img*/
+#back {
+  height: 100%;
+  width: 15px;
+}
+#logo{
+  width: 40%;
+  height: 30%;
+  display: block;
+  margin: 0px auto;
+
 img {
   height: 100%;
   width: 15px;
 }
-
 /* 중복여부 */
 #duplicate {
   color: red;

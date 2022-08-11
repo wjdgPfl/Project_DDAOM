@@ -13,7 +13,16 @@
           name="ID"
           required
         />
-        <button type="submit" @click="Gobackend()">비밀번호찾기</button>
+        <table>
+          <td>
+            <button type="submit" @click="Gobackend()">비밀번호찾기</button>
+          </td>
+          <td>
+            <button id="backButton" @click="MoveBack()">
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU">
+            </button>
+          </td>
+        </table>
       </div>
     </div>
   </div>
@@ -31,7 +40,11 @@ export default {
   created() {},
   mounted() {},
   unmounted() {},
-  methods: {}
+  methods: {
+    MoveBack() {
+      this.$router.push('/')
+    }
+  }
 }
 </script>
 
@@ -83,10 +96,16 @@ button[type='submit'] {
   margin: 8px 0;
   border: none;
   cursor: pointer;
-  width: 100%;
+  width: 50vw;
 }
 /*button hover*/
 button:hover {
   opacity: 0.3;
+}
+/*img*/
+img {
+  margin-left: 1vw;
+  height: 100%;
+  width: 2vw;
 }
 </style>
