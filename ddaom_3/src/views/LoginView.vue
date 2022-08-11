@@ -2,7 +2,7 @@
   <div>
     <title>DDAOM_login</title>
     <div class="totalContainer">
-      <span id="logo">DDAOM</span>
+      <span id="logo"><img src="../assets/logo.png" /></span>
       <div class="loginContainer">
         <label for="userID"><b>아이디</b></label>
         <input type="text" placeholder="Enter ID" name="userID" required />
