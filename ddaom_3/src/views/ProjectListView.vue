@@ -1,13 +1,18 @@
 <template>
   <div id="bigbody">
     <Frame />
-      <div class="toggle_box">
-        <input type="checkbox" id="custom_input">
-        <label for="custom_input" class="toggle_btn_label">
-          <span></span>
-        </label>
-      </div>
+    <div class="toggle_box">
+      <input type="checkbox" id="custom_input" />
+      <label for="custom_input" class="toggle_btn_label">
+        <span></span>
+      </label>
+    </div>
     <section>
+      <div id="projectlistButton">
+        <button type="button">수정</button>
+        <button type="button">완료</button>
+        <button type="button">삭제</button>
+      </div>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
           <h4>{{ project.name }}</h4>
@@ -40,9 +45,12 @@
               </div>
               <p></p>
               <ul :key="v" v-for="(detail, v) in detailedProject">
-              <li class=detailedProject>
-                <p>{{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~ {{ detail.Date[1] }}, &nbsp;{{detail.completed[0]}}</p>
-              </li>
+                <li class="detailedProject">
+                  <p>
+                    {{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~
+                    {{ detail.Date[1] }}, &nbsp;{{ detail.completed[0] }}
+                  </p>
+                </li>
               </ul>
             </div>
             <button
@@ -97,9 +105,11 @@ export default {
     openClose() {
       if (document.getElementById('viewmore').style.display === 'block') {
         document.getElementById('viewmore').style.display = 'none'
+        document.getElementById('projectlistButton').style.display = 'none'
         // document.getElementById('toc-toggle').textContent = '보이기'
       } else {
         document.getElementById('viewmore').style.display = 'block'
+        document.getElementById('projectlistButton').style.display = 'block'
         // document.getElementById('toc-toggle').textContent = '숨기기'
       }
     }
@@ -112,6 +122,7 @@ export default {
 * {
   list-style: none;
 }
+
 #bigbody {
   width: 100vw;
   height: 100vh;
@@ -140,6 +151,9 @@ section {
 }
 .projectinf {
   width: 800px;
+}
+#projectlistButton {
+  display: none;
 }
 /* 프로젝트명 li */
 .projectname {
@@ -200,62 +214,62 @@ section {
 /*< -- table -->*/
 /*< -- toggle -->*/
 .toggle_box {
-    float: right;
-    display: flex;
-    align-items: right;
-    z-index: -1;
-    margin-top: 20px;
-    margin-right: 40px;
+  float: right;
+  display: flex;
+  align-items: right;
+  z-index: -1;
+  margin-top: 20px;
+  margin-right: 40px;
 }
 #custom_input {
-    display: none;
+  display: none;
 }
 #custom_input + label.toggle_btn_label {
-    position: relative;
-    width: 12rem;
-    height: 2.5rem;
+  position: relative;
+  width: 12rem;
+  height: 2.5rem;
 }
 #custom_input + label.toggle_btn_label > span {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border-radius: 40px;
-    background-color: #ccc;
-    transition: all .4s;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 40px;
+  background-color: #ccc;
+  transition: all 0.4s;
 }
 #custom_input + label.toggle_btn_label > span:before {
-    display: flex;
-    position: absolute;
-    height: 2rem;
-    width: fit-content;
-    padding: 0 1rem;
-    left: 0.25rem;
-    bottom: 0.25rem;
-    border-radius: 20px;
-    background-color: #fff;
-    content: "ongoing";
-    align-items: center;
-    font-weight: bold;
-    color: rgb(29, 29, 29);
-    -webkit-transition: all .4s;
-    transition: all .4s;
+  display: flex;
+  position: absolute;
+  height: 2rem;
+  width: fit-content;
+  padding: 0 1rem;
+  left: 0.25rem;
+  bottom: 0.25rem;
+  border-radius: 20px;
+  background-color: #fff;
+  content: 'ongoing';
+  align-items: center;
+  font-weight: bold;
+  color: rgb(29, 29, 29);
+  -webkit-transition: all 0.4s;
+  transition: all 0.4s;
 }
 #custom_input:checked + label.toggle_btn_label > span {
-    background-color: black;
+  background-color: black;
 }
 #custom_input:checked + label.toggle_btn_label > span:before {
-    -webkit-transform: translateX(calc(11.5rem - 100%));
-    -ms-transform: translateX(calc(11.5rem - 100%));
-    transform: translateX(calc(11.5rem - 100%));
-    right: 0.25rem;
-    bottom: 0.25rem;
-    content: "complete";
+  -webkit-transform: translateX(calc(11.5rem - 100%));
+  -ms-transform: translateX(calc(11.5rem - 100%));
+  transform: translateX(calc(11.5rem - 100%));
+  right: 0.25rem;
+  bottom: 0.25rem;
+  content: 'complete';
 }
 #custom_input:disabled + label.toggle_btn_label {
-    display: none;
+  display: none;
 }
 /*< -- toggle -->*/
 </style>
