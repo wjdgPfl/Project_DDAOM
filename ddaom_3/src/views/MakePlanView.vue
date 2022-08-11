@@ -166,6 +166,10 @@ export default {
 }
 </script>
 <style scoped>
+template {
+  width: 100%;
+}
+
 #bigbody {
   width: 100%;
   height: 100vh;
@@ -173,7 +177,7 @@ export default {
 }
 
 section {
-  margin: 0px;
+  margin: 0;
   padding: 0 5% 0 5%;
   width: calc(100% - 250px);
   height: calc(100vh - 55px);
@@ -214,10 +218,7 @@ section {
 
 .sectionDiv {
   margin-top: 40px;
-  min-height: 10px;
-
   display: flex;
-  flex-direction: row;
 }
 
 .sectionText {
@@ -244,7 +245,7 @@ section {
 #saveOrCancleDiv {
   display: flex;
   justify-content: center;
-  margin-bottom: 40px;
+  align-items: center;
 }
 
 .bottomButton {

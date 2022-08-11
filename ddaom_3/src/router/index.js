@@ -35,6 +35,11 @@ const routes = [
     component: () => import('../views/ProjectListView.vue')
   },
   {
+    path: '/manual',
+    name: 'Manual',
+    component: () => import('../views/manualView.vue')
+  },
+  {
     path: '/password',
     name: 'Password',
     component: () => import('../views/PasswordView.vue')

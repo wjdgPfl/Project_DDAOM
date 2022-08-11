@@ -189,8 +189,7 @@ export default {
 }
 </script>
 <style>
-
-template, #bigbody {
+template {
   width: 100%;
 }
 
