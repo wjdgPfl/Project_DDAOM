@@ -1,12 +1,13 @@
 <template>
   <div id="bigbody">
     <Frame />
+      <div class="toggle_box">
+        <input type="checkbox" id="custom_input">
+        <label for="custom_input" class="toggle_btn_label">
+          <span></span>
+        </label>
+      </div>
     <section>
-      <select class="selectbox">
-        <option value="doing" selected>ongoing</option>
-        <option value="theEnd">complete</option>
-      </select>
-
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
           <h4>{{ project.name }}</h4>
@@ -25,7 +26,7 @@
                 aria-valuemin="0"
                 aria-valuemax="100"
               >
-                35%
+                25%
               </div>
             </div>
             <br />
@@ -37,6 +38,12 @@
                 관련 링크:
                 <!-- <a :href="project.link.chae"></a> -->
               </div>
+              <p></p>
+              <ul :key="v" v-for="(detail, v) in detailedProject">
+              <li class=detailedProject>
+                <p>{{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~ {{ detail.Date[1] }}, &nbsp;{{detail.completed[0]}}</p>
+              </li>
+              </ul>
             </div>
             <button
               type="button"
@@ -56,7 +63,6 @@
 <script>
 // @ is an alias to /src
 import Frame from '@/components/Frame.vue'
-
 export default {
   name: '',
   components: {
@@ -76,6 +82,13 @@ export default {
             chae: 'https://www.naver.com/',
             ccc: 'https://www.naver.com/'
           }
+        }
+      ],
+      detailedProject: [
+        {
+          name: '역할 분배',
+          Date: ['2022. 08. 02', '2022. 08. 02'],
+          completed: ['진행중', '완료']
         }
       ]
     }
@@ -99,53 +112,40 @@ export default {
 * {
   list-style: none;
 }
-
 #bigbody {
   width: 100vw;
   height: 100vh;
   margin: 0;
 }
-
-select {
-  margin-top: 50px;
-}
-
 section {
   margin: 0px;
   width: calc(100vw - 250px);
   height: calc(100vh - 55px);
   background-color: white;
-
   display: flex;
   position: relative;
   flex-direction: column;
   align-items: center;
   overflow-y: scroll;
 }
-
 /* project */
-
 .mainphoto {
   height: 10rem;
   width: 10rem;
   margin-right: 100px;
   margin-left: 200px;
 }
-
 #viewmore {
   display: none;
 }
-
 .projectinf {
   width: 800px;
 }
-
 /* 프로젝트명 li */
 .projectname {
   margin-left: 200px;
   margin-bottom: 20px;
 }
-
 /* 프로젝트 리스트 li */
 .projectlist {
   display: flex;
@@ -153,12 +153,10 @@ section {
   overflow: hidden;
 }
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-
 .dropdown {
   position: relative;
   display: inline-block;
 }
-
 .dropbtn_icon {
   font-family: 'Material Icons';
 }
@@ -182,7 +180,6 @@ section {
   background-color: #f9f9f9;
   min-width: 200px;
 }
-
 .dropdown-content a {
   display: block;
   text-decoration: none;
@@ -190,11 +187,9 @@ section {
   font-size: 12px;
   padding: 12px 20px;
 }
-
 .dropdown-content a:hover {
   background-color: #ececec;
 }
-
 .dropdown:hover .dropdown-content {
   display: block;
 }
@@ -202,6 +197,65 @@ section {
   width: 400px;
   height: 20px;
 }
-
 /*< -- table -->*/
+/*< -- toggle -->*/
+.toggle_box {
+    float: right;
+    display: flex;
+    align-items: right;
+    z-index: -1;
+    margin-top: 20px;
+    margin-right: 40px;
+}
+#custom_input {
+    display: none;
+}
+#custom_input + label.toggle_btn_label {
+    position: relative;
+    width: 12rem;
+    height: 2.5rem;
+}
+#custom_input + label.toggle_btn_label > span {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 40px;
+    background-color: #ccc;
+    transition: all .4s;
+}
+#custom_input + label.toggle_btn_label > span:before {
+    display: flex;
+    position: absolute;
+    height: 2rem;
+    width: fit-content;
+    padding: 0 1rem;
+    left: 0.25rem;
+    bottom: 0.25rem;
+    border-radius: 20px;
+    background-color: #fff;
+    content: "ongoing";
+    align-items: center;
+    font-weight: bold;
+    color: rgb(29, 29, 29);
+    -webkit-transition: all .4s;
+    transition: all .4s;
+}
+#custom_input:checked + label.toggle_btn_label > span {
+    background-color: black;
+}
+#custom_input:checked + label.toggle_btn_label > span:before {
+    -webkit-transform: translateX(calc(11.5rem - 100%));
+    -ms-transform: translateX(calc(11.5rem - 100%));
+    transform: translateX(calc(11.5rem - 100%));
+    right: 0.25rem;
+    bottom: 0.25rem;
+    content: "complete";
+}
+#custom_input:disabled + label.toggle_btn_label {
+    display: none;
+}
+/*< -- toggle -->*/
 </style>
