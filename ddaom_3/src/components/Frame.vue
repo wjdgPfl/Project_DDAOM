@@ -1,5 +1,8 @@
 <template>
   <div id="body">
+    <div>
+      <ChildAndChild v-bind:send="childData" />
+    </div>
     <header>
       <button @click="Isnone()" id="asideBarButton">
         <v-icon>mdi-menu</v-icon>
@@ -45,10 +48,13 @@
 </template>
 
 <script>
+import ChildAndChild from '../views/MainView.vue'
 export default {
-  conponents: {},
+  name: 'Child',
+  conponents: { ChildAndChild },
   data() {
     return {
+      childData: 30,
       isnone: false,
       username: '채원'
     }
@@ -57,6 +63,15 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    setChildData(data) {
+      this.childData = data
+      console.log(this.childData)
+    },
+    function() {
+      return {
+        parentVaule: 20
+      }
+    },
     Isnone() {
       this.isnone = !this.isnone
     },

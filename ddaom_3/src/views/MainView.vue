@@ -82,7 +82,7 @@
                       <v-icon>mdi-pencil</v-icon>
                     </v-btn>
                     <v-toolbar-title
-                      v-html="selectedEvent.name"
+                      v-html="selectedEvent.named"
                     ></v-toolbar-title>
                     <v-spacer></v-spacer>
                     <v-btn icon>
@@ -115,6 +115,8 @@
 import Frame from '@/components/Frame.vue'
 
 export default {
+  props: ['send'],
+  name: 'ChildAndChild',
   components: {
     Frame
   },
@@ -169,6 +171,7 @@ export default {
   created() {},
   mounted() {
     this.$refs.calendar.checkChange()
+    console.log(this.$props.send)
   },
   unmounted() {},
   methods: {
@@ -192,6 +195,7 @@ export default {
       const open = () => {
         this.selectedEvent = event
         this.selectedElement = nativeEvent.target
+        alert(nativeEvent.target)
         requestAnimationFrame(() =>
           requestAnimationFrame(() => (this.selectedOpen = true))
         )
@@ -222,7 +226,7 @@ export default {
           // const second = new Date('2022, 8, 22') // 마감날짜
 
           events.push({
-            name: this.names[projectName][i],
+            named: this.names[projectName][i],
             start: first,
             end: second,
             color: this.colors[projectName]

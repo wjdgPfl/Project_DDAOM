@@ -82,13 +82,25 @@ export default {
   },
   methods: {
     openClose() {
-      if (document.getElementById('viewmore').style.display === 'block') {
-        document.getElementById('viewmore').style.display = 'none'
-        // document.getElementById('toc-toggle').textContent = '보이기'
-      } else {
-        document.getElementById('viewmore').style.display = 'block'
-        // document.getElementById('toc-toggle').textContent = '숨기기'
-      }
+      this.addEventListener('click', function () {
+        if (this.previousElementSibling.style.display === 'block') {
+          this.previousElementSibling.style.display = 'none'
+          // document.getElementById('toc-toggle').textContent = '보이기'
+        } else {
+          this.previousElementSibling.style.display = 'block'
+          // document.getElementById('toc-toggle').textContent = '숨기기'
+        }
+      })
+
+      // openClose() {
+      //   if (this.previousElementSibling.style.display === 'block') {
+      //     this.previousElementSibling.style.display = 'none'
+      //     // document.getElementById('toc-toggle').textContent = '보이기'
+      //   } else {
+      //     this.previousElementSibling.style.display = 'block'
+      //     // document.getElementById('toc-toggle').textContent = '숨기기'
+      //   }
+      // }
     }
   }
 }
