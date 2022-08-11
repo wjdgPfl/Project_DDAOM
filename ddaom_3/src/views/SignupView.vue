@@ -175,12 +175,12 @@ button:hover {
   height: 100%;
   width: 15px;
 }
-#logo{
+#logo {
   width: 40%;
   height: 30%;
   display: block;
   margin: 0px auto;
-
+}
 img {
   height: 100%;
   width: 15px;
