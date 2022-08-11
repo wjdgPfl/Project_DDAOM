@@ -22,13 +22,14 @@
             <input
               type="radio"
               name="typeOfPlanChoose"
-              id="project"
+              id="together"
               @change="appearProjectList()"
             />
           </div>
           <div class="typeOfPlan" id="projectChoose">
             <select id="projectList">
               <option value="">프로젝트명</option>
+              <option value="ddaom">따옴 프로젝트</option>
             </select>
           </div>
         </div>
@@ -71,8 +72,8 @@
           ></textarea>
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
-          <button class="bottomButton" id="save">저장</button>
-          <button class="bottomButton" id="cancle">취소</button>
+          <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
+          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
         </div>
       </div>
     </section>
@@ -90,10 +91,10 @@ export default {
   },
   methods: {
     appearProjectList() {
-      const project = document.getElementById('project')
+      const together = document.getElementById('together')
       const personal = document.getElementById('personal')
 
-      if (project.checked) {
+      if (together.checked) {
         document.getElementById('projectList').style.visibility = 'visible'
       } else if (personal.checked) {
         document.getElementById('projectList').style.visibility = 'hidden'
@@ -126,6 +127,37 @@ export default {
 
       if (startDate > deadlineDate) {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
+      }
+    },
+    saveCheck() {
+      const together = document.getElementById('together')
+      const personal = document.getElementById('personal')
+      const projectList = document.getElementById('projectList')
+      const projectName = document.getElementById('getProjectName').value
+      const start = document.getElementById('startDate').value
+      const deadline = document.getElementById('deadlineDate').value
+
+      if ((together.checked === false & personal.checked === false) & projectName === '' & (start === '' || deadline === '')) {
+        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
+      } else if (together.checked === false & personal.checked === false) {
+        alert('일정 유형을 선택해주세요.')
+      } else if (together.checked & projectList.value === '') {
+        alert('해당되는 프로젝트를 선택해주세요')
+      } else if (projectName === '') {
+        alert('일정 제목을 입력해주세요.')
+      } else if (start === '' || deadline === '') {
+        alert('기간을 입력해주세요.')
+      } else if ((start !== '' & deadline !== '') & start > deadline) {
+        alert('잘못된 기간입니다. 다시 입력해주세요.')
+      } else {
+        if (confirm('제출하시겠습니까?')) {
+          this.$router.push('/main')
+        }
+      }
+    },
+    cancleCheck() {
+      if (confirm('취소하시겠습니까?')) {
+        this.$router.push('/main')
       }
     }
   }

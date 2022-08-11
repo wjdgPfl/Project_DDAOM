@@ -57,7 +57,6 @@
         <div id="linkDiv">
           <div class="sectionDiv" id="addLinkDiv">
             <span class="sectionText" id="linkText">링크 :</span>
-            <button id="blank"></button>
             <input
               type="text"
               id="addLinkName"
@@ -89,8 +88,8 @@
             id="addFile" />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
-          <input type="submit" class="bottomButton" id="save">
-          <button class="bottomButton" id="cancle">취소</button>
+          <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
+          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
         </div>
       </div>
     </section>
@@ -159,12 +158,31 @@ export default {
           document.getElementById('startDate').value
       }
     },
-    dateCondition() {
-      const startDate = document.getElementById('startDate').value
-      const deadlineDate = document.getElementById('deadlineDate').value
+    saveCheck() {
+      const projectName = document.getElementById('getProjectName').value
+      const addMembers = document.getElementById('addMembers').value
+      const start = document.getElementById('startDate').value
+      const deadline = document.getElementById('deadlineDate').value
 
-      if (startDate > deadlineDate) {
+      if (projectName === '' & addMembers === '' & (start === '' || deadline === '')) {
+        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
+      } else if (projectName === '') {
+        alert('프로젝트 제목을 입력해주세요.')
+      } else if (addMembers === '') {
+        alert('팀원을 추가해주세요.')
+      } else if (start === '' || deadline === '') {
+        alert('기간을 입력해주세요.')
+      } else if (start > deadline) {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
+      } else {
+        if (confirm('제출하시겠습니까?')) {
+          this.$router.push('/project')
+        }
+      }
+    },
+    cancleCheck() {
+      if (confirm('취소하시겠습니까?')) {
+        this.$router.push('/project')
       }
     }
   }
@@ -252,10 +270,6 @@ section {
 .addNewLinkButton {
   width: 30px;
   text-align: center;
-}
-
-#blank {
-  width: 10px;
 }
 
 #saveOrCancleDiv {
