@@ -9,8 +9,8 @@
     </div>
     <section>
       <span>
-        <button type="submit" id="btnSubmit" > 수정&nbsp; </button>
-        <button type="submit" id="btnSubmit" > &nbsp;완료 </button>
+          <button type="button" id="btnSubmit" > &nbsp;수정&nbsp; </button>
+          <button type="button" id="btnSubmit" > &nbsp;삭제&nbsp; </button>
       </span>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
@@ -119,7 +119,12 @@ export default {
 <style scoped>
 /*button*/
 #btnSubmit{
-  margin-left: 100;
+  border: 1px rgb(255, 255, 255) solid;
+  border-radius: 20% ;
+  background-color: rgb(214, 214, 214);
+  position: relative;
+  top: 50%;
+  left: 20vw;
 }
 /*button*/
 /* < -- table --> */
@@ -262,7 +267,7 @@ section {
   transition: all 0.4s;
 }
 #custom_input:checked + label.toggle_btn_label > span {
-  background-color: black;
+  background-color: rgb(99, 163, 47);
 }
 #custom_input:checked + label.toggle_btn_label > span:before {
   -webkit-transform: translateX(calc(11.5rem - 100%));

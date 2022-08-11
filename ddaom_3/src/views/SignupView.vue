@@ -179,11 +179,7 @@ button:hover {
   width: 40%;
   height: 30%;
   display: block;
-  margin: 0px auto;
-}
-img {
-  height: 100%;
-  width: 15px;
+  margin: 0 auto;
 }
 /* 중복여부 */
 #duplicate {
