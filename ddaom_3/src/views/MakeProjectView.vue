@@ -195,10 +195,7 @@ template, #bigbody {
 }
 
 #bigbody {
-<<<<<<< HEAD
   width: 100%;
-=======
->>>>>>> 83372aa09c9e39c1a21699b49e71a4b60cb13548
   height: 100vh;
   margin: 0;
 }
