@@ -3,94 +3,19 @@
     <Frame />
     <section>
       <div id="sectionBox">
-        <div class="sectionDiv" style="color:grey">
-          * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
+        <div class="sectionDiv" id="logoDiv">" DDAOM "</div>
+        <div class="sectionDiv" id="informationDiv">
+          <div id="subtitle">소제목</div>
+          <div id="information">따옴 설명</div>
         </div>
-        <div class="sectionDiv" id="getProjectNameDiv">
-          <span class="sectionText">* 프로젝트 명 :</span>
-          <input
-            type="text"
-            id="getProjectName"
-            class="inputBoxes"
-            placeholder="프로젝트 명을 입력해주세요."
-            autofocus
-          />
+        <div class="sectionDiv">
+          <div class="listDiv"></div>
+          <div class="listDiv"></div>
+          <div class="listDiv"></div>
+          <div class="listDiv"></div>
         </div>
-        <div class="sectionDiv" id="addMembersDiv">
-          <span class="sectionText">* 팀원 추가 :</span>
-          <input
-            type="text"
-            id="addMembers"
-            class="inputBoxes"
-            placeholder="팀원의 ID를 입력해주세요."
-          />
-        </div>
-        <div class="sectionDiv" id="startDateDiv">
-          <span class="sectionText">* 시작 일자 :</span>
-          <input
-            type="date"
-            id="startDate"
-            class="inputBoxes"
-            style="margin-right: 15px"
-            @change="sameDatePlan()"
-          />
-          <div id="TodayDiv">
-            <span style="margin-right: 15px">당일</span>
-            <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
-          </div>
-        </div>
-        <div class="sectionDiv" id="deadlineDateDiv">
-          <span class="sectionText">* 마감 일자 :</span>
-          <input
-            type="date"
-            id="deadlineDate"
-            class="inputBoxes"
-            @change="sameDatePlan()"
-          />
-        </div>
-        <div class="sectionDiv" id="projectDetailDiv">
-          <span class="sectionText">상세 설명 :</span>
-          <textarea
-            id="projectDetail"
-            class="inputBoxes"
-            placeholder="상세 설명을 입력해주세요."
-          ></textarea>
-        </div>
-        <div id="linkDiv">
-          <div class="sectionDiv" id="addLinkDiv">
-            <span class="sectionText" id="linkText">링크 :</span>
-            <input
-              type="text"
-              id="addLinkName"
-              class="inputBoxes"
-              placeholder="링크명을 입력해주세요."
-            />
-            <input
-              type="url"
-              id="addLinkURL"
-              class="inputBoxes"
-              placeholder="URL을 입력해주세요."
-            />
-            <button class="addNewLinkButton" v-on:click="createNewLinkDiv()">
-              +
-            </button>
-          </div>
-        </div>
-        <div class="sectionDiv" id="addReoresehtativePictureDiv">
-          <span class="sectionText">대표사진 :</span>
-          <input type="file" id="addReoresehtativePicture" />
-        </div>
-        <div class="sectionDiv" id="addFileDiv">
-          <span class="sectionText">파일 첨부 :</span>
-          <input
-            type="file"
-            multiple="multiple"
-            id="addFile" />
-        </div>
-        <div class="sectionDiv" id="saveOrCancleDiv">
-          <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
-          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
-        </div>
+        <div class="sectionDiv">1</div>
+        <div class="sectionDiv">2</div>
       </div>
     </section>
   </div>
@@ -106,85 +31,6 @@ export default {
     Frame
   },
   methods: {
-    createNewLinkDiv() {
-      const addNewLinkDiv = document.createElement('div')
-      addNewLinkDiv.className = 'linkSectionDiv'
-      addNewLinkDiv.setAttribute('id', 'addNewLinkDiv')
-
-      const addLinkName = document.createElement('input')
-      addLinkName.type = 'text'
-      addLinkName.className = 'inputBoxes'
-      addLinkName.setAttribute('id', 'addLinkName')
-      addLinkName.setAttribute('placeholder', '링크명을 입력해주세요.')
-
-      const addLinkURL = document.createElement('input')
-      addLinkURL.type = 'text'
-      addLinkURL.className = 'inputBoxes'
-      addLinkURL.setAttribute('id', 'addLinkURL')
-      addLinkURL.setAttribute('placeholder', 'URL을 입력해주세요.')
-
-      const removeLinkButton = document.createElement('button')
-      removeLinkButton.className = 'addNewLinkButton'
-      removeLinkButton.innerText = 'x'
-      removeLinkButton.addEventListener('click', function () {
-        const parentlink = this.parentElement
-        parentlink.remove()
-      })
-
-      const linkDiv = document.getElementById('linkDiv')
-      linkDiv.appendChild(addNewLinkDiv)
-      addNewLinkDiv.appendChild(addLinkName)
-      addNewLinkDiv.appendChild(addLinkURL)
-      addNewLinkDiv.appendChild(removeLinkButton)
-    },
-    sameDatePlan() {
-      const startDate = document.getElementById('startDate').value
-      const deadlineDate = document.getElementById('deadlineDate').value
-      const todayCheckBox = document.getElementById('todayCheckBox')
-
-      if (deadlineDate === startDate) {
-        if (startDate === '') {
-          todayCheckBox.checked = false
-        } else { todayCheckBox.checked = true }
-      } else {
-        todayCheckBox.checked = false
-      }
-    },
-    todayPlan() {
-      const todayCheckBox = document.getElementById('todayCheckBox')
-
-      if (todayCheckBox.checked) {
-        document.getElementById('deadlineDate').value =
-          document.getElementById('startDate').value
-      }
-    },
-    saveCheck() {
-      const projectName = document.getElementById('getProjectName').value
-      const addMembers = document.getElementById('addMembers').value
-      const start = document.getElementById('startDate').value
-      const deadline = document.getElementById('deadlineDate').value
-
-      if (projectName === '' & addMembers === '' & (start === '' || deadline === '')) {
-        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
-      } else if (projectName === '') {
-        alert('프로젝트 제목을 입력해주세요.')
-      } else if (addMembers === '') {
-        alert('팀원을 추가해주세요.')
-      } else if (start === '' || deadline === '') {
-        alert('기간을 입력해주세요.')
-      } else if (start > deadline) {
-        alert('잘못된 기간입니다. 다시 입력해주세요.')
-      } else {
-        if (confirm('제출하시겠습니까?')) {
-          this.$router.push('/project')
-        }
-      }
-    },
-    cancleCheck() {
-      if (confirm('취소하시겠습니까?')) {
-        this.$router.push('/project')
-      }
-    }
   }
 }
 </script>
@@ -218,5 +64,36 @@ section {
   max-height: 100%;
   display: flex;
   flex-direction: column;
+}
+
+.sectionDiv {
+  margin-top: 40px;
+  display: flex;
+  justify-content: center;
+}
+
+.listDiv {
+  width: 200px;
+  height: 200px;
+  margin: 0 10px 0 10px;
+  background-color: blue;
+}
+
+#logoDiv {
+  margin-top: 50px;
+  font-size: 85px;
+  font-weight: bold;
+  color: rgb(53, 99, 16);
+}
+
+#informationDiv {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#subtitle {
+  font-size: 30px;
+  font-weight: bold;
 }
 </style>
