@@ -15,7 +15,7 @@
         <button class="navbutton" id="listButton" @click="MoveLogin()">
           Log Out
         </button>
-        <button id="infoButton" @click="MoveInformation()">
+        <button id="infoButton" @click="MoveManual()">
           <v-icon large> mdi-comment-question-outline</v-icon>
         </button>
       </div>
@@ -75,8 +75,8 @@ export default {
     MoveProjectList() {
       this.$router.push('/project')
     },
-    MoveInformation() {
-      this.$router.push('/information')
+    MoveManual() {
+      this.$router.push('/manual')
     }
   }
 }

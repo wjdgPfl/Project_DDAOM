@@ -120,9 +120,9 @@ export default {
 <style scoped>
 /*button*/
 
-#btnSubmit{
+#btnSubmit {
   border: 1px rgb(255, 255, 255) solid;
-  border-radius: 20% ;
+  border-radius: 20%;
   background-color: rgb(214, 214, 214);
   position: relative;
   top: 50%;
