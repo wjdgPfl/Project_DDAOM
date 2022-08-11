@@ -8,9 +8,10 @@
       </label>
     </div>
     <section>
-      <span>
-          <button type="button" id="btnSubmit" > &nbsp;수정&nbsp; </button>
-          <button type="button" id="btnSubmit" > &nbsp;삭제&nbsp; </button>
+      <span id="projectButton">
+        <button type="button" id="btnSubmit">&nbsp;수정&nbsp;</button>
+        <button type="button" id="btnSubmit">&nbsp;완료&nbsp;</button>
+        <button type="button" id="btnSubmit">삭제</button>
       </span>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
@@ -56,7 +57,7 @@
               type="button"
               class="btn btn-secondary btn-sm"
               style="float: right"
-              @click="openClose()"
+              @click="openClose(this)"
             >
               view more
             </button>
@@ -104,11 +105,11 @@ export default {
     openClose() {
       if (document.getElementById('viewmore').style.display === 'block') {
         document.getElementById('viewmore').style.display = 'none'
-        document.getElementById('projectlistButton').style.display = 'none'
+        document.getElementById('projectButton').style.display = 'none'
         // document.getElementById('toc-toggle').textContent = '보이기'
       } else {
         document.getElementById('viewmore').style.display = 'block'
-        document.getElementById('projectlistButton').style.display = 'block'
+        document.getElementById('projectButton').style.display = 'block'
         // document.getElementById('toc-toggle').textContent = '숨기기'
       }
     }
@@ -118,6 +119,7 @@ export default {
 
 <style scoped>
 /*button*/
+
 #btnSubmit{
   border: 1px rgb(255, 255, 255) solid;
   border-radius: 20% ;
@@ -125,6 +127,10 @@ export default {
   position: relative;
   top: 50%;
   left: 20vw;
+}
+
+#projectButton {
+  display: none;
 }
 /*button*/
 /* < -- table --> */
@@ -161,9 +167,7 @@ section {
 .projectinf {
   width: 800px;
 }
-#projectlistButton {
-  display: none;
-}
+
 /* 프로젝트명 li */
 .projectname {
   margin-left: 200px;
