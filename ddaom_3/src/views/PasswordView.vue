@@ -1,23 +1,19 @@
 <template>
   <div>
-    <title>DDAOM_login</title>
+    <title>DDAOM_Password</title>
     <div class="totalContainer">
-      <span id="logo">DDAOM</span>
-      <div class="loginContainer">
-        <label for="userID"><b>아이디</b></label>
-        <input type="text" placeholder="Enter ID" name="userID" required />
-        <label for="psw"><b>비밀번호</b></label>
+      <span id="logo">? Forgot your password</span>
+      <div class="passwordContainer">
+        <label for="userName"><b>이름</b></label>
+        <input type="text" placeholder="Enter Username" name="userName" required />
+        <label for="psw"><b>아이디</b></label>
         <input
-          type="password"
-          placeholder="Enter Password"
-          name="psw"
+          type="text"
+          placeholder="Enter ID"
+          name="ID"
           required
         />
-        <button type="submit" @click="MoveMainPage()">로그인</button>
-        <div class="addOn">
-          <button @click="MoveSignup()">&nbsp;|&nbsp;회원가입</button>
-          <button @click="MovePassword()">비밀번호 찾기&nbsp;</button>
-        </div>
+        <button type="submit" @click="Gobackend()">비밀번호찾기</button>
       </div>
     </div>
   </div>
@@ -35,17 +31,7 @@ export default {
   created() {},
   mounted() {},
   unmounted() {},
-  methods: {
-    MoveSignup() {
-      this.$router.push('/signup')
-    },
-    MoveMainPage() {
-      this.$router.push('/main')
-    },
-    MovePassword() {
-      this.$router.push('/password')
-    }
-  }
+  methods: {}
 }
 </script>
 
@@ -72,7 +58,7 @@ body {
   transform: translate(-50%, -50%);
 }
 
-.loginContainer {
+.passwordContainer {
   margin-top: 15px;
   padding-top: 15px;
   border-top: solid rgb(53, 99, 16);
@@ -89,7 +75,7 @@ input[type='password'] {
   box-sizing: border-box;
 }
 
-/* 로그인 button*/
+/* 비밀번호찾기 button*/
 button[type='submit'] {
   background-color: #fcc820;
   color: white;
@@ -99,15 +85,6 @@ button[type='submit'] {
   cursor: pointer;
   width: 100%;
 }
-
-/*회원가입 button*/
-button {
-  float: right;
-  border: none;
-  margin-top: 8px;
-  background-color: white;
-}
-
 /*button hover*/
 button:hover {
   opacity: 0.3;
