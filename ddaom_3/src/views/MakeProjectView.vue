@@ -3,8 +3,11 @@
     <Frame />
     <section>
       <div id="sectionBox">
+        <div class="sectionDiv" style="color:grey">
+          * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
+        </div>
         <div class="sectionDiv" id="getProjectNameDiv">
-          <span class="sectionText">프로젝트 명 :</span>
+          <span class="sectionText">* 프로젝트 명 :</span>
           <input
             type="text"
             id="getProjectName"
@@ -14,7 +17,7 @@
           />
         </div>
         <div class="sectionDiv" id="addMembersDiv">
-          <span class="sectionText">팀원 추가 :</span>
+          <span class="sectionText">* 팀원 추가 :</span>
           <input
             type="text"
             id="addMembers"
@@ -23,7 +26,7 @@
           />
         </div>
         <div class="sectionDiv" id="startDateDiv">
-          <span class="sectionText">시작 일자 :</span>
+          <span class="sectionText">* 시작 일자 :</span>
           <input
             type="date"
             id="startDate"
@@ -37,7 +40,7 @@
           </div>
         </div>
         <div class="sectionDiv" id="deadlineDateDiv">
-          <span class="sectionText">마감 일자 :</span>
+          <span class="sectionText">* 마감 일자 :</span>
           <input
             type="date"
             id="deadlineDate"
@@ -68,7 +71,7 @@
               class="inputBoxes"
               placeholder="URL을 입력해주세요."
             />
-            <button id="addNewLinkButton" v-on:click="createNewLinkDiv()">
+            <button class="addNewLinkButton" v-on:click="createNewLinkDiv()">
               +
             </button>
           </div>
@@ -79,12 +82,15 @@
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
-          <input type="file" multiple="multiple" id="addFile" />
+          <input
+            type="file"
+            multiple="multiple"
+            id="addFile" />
         </div>
-      </div>
-      <div class="sectionDiv" id="saveOrCancleDiv">
-        <button class="bottomButton" id="save">저장</button>
-        <button class="bottomButton" id="cancle">취소</button>
+        <div class="sectionDiv" id="saveOrCancleDiv">
+          <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
+          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
+        </div>
       </div>
     </section>
   </div>
@@ -102,24 +108,28 @@ export default {
   methods: {
     createNewLinkDiv() {
       const addNewLinkDiv = document.createElement('div')
-      addNewLinkDiv.className = 'sectionDiv'
+      addNewLinkDiv.className = 'linkSectionDiv'
       addNewLinkDiv.setAttribute('id', 'addNewLinkDiv')
+
       const addLinkName = document.createElement('input')
       addLinkName.type = 'text'
+      addLinkName.className = 'inputBoxes'
       addLinkName.setAttribute('id', 'addLinkName')
       addLinkName.setAttribute('placeholder', '링크명을 입력해주세요.')
+
       const addLinkURL = document.createElement('input')
       addLinkURL.type = 'text'
+      addLinkURL.className = 'inputBoxes'
       addLinkURL.setAttribute('id', 'addLinkURL')
       addLinkURL.setAttribute('placeholder', 'URL을 입력해주세요.')
 
       const removeLinkButton = document.createElement('button')
-      removeLinkButton.setAttribute('id', 'removeLinkButton')
+      removeLinkButton.className = 'addNewLinkButton'
+      removeLinkButton.innerText = 'x'
       removeLinkButton.addEventListener('click', function () {
         const parentlink = this.parentElement
         parentlink.remove()
       })
-      removeLinkButton.innerText = 'x'
 
       const linkDiv = document.getElementById('linkDiv')
       linkDiv.appendChild(addNewLinkDiv)
@@ -133,7 +143,9 @@ export default {
       const todayCheckBox = document.getElementById('todayCheckBox')
 
       if (deadlineDate === startDate) {
-        todayCheckBox.checked = true
+        if (startDate === '') {
+          todayCheckBox.checked = false
+        } else { todayCheckBox.checked = true }
       } else {
         todayCheckBox.checked = false
       }
@@ -146,18 +158,38 @@ export default {
           document.getElementById('startDate').value
       }
     },
-    dateCondition() {
-      const startDate = document.getElementById('startDate').value
-      const deadlineDate = document.getElementById('deadlineDate').value
+    saveCheck() {
+      const projectName = document.getElementById('getProjectName').value
+      const addMembers = document.getElementById('addMembers').value
+      const start = document.getElementById('startDate').value
+      const deadline = document.getElementById('deadlineDate').value
 
-      if (startDate > deadlineDate) {
+      if (projectName === '' & addMembers === '' & (start === '' || deadline === '')) {
+        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
+      } else if (projectName === '') {
+        alert('프로젝트 제목을 입력해주세요.')
+      } else if (addMembers === '') {
+        alert('팀원을 추가해주세요.')
+      } else if (start === '' || deadline === '') {
+        alert('기간을 입력해주세요.')
+      } else if (start > deadline) {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
+      } else {
+        if (confirm('제출하시겠습니까?')) {
+          this.$router.push('/project')
+        }
+      }
+    },
+    cancleCheck() {
+      if (confirm('취소하시겠습니까?')) {
+        this.$router.push('/project')
       }
     }
   }
 }
 </script>
-<style scoped>
+<style>
+
 template, #bigbody {
   width: 100%;
 }
@@ -172,7 +204,7 @@ template, #bigbody {
 }
 
 section {
-  margin: 0px;
+  margin: 0;
   padding: 0 5% 0 5%;
   width: calc(100% - 250px);
   height: calc(100vh - 55px);
@@ -180,11 +212,6 @@ section {
 
   display: flex;
   flex-direction: column;
-<<<<<<< HEAD
-=======
-  overflow-y: scroll;
-  align-items: center;
->>>>>>> 83372aa09c9e39c1a21699b49e71a4b60cb13548
   overflow-y: scroll;
   align-items: center;
 }
@@ -205,14 +232,16 @@ section {
 
 .sectionDiv {
   margin-top: 40px;
-
   display: flex;
-  flex-direction: row;
+}
+
+.linkSectionDiv {
+  margin-top: 10px;
 }
 
 .sectionText {
   margin-right: 10px;
-  min-width: 90px;
+  min-width: 100px;
 
   font-size: 15px;
   font-weight: bold;
@@ -245,13 +274,15 @@ section {
   font-size: 13px;
 }
 
-#addNewLinkButton,
-#romoveLinkButton {
+.addNewLinkButton {
   width: 30px;
+  text-align: center;
 }
 
 #saveOrCancleDiv {
-  margin-bottom: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .bottomButton {
