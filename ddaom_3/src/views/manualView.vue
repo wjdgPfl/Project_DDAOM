@@ -14,8 +14,7 @@
           <div class="listDiv"></div>
           <div class="listDiv"></div>
         </div>
-        <div class="sectionDiv">1</div>
-        <div class="sectionDiv">2</div>
+        <div class="sectionDiv">둠다다</div>
       </div>
     </section>
   </div>
