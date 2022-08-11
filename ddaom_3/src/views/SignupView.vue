@@ -189,22 +189,12 @@ button:hover {
   height: 100%;
   width: 15px;
 }
-<<<<<<< HEAD
 
-=======
->>>>>>> 11b690e287d6ad05ec62def7e11dd37230479aed
 #logo {
   width: 40%;
   height: 30%;
   display: block;
   margin: 0px auto;
-<<<<<<< HEAD
-=======
-}
-img {
-  height: 100%;
-  width: 15px;
->>>>>>> 11b690e287d6ad05ec62def7e11dd37230479aed
 }
 
 /* 중복여부 */
