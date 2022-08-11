@@ -53,17 +53,6 @@ export default {
 body {
   font-family: Arial, Helvetica, sans-serif;
 }
-
-/* header */
-#logo {
-  color: black;
-  font-size: 30px;
-  font-weight: bold;
-
-  display: flex;
-  justify-content: center;
-}
-
 /* container */
 .totalContainer {
   position: absolute;
@@ -111,5 +100,12 @@ button {
 /*button hover*/
 button:hover {
   opacity: 0.3;
+}
+/* img */
+img{
+  width: 40%;
+  height: 30%;
+  display: block;
+  margin: 0px auto;
 }
 </style>

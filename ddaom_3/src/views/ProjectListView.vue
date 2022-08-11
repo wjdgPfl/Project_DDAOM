@@ -8,11 +8,10 @@
       </label>
     </div>
     <section>
-      <div id="projectlistButton">
-        <button type="button">수정</button>
-        <button type="button">완료</button>
-        <button type="button">삭제</button>
-      </div>
+      <span>
+        <button type="submit" id="btnSubmit" > 수정&nbsp; </button>
+        <button type="submit" id="btnSubmit" > &nbsp;완료 </button>
+      </span>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
           <h4>{{ project.name }}</h4>
@@ -118,6 +117,11 @@ export default {
 </script>
 
 <style scoped>
+/*button*/
+#btnSubmit{
+  margin-left: 100;
+}
+/*button*/
 /* < -- table --> */
 * {
   list-style: none;
