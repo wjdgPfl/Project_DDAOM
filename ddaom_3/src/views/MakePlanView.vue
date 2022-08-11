@@ -1,11 +1,11 @@
 <template>
   <div id="bigbody">
-    <Frame msg="Welcome to Your Vue.js App" />
+    <Frame />
     <section>
       <div id="sectionBox">
         <div class="sectionDiv" id="typeOfPlanDiv">
           <div class="typeOfPlan" id="personalPlan">
-            <span style="margin-right: 15px">개인</span>
+            <span style="margin-right: 15px">개인 일정</span>
             <input
               type="radio"
               name="typeOfPlanChoose"
@@ -14,7 +14,7 @@
             />
           </div>
           <div class="typeOfPlan" id="projectPlan">
-            <span style="margin-right: 15px">프로젝트</span>
+            <span style="margin-right: 15px">협업 일정</span>
             <input
               type="radio"
               name="typeOfPlanChoose"
@@ -44,7 +44,8 @@
             type="date"
             id="startDate"
             class="inputBoxes"
-            @change="sameDatePlan()" />
+            @change="sameDatePlan()"
+          />
           <div id="TodayDiv">
             <span style="margin-right: 15px">당일</span>
             <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
@@ -56,7 +57,8 @@
             type="date"
             id="deadlineDate"
             class="inputBoxes"
-            @change="sameDatePlan()" />
+            @change="sameDatePlan()"
+          />
         </div>
         <div class="sectionDiv" id="projectDetailDiv">
           <span class="sectionText">상세 설명 :</span>
