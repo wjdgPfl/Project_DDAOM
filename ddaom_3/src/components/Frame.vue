@@ -9,12 +9,14 @@
         <router-link to="/main" id="logo">DDAOM</router-link>
       </div>
       <div id="userNameBox">
-        <span>{{ username }} 님</span>
-        <span> 환영합니다.</span>
+        <span>{{ username }}님 환영합니다.</span>
       </div>
       <div style="display: flex; flex-direction: row">
-        <button class="navbutton" id="listButton" @click="MoveProjectList()">
-          List
+        <button class="navbutton" id="listButton" @click="MoveLogin()">
+          로그아웃
+        </button>
+        <button id="infoButton" @click="MoveInformation()">
+          <v-icon>mdi-menu</v-icon>
         </button>
       </div>
     </header>
@@ -25,18 +27,15 @@
           Make Project
         </button>
         <button class="navbutton" @click="MoveMakePlan()">Make Plan</button>
+        <button class="navbutton" @click="MoveProjectList()">
+          Project List
+        </button>
       </div>
       <div id="filter">
         <p>필터</p>
-        <ul>
-          <li><input type="checkbox" name="" id="" />qwe</li>
-          <li><input type="checkbox" name="" id="" />project_1</li>
-          <li><input type="checkbox" name="" id="" />project_2</li>
-          <li><input type="checkbox" name="" id="" />project_3</li>
+        <ul :key="i" v-for="(project, i) in projectname">
+          <li><input type="checkbox" name="" id="" />{{ projectname[i] }}</li>
         </ul>
-      </div>
-      <div>
-        <button class="navbutton" @click="MoveLogin()">로그아웃하기</button>
       </div>
     </nav>
 
@@ -50,7 +49,8 @@ export default {
   data() {
     return {
       isnone: false,
-      username: '채원'
+      username: '채원',
+      projectname: ['qwe', 'project_1', 'chae', 'project_3']
     }
   },
   setup() {},
@@ -71,6 +71,9 @@ export default {
     },
     MoveProjectList() {
       this.$router.push('/project')
+    },
+    MoveInformation() {
+      this.$router.push('/information')
     }
   }
 }
@@ -83,6 +86,7 @@ export default {
 /* tmplate */
 template {
   height: 100vh;
+  /* height: 500px; */
   width: 100vw;
   margin: 0;
 }
@@ -105,14 +109,15 @@ header {
 }
 
 #mainLogo {
-  width: calc(100% - 210px);
+  width: calc(100% - 400px);
+  padding-left: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 #logo {
-  color: black;
+  color: #c96440;
   text-decoration: none;
 
   font-size: 30px;
@@ -120,7 +125,7 @@ header {
 }
 
 #userNameBox {
-  width: 100px;
+  width: 180px;
   height: 55px;
   margin-right: 15px;
 
@@ -134,6 +139,13 @@ header {
   margin: 0px 15px 0px 0px;
   height: 30px;
   width: 70px;
+}
+
+#infoButton {
+  margin: 0px 15px 0px 0px;
+  height: 30px;
+  width: 30px;
+  border: none;
 }
 
 /* nav */
@@ -154,7 +166,7 @@ nav {
 .navv {
   display: none;
 }
-
+/* nav 버튼들 */
 .navbutton {
   width: 200px;
   height: 50px;
@@ -170,10 +182,6 @@ nav {
   background-color: rgb(53, 99, 16);
 }
 
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
 #filter p {
   margin-left: 20px;
 }

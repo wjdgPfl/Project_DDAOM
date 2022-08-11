@@ -180,6 +180,10 @@ button:hover {
   height: 30%;
   display: block;
   margin: 0px auto;
+
+img {
+  height: 100%;
+  width: 15px;
 }
 /* 중복여부 */
 #duplicate {
