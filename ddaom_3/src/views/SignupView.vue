@@ -36,25 +36,33 @@
         <tr>
           <td>
             비밀번호 :
-            <input v-model="signup.password" type="password" maxlength="16" @blur="passwordValid">
-            <div v-if="!passwordValidFlag">
-              유효하지 않은 비밀번호 입니다.
-            </div>
+            <input
+              v-model="signup.password"
+              type="password"
+              maxlength="16"
+              @blur="passwordValid"
+            />
+            <div v-if="!passwordValidFlag">유효하지 않은 비밀번호 입니다.</div>
           </td>
         </tr>
         <p></p>
         <tr>
           <td>
-            <p style="color: red;">8자 이상 영문 대소문자와 숫자로만 입력해주세요.</p>
+            <p style="color: red">
+              8자 이상 영문 대소문자와 숫자로만 입력해주세요.
+            </p>
           </td>
         </tr>
         <tr>
           <td>
             비밀번호 확인:
-            <input v-model="passwordCheck" type="password" maxlength="16" @blur="passwordCheckValid">
-            <div v-if="!passwordCheckFlag">
-              비밀번호가 동일하지 않습니다.
-            </div>
+            <input
+              v-model="passwordCheck"
+              type="password"
+              maxlength="16"
+              @blur="passwordCheckValid"
+            />
+            <div v-if="!passwordCheckFlag">비밀번호가 동일하지 않습니다.</div>
           </td>
         </tr>
         <p></p>
@@ -64,11 +72,14 @@
               가입하기
             </button>
           </td>
-            <span>
-              <button id="backButton" @click="MoveBack()">
-                <img id="back" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU">
-              </button>
-            </span>
+          <span>
+            <button id="backButton" @click="MoveBack()">
+              <img
+                id="back"
+                src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU"
+              />
+            </button>
+          </span>
         </tr>
       </table>
     </div>
@@ -103,14 +114,16 @@ export default {
     MoveBack() {
       this.$router.push('/')
     },
-    passwordValid () {
-      if (/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)) {
+    passwordValid() {
+      if (
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)
+      ) {
         this.passwordValidFlag = true
       } else {
         this.passwordValidFlag = false
       }
     },
-    passwordCheckValid () {
+    passwordCheckValid() {
       if (this.signup.password === this.passwordCheck) {
         this.passwordCheckFlag = true
       } else {
@@ -150,6 +163,7 @@ input[type='password'] {
   background-color: rgb(238, 235, 235);
   border: 1px solid rgb(172, 171, 171);
 }
+
 /*button*/
 #signupButton {
   height: 100%;
@@ -164,7 +178,7 @@ input[type='password'] {
   float: right;
 }
 #backButton {
-  float:right;
+  float: right;
 }
 /*button hover*/
 button:hover {
@@ -175,16 +189,14 @@ button:hover {
   height: 100%;
   width: 15px;
 }
-#logo{
+
+#logo {
   width: 40%;
   height: 30%;
   display: block;
   margin: 0px auto;
-
-img {
-  height: 100%;
-  width: 15px;
 }
+
 /* 중복여부 */
 #duplicate {
   color: red;

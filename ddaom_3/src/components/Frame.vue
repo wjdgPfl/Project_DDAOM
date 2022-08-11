@@ -11,12 +11,12 @@
       <div id="userNameBox">
         <span>{{ username }}님 환영합니다.</span>
       </div>
-      <div style="display: flex; flex-direction: row">
+      <div style="display: flex; flex-direction: row; align-content: center">
         <button class="navbutton" id="listButton" @click="MoveLogin()">
-          로그아웃
+          Log Out
         </button>
         <button id="infoButton" @click="MoveInformation()">
-          <v-icon>mdi-menu</v-icon>
+          <v-icon large> mdi-comment-question-outline</v-icon>
         </button>
       </div>
     </header>
@@ -34,7 +34,10 @@
       <div id="filter">
         <p>필터</p>
         <ul :key="i" v-for="(project, i) in projectname">
-          <li><input type="checkbox" name="" id="" />{{ projectname[i] }}</li>
+          <li>
+            <input type="checkbox" name="" id="" />{{ projectname[i] }}
+            <!-- <v-color-picker v-model="color" /> -->
+          </li>
         </ul>
       </div>
     </nav>
@@ -86,7 +89,6 @@ export default {
 /* tmplate */
 template {
   height: 100vh;
-  /* height: 500px; */
   width: 100vw;
   margin: 0;
 }
@@ -138,11 +140,11 @@ header {
 #listButton {
   margin: 0px 15px 0px 0px;
   height: 30px;
-  width: 70px;
+  width: 90px;
 }
 
 #infoButton {
-  margin: 0px 15px 0px 0px;
+  margin: 0px 20px 0px 0px;
   height: 30px;
   width: 30px;
   border: none;

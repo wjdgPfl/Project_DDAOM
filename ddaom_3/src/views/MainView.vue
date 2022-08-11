@@ -8,12 +8,7 @@
             <!-- 캘린더 상단바 -->
             <v-sheet height="64">
               <v-toolbar flat>
-                <v-btn
-                  outlined
-                  class="mr-4"
-                  color="grey darken-2"
-                  @click="setToday"
-                >
+                <v-btn outlined class="mr-4 navbutton" @click="setToday">
                   Today
                 </v-btn>
                 <v-btn fab text small color="grey darken-2" @click="prev">
@@ -29,12 +24,7 @@
                 <!-- 드롭다운 (month, day, week) -->
                 <v-menu bottom right>
                   <template v-slot:activator="{ on, attrs }">
-                    <v-btn
-                      outlined
-                      color="grey darken-2"
-                      v-bind="attrs"
-                      v-on="on"
-                    >
+                    <v-btn outlined v-bind="attrs" v-on="on" class="navbutton">
                       <span>{{ typeToLabel[type] }}</span>
                       <v-icon right> mdi-menu-down </v-icon>
                     </v-btn>
@@ -53,7 +43,6 @@
                 </v-menu>
               </v-toolbar>
             </v-sheet>
-
             <!-- 메인 캘린더 -->
             <v-sheet height="calc(100vh - 119px)">
               <v-calendar
@@ -78,28 +67,53 @@
                 <v-card color="grey lighten-4" min-width="350px" flat>
                   <!-- 레이어 상단 -->
                   <v-toolbar :color="selectedEvent.color" dark>
-                    <v-btn icon>
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
                     <v-toolbar-title
                       v-html="selectedEvent.name"
                     ></v-toolbar-title>
                     <v-spacer></v-spacer>
-                    <v-btn icon>
-                      <v-icon>mdi-heart</v-icon>
+                    <v-btn icon @click="editDesc()">
+                      <v-icon>mdi-pencil</v-icon>
                     </v-btn>
-                    <v-btn icon>
-                      <v-icon>mdi-dots-vertical</v-icon>
+                    <v-btn icon @click="saveDesc()">
+                      <v-icon>mdi-content-save</v-icon>
+                    </v-btn>
+                    <v-btn icon @click="remove()">
+                      <v-icon>mdi-trash-can</v-icon>
                     </v-btn>
                   </v-toolbar>
                   <!-- 레이어 내용 -->
-                  <v-card-text>
-                    <span v-html="selectedEvent.details"></span>
+
+                  <v-card-text style="height: 120px">
+                    <!-- <input
+                        id="selectInput"
+                        type="text"
+                        readonly
+                        :value="selectedEvent.dateDetails"
+                      /> -->
+                    <span v-html="selectedEvent.dateDetails"></span>
+                    <div>
+                      내용 :
+                      <textarea
+                        id="selectText"
+                        readonly
+                        :value="selectedEvent.descDetails"
+                        style="resize: none"
+                        rows="3"
+                      >
+                      </textarea>
+                    </div>
                   </v-card-text>
                   <v-card-actions>
-                    <v-btn text color="secondary" @click="selectedOpen = false">
+                    <v-btn
+                      text
+                      color="secondary"
+                      @click="selectedOpen = false"
+                      id="cancelbutton"
+                    >
                       Cancel
                     </v-btn>
+                    <v-checkbox text color="secondary"> </v-checkbox>
+                    <p style="margin-top: 18px">FINISH</p>
                   </v-card-actions>
                 </v-card>
               </v-menu>
@@ -127,6 +141,7 @@ export default {
       week: 'Week',
       day: 'Day'
     },
+
     selectedEvent: {}, // 선택한 일정 양방향 바인딩
     selectedElement: null, // 사용자가 클릭한 일정 타겟
     selectedOpen: false, // 레이어 오픈 여부 확인
@@ -135,32 +150,65 @@ export default {
     // 일정 색상
     // DB에서 색상을 가지고 있어서 해당 색상을 순회해서 colors로 넣어주는 것
     colors: {
-      cc: 'blue',
-      jj: 'cyan'
-      // 'indigo',
-      // 'deep-purple',
-      // 'cyan',
-      // 'green',
-      // 'orange',
-      // 'grey darken-1'
+      qwe: 'blue',
+      project_1: 'cyan',
+      chae: 'indigo',
+      project_3: 'deep-purple'
     },
 
     // 일정명
     // 필터 체크박스에서 프로젝트명 -> DB에서 프로젝트
     names: {
-      cc: ['Meeting'],
-      jj: ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd']
+      qwe: ['Meeting', 'wha'],
+      project_1: ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd'],
+      chae: ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd'],
+      project_3: ['Meeting']
     },
+
     // 시작날짜 마감날짜 담는 배열
     Dates: {
-      cc: {
-        Meeting: ['2022, 8, 13', '2022, 8, 16']
+      qwe: {
+        Meeting: ['2022, 8, 13', '2022, 8, 16'],
+        wha: ['2022, 8, 13', '2022, 8, 16']
       },
-      jj: {
+      project_1: {
         aaaaaa: ['2022, 8, 16', '2022, 8, 16'],
         bbbbbb: ['2022, 8, 1', '2022, 8, 2'],
         cccccc: ['2022, 8, 16', '2022, 8, 22'],
         dddddd: ['2022, 8, 6', '2022, 8, 6']
+      },
+      chae: {
+        aaaaaa: ['2022, 8, 31', '2022, 8, 31'],
+        bbbbbb: ['2022, 8, 2', '2022, 8, 2'],
+        cccccc: ['2022, 8, 13', '2022, 8, 15'],
+        dddddd: ['2022, 8, 7', '2022, 8, 7']
+      },
+      project_3: {
+        Meeting: ['2022, 8, 26', '2022, 8, 28']
+      }
+    },
+
+    // 상세설명
+    Details: {
+      qwe: {
+        Meeting: 'dsads',
+        wha: 'asdsafsdfd'
+      },
+      project_1: {
+        aaaaaa: 'asdsafsdfd',
+        bbbbbb:
+          'nnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkf',
+        cccccc: 'dsads',
+        dddddd: 'bbbbbb'
+      },
+      chae: {
+        aaaaaa: 'asdsafsdfd',
+        bbbbbb: 'nn',
+        cccccc: 'dsads',
+        dddddd: 'bbbbbb'
+      },
+      project_3: {
+        Meeting: 'dsads'
       }
     }
   }),
@@ -172,6 +220,20 @@ export default {
   },
   unmounted() {},
   methods: {
+    editDesc() {
+      const text = document.getElementById('selectText')
+      text.readOnly = false
+    },
+    saveDesc() {
+      const text = document.getElementById('selectText')
+      text.readOnly = true
+      this.selectedEvent.descDetails = text.value
+      // this.selectedEvent -> 현재 레이어가 뜬 이벤트를 가리킴
+    },
+    remove() {
+      confirm('삭제하시겠습니까?')
+      // 일정 삭제 함수 구현하기
+    },
     viewDay({ date }) {
       this.focus = date
       this.type = 'day'
@@ -206,11 +268,15 @@ export default {
 
       nativeEvent.stopPropagation()
     },
+
     updateRange({ start, end }) {
       const events = []
 
       for (const projectName in this.names) {
         // cc, jj
+        if (this.path === true) {
+          continue
+        }
         const eventlist = this.names[projectName] // ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd']
         const eventCount = eventlist.length
 
@@ -218,14 +284,31 @@ export default {
           const eventname = eventlist[i]
           const first = new Date(this.Dates[projectName][eventname][0])
           const second = new Date(this.Dates[projectName][eventname][1])
-          // const first = new Date('2022, 8, 16') // 시작날짜
-          // const second = new Date('2022, 8, 22') // 마감날짜
+          const Details = this.Details[projectName][eventname]
 
+          const firstmon = first.getMonth() + 1
+          const secondmon = second.getMonth() + 1
           events.push({
             name: this.names[projectName][i],
             start: first,
             end: second,
-            color: this.colors[projectName]
+            color: this.colors[projectName],
+            dateDetails:
+              '기간 : ' +
+              first.getFullYear() +
+              '년 ' +
+              firstmon +
+              '월 ' +
+              first.getDate() +
+              '일' +
+              ' ~ ' +
+              second.getFullYear() +
+              '년 ' +
+              secondmon +
+              '월 ' +
+              second.getDate() +
+              '일',
+            descDetails: Details
           })
         }
       }
@@ -235,4 +318,19 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.navbutton {
+  background-color: white;
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 10px;
+}
+
+#selectInput {
+  width: 100%;
+}
+
+#selectText {
+  width: 100%;
+  height: 100%;
+}
+</style>

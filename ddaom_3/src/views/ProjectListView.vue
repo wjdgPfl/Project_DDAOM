@@ -8,9 +8,10 @@
       </label>
     </div>
     <section>
-      <span>
-        <button type="submit" id="btnSubmit" > 수정&nbsp; </button>
-        <button type="submit" id="btnSubmit" > &nbsp;완료 </button>
+      <span id="projectButton">
+        <button type="submit" id="btnSubmit">수정&nbsp;</button>
+        <button type="submit" id="btnSubmit">&nbsp;완료</button>
+        <button type="submit" id="btnSubmit">삭제</button>
       </span>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
@@ -56,7 +57,7 @@
               type="button"
               class="btn btn-secondary btn-sm"
               style="float: right"
-              @click="openClose()"
+              @click="openClose(this)"
             >
               view more
             </button>
@@ -104,11 +105,11 @@ export default {
     openClose() {
       if (document.getElementById('viewmore').style.display === 'block') {
         document.getElementById('viewmore').style.display = 'none'
-        document.getElementById('projectlistButton').style.display = 'none'
+        document.getElementById('projectButton').style.display = 'none'
         // document.getElementById('toc-toggle').textContent = '보이기'
       } else {
         document.getElementById('viewmore').style.display = 'block'
-        document.getElementById('projectlistButton').style.display = 'block'
+        document.getElementById('projectButton').style.display = 'block'
         // document.getElementById('toc-toggle').textContent = '숨기기'
       }
     }
@@ -118,8 +119,12 @@ export default {
 
 <style scoped>
 /*button*/
-#btnSubmit{
-  margin-left: 100;
+#btnSubmit {
+  margin-left: 10px;
+}
+
+#projectButton {
+  display: none;
 }
 /*button*/
 /* < -- table --> */
@@ -156,9 +161,7 @@ section {
 .projectinf {
   width: 800px;
 }
-#projectlistButton {
-  display: none;
-}
+
 /* 프로젝트명 li */
 .projectname {
   margin-left: 200px;
