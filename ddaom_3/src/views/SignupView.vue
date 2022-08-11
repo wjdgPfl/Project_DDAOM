@@ -171,8 +171,8 @@ button:hover {
 }
 /*img*/
 img {
-  height: 2vh;
-  width: 2vw;
+  height: 100%;
+  width: 15px;
 }
 
 /* 중복여부 */
