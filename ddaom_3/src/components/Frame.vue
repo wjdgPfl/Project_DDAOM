@@ -35,8 +35,12 @@
         <p>필터</p>
         <ul :key="i" v-for="(project, i) in projectname">
           <li>
-            <input type="checkbox" name="" id="" />{{ project }}
-            <input type="color" :value="color[project]" />
+            <div class="filterList">
+              <label
+                ><input type="checkbox" name="" id="" /> {{ project }}</label
+              >
+              <input type="color" :value="color[project]" class="color" />
+            </div>
           </li>
         </ul>
       </div>
@@ -194,9 +198,22 @@ nav {
 #filter p {
   margin-left: 20px;
 }
+
 #filter {
   margin-left: 20px;
 }
+
+.filterList {
+  display: flex;
+  justify-content: space-between;
+}
+
+.color {
+  width: 25px;
+  height: 25px;
+  margin-right: 20px;
+}
+
 input[type='checkbox'] {
   margin-right: 20px;
 }
