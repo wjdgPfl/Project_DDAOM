@@ -135,6 +135,7 @@ export default {
   data: () => ({
     focus: '',
     type: 'month',
+
     typeToLabel: {
       // 드롭다운 메뉴
       month: 'Month',
@@ -147,70 +148,40 @@ export default {
     selectedOpen: false, // 레이어 오픈 여부 확인
     events: [], // 한 달 일정들을 담고 있는 느낌
 
-    // 일정 색상
-    // DB에서 색상을 가지고 있어서 해당 색상을 순회해서 colors로 넣어주는 것
-    colors: {
-      qwe: 'blue',
-      project_1: 'cyan',
-      chae: 'indigo',
-      project_3: 'deep-purple'
-    },
-
-    // 일정명
-    // 필터 체크박스에서 프로젝트명 -> DB에서 프로젝트
-    names: {
-      qwe: ['Meeting', 'wha'],
-      project_1: ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd'],
-      chae: ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd'],
-      project_3: ['Meeting']
-    },
-
-    // 시작날짜 마감날짜 담는 배열
-    Dates: {
-      qwe: {
-        Meeting: ['2022, 8, 13', '2022, 8, 16'],
-        wha: ['2022, 8, 13', '2022, 8, 16']
+    projects: [
+      {
+        name: 'qwe',
+        color: 'blue',
+        plan: [
+          {
+            planName: 'Meeting',
+            date: ['2022, 8, 13', '2022, 8, 16'],
+            details: 'dsads'
+          },
+          {
+            planName: 'wha',
+            date: ['2022, 8, 1', '2022, 8, 6'],
+            details: 'dsads'
+          }
+        ]
       },
-      project_1: {
-        aaaaaa: ['2022, 8, 16', '2022, 8, 16'],
-        bbbbbb: ['2022, 8, 1', '2022, 8, 2'],
-        cccccc: ['2022, 8, 16', '2022, 8, 22'],
-        dddddd: ['2022, 8, 6', '2022, 8, 6']
-      },
-      chae: {
-        aaaaaa: ['2022, 8, 31', '2022, 8, 31'],
-        bbbbbb: ['2022, 8, 2', '2022, 8, 2'],
-        cccccc: ['2022, 8, 13', '2022, 8, 15'],
-        dddddd: ['2022, 8, 7', '2022, 8, 7']
-      },
-      project_3: {
-        Meeting: ['2022, 8, 26', '2022, 8, 28']
+      {
+        name: 'chae',
+        color: 'yellow',
+        plan: [
+          {
+            planName: 'Meeting',
+            date: ['2022, 8, 2', '2022, 8, 3'],
+            details: 'dsads'
+          },
+          {
+            planName: 'wha',
+            date: ['2022, 8, 27', '2022, 8, 28'],
+            details: 'dsads'
+          }
+        ]
       }
-    },
-
-    // 상세설명
-    Details: {
-      qwe: {
-        Meeting: 'dsads',
-        wha: 'asdsafsdfd'
-      },
-      project_1: {
-        aaaaaa: 'asdsafsdfd',
-        bbbbbb:
-          'nnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkfnnfdmklkdmlfkmsdkf',
-        cccccc: 'dsads',
-        dddddd: 'bbbbbb'
-      },
-      chae: {
-        aaaaaa: 'asdsafsdfd',
-        bbbbbb: 'nn',
-        cccccc: 'dsads',
-        dddddd: 'bbbbbb'
-      },
-      project_3: {
-        Meeting: 'dsads'
-      }
-    }
+    ]
   }),
 
   setup() {},
@@ -272,27 +243,28 @@ export default {
     updateRange({ start, end }) {
       const events = []
 
-      for (const projectName in this.names) {
-        // cc, jj
+      for (const j in this.projects) {
         if (this.path === true) {
           continue
         }
-        const eventlist = this.names[projectName] // ['aaaaaa', 'bbbbbb', 'cccccc', 'dddddd']
+
+        const project = this.projects[j]
+        const eventlist = project.plan
         const eventCount = eventlist.length
 
         for (let i = 0; i < eventCount; i++) {
-          const eventname = eventlist[i]
-          const first = new Date(this.Dates[projectName][eventname][0])
-          const second = new Date(this.Dates[projectName][eventname][1])
-          const Details = this.Details[projectName][eventname]
+          const eventname = eventlist[i].planName
+          const first = new Date(eventlist[i].date[0])
+          const second = new Date(eventlist[i].date[1])
+          const Details = eventlist[i].details
 
           const firstmon = first.getMonth() + 1
           const secondmon = second.getMonth() + 1
           events.push({
-            name: this.names[projectName][i],
+            name: eventname,
             start: first,
             end: second,
-            color: this.colors[projectName],
+            color: project.color,
             dateDetails:
               '기간 : ' +
               first.getFullYear() +

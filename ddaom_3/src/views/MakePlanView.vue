@@ -3,11 +3,11 @@
     <Frame />
     <section>
       <div id="sectionBox">
-        <div class="sectionDiv" style="color:grey">
+        <div class="sectionDiv" style="color: grey">
           * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
         </div>
         <div class="sectionDiv" id="typeOfPlanDiv">
-          <sapn style="margin-right:5px">*</sapn>
+          <sapn style="margin-right: 5px">*</sapn>
           <div class="typeOfPlan" id="personalPlan">
             <span style="margin-right: 15px">개인 일정</span>
             <input
@@ -74,8 +74,15 @@
           ></textarea>
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
-          <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
-          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
+          <input
+            type="submit"
+            class="bottomButton"
+            id="save"
+            v-on:click="saveCheck()"
+          />
+          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">
+            취소
+          </button>
         </div>
       </div>
     </section>
@@ -110,7 +117,9 @@ export default {
       if (deadlineDate === startDate) {
         if (startDate === '') {
           todayCheckBox.checked = false
-        } else { todayCheckBox.checked = true }
+        } else {
+          todayCheckBox.checked = true
+        }
       } else {
         todayCheckBox.checked = false
       }
@@ -139,17 +148,22 @@ export default {
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
 
-      if ((together.checked === false & personal.checked === false) & projectName === '' & (start === '' || deadline === '')) {
+      if (
+        (together.checked === false) &
+        (personal.checked === false) &
+        (projectName === '') &
+        (start === '' || deadline === '')
+      ) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
-      } else if (together.checked === false & personal.checked === false) {
+      } else if ((together.checked === false) & (personal.checked === false)) {
         alert('일정 유형을 선택해주세요.')
-      } else if (together.checked & projectList.value === '') {
+      } else if (together.checked & (projectList.value === '')) {
         alert('해당되는 프로젝트를 선택해주세요')
       } else if (projectName === '') {
         alert('일정 제목을 입력해주세요.')
       } else if (start === '' || deadline === '') {
         alert('기간을 입력해주세요.')
-      } else if ((start !== '' & deadline !== '') & start > deadline) {
+      } else if ((start !== '') & (deadline !== '') & (start > deadline)) {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
       } else {
         if (confirm('제출하시겠습니까?')) {
