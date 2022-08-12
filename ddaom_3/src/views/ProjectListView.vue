@@ -11,7 +11,7 @@
       <span id="projectButton">
         <button type="button" id="btnSubmit">&nbsp;수정&nbsp;</button>
         <button type="button" id="btnSubmit">&nbsp;완료&nbsp;</button>
-        <button type="button" id="btnSubmit">삭제</button>
+        <button type="button" id="btnSubmit">&nbsp;삭제&nbsp;</button>
       </span>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
