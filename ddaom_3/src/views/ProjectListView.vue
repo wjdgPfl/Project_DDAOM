@@ -271,7 +271,7 @@ section {
   transition: all 0.4s;
 }
 #custom_input:checked + label.toggle_btn_label > span {
-  background-color: rgb(99, 163, 47);
+  background-color: rgb(59, 119, 10);
 }
 #custom_input:checked + label.toggle_btn_label > span:before {
   -webkit-transform: translateX(calc(11.5rem - 100%));
