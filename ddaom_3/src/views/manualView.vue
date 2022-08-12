@@ -23,7 +23,7 @@
           <div class="listDiv"></div>
           <div class="listDiv"></div>
         </div>
-        <div class="manualDiv">둠다다</div>
+        <div class="manualDiv"></div>
       </div>
     </section>
   </div>
