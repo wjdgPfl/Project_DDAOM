@@ -32,6 +32,9 @@
               <option value="ddaom">따옴 프로젝트</option>
             </select>
           </div>
+          <div class="typeOfPlan" id="makeProjectButton">
+            <button v-on:click="moveProjectPage()">+ 프로젝트 생성</button>
+          </div>
         </div>
         <div class="sectionDiv" id="getProjectNameDiv">
           <span class="sectionText">* 제목 :</span>
@@ -161,6 +164,11 @@ export default {
       if (confirm('취소하시겠습니까?')) {
         this.$router.push('/main')
       }
+    },
+    moveProjectPage() {
+      if (confirm('프로젝트 생성 페이지로 이동하시겠습니까?')) {
+        this.$router.push('/makeproject')
+      }
     }
   }
 }
@@ -214,6 +222,12 @@ section {
 
 #projectList {
   visibility: hidden;
+}
+
+#makeProjectButton {
+  margin-left: 40%;
+  font-size: 15px;
+  color: rgb(53, 99, 16);
 }
 
 .sectionDiv {
