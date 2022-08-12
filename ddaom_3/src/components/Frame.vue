@@ -1,8 +1,5 @@
 <template>
   <div id="body">
-    <div>
-      <ChildAndChild v-bind:send="childData" />
-    </div>
     <header>
       <button @click="Isnone()" id="asideBarButton">
         <v-icon>mdi-menu</v-icon>
@@ -18,7 +15,7 @@
         <button class="navbutton" id="listButton" @click="MoveLogin()">
           Log Out
         </button>
-        <button id="infoButton" @click="MoveInformation()">
+        <button id="infoButton" @click="MoveManual()">
           <v-icon large> mdi-comment-question-outline</v-icon>
         </button>
       </div>
@@ -50,13 +47,10 @@
 </template>
 
 <script>
-import ChildAndChild from '../views/MainView.vue'
 export default {
-  name: 'Child',
-  conponents: { ChildAndChild },
+  conponents: {},
   data() {
     return {
-      childData: 30,
       isnone: false,
       username: '채원',
       projectname: ['qwe', 'project_1', 'chae', 'project_3']
@@ -66,15 +60,6 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    setChildData(data) {
-      this.childData = data
-      console.log(this.childData)
-    },
-    function() {
-      return {
-        parentVaule: 20
-      }
-    },
     Isnone() {
       this.isnone = !this.isnone
     },
@@ -90,8 +75,8 @@ export default {
     MoveProjectList() {
       this.$router.push('/project')
     },
-    MoveInformation() {
-      this.$router.push('/information')
+    MoveManual() {
+      this.$router.push('/manual')
     }
   }
 }
