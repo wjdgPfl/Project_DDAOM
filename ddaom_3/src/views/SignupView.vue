@@ -6,17 +6,23 @@
       <table class="signupContainer">
         <p></p>
         <tr>
-          <td>
-            이름 : <input type="text" name="name" style="margin-left: 8px" />
+          <td style="color:grey">
+            * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
           </td>
         </tr>
         <p></p>
         <tr>
           <td>
-            아이디 :
+           * 이름 : <input type="text" name="name" id="signup_name" style="margin-left: 8px" />
+          </td>
+        </tr>
+        <p></p>
+        <tr>
+          <td>
+            * 아이디 :
             <input
               type="text"
-              class="userId_input"
+              id="signup_id"
               name="id"
               check_result="fail"
               style="margin-left: 8px"
@@ -35,10 +41,11 @@
         </tr>
         <tr>
           <td>
-            비밀번호 :
+            * 비밀번호 :
             <input
               v-model="signup.password"
               type="password"
+              id ="signup_password"
               maxlength="16"
               @blur="passwordValid"
             />
@@ -55,10 +62,11 @@
         </tr>
         <tr>
           <td>
-            비밀번호 확인:
+            * 비밀번호 확인:
             <input
               v-model="passwordCheck"
               type="password"
+              id="signup_check"
               maxlength="16"
               @blur="passwordCheckValid"
             />
@@ -93,9 +101,7 @@ export default {
     return {
       signup: {
         id: null,
-        password: null,
-        pwhint: '',
-        pwhintans: null
+        password: null
       },
       passwordCheck: '',
       passwordCheckFlag: true,
@@ -108,8 +114,26 @@ export default {
   unmounted() {},
   methods: {
     MoveLogin() {
-      this.$router.push('/')
-      alert('회원가입 성공!')
+      const nameSignup = document.getElementById('signup_name').value
+      const idSignup = document.getElementById('signup_id').value
+      const passwordSignup = document.getElementById('signup_password').value
+      const checkSignup = document.getElementById('signup_check').value
+      if (nameSignup === '' & idSignup === '' & passwordSignup === '' & checkSignup === '') {
+        alert('필수항목이 입력되지 않았습니다. 다시 입력해 주세요.')
+      } else if ((nameSignup) === '') {
+        alert('이름을 입력해주세요.')
+      } else if ((idSignup) === '') {
+        alert('ID를 입력해주세요.')
+      } else if ((passwordSignup) === '' & (this.passwordCheck) === '') {
+        alert('비밀번호를 입력해주세요.')
+      } else if ((checkSignup) === '') {
+        alert('비밀번호 확인을 입력해주세요.')
+      } else {
+        if (confirm('가입하시겠습니까?')) {
+          alert('회원가입 성공!')
+          this.$router.push('/')
+        }
+      }
     },
     MoveBack() {
       this.$router.push('/')
