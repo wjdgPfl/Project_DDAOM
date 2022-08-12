@@ -81,8 +81,7 @@ export default {
       projectList: [
         {
           name: 'DDAOM 프로젝트',
-          img_url:
-            'https://i.pinimg.com/736x/c9/96/94/c996943a4a38652099e4189fc57f76ce.jpg',
+          img_url: require('../assets/cat.jpg'),
           peer: '이채원, 이종훈, 정혜리, 최진선',
           Date: ['2022. 08. 02', '2022. 08. 05'],
           desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
