@@ -20,7 +20,9 @@
         <li class="projectlist">
           <img class="mainphoto" :src="project.img_url" />
           <div class="projectinf">
-            <p class="with">함께하는 사람: {{ project.peer }}</p>
+            <div :key="i" v-for="(person, i) in project.peer">
+              <p class="with">함께하는 사람: {{ person }}</p>
+            </div>
             <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
             <div class="progress">
               <div
@@ -39,12 +41,12 @@
               <p class="with">
                 {{ project.desc }}
               </p>
-              <div>
-                관련 링크:
-                <!-- <a :href="project.link.chae"></a> -->
+              관련 링크 :
+              <div :key="i" v-for="(link, i) in project.links">
+                <a :href="link.url">{{ link.linkname }}</a>
               </div>
               <p></p>
-              <ul :key="v" v-for="(detail, v) in detailedProject">
+              <ul :key="v" v-for="(detail, v) in project.detailedProject">
                 <li class="detailedProject">
                   <p>
                     {{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~
@@ -71,6 +73,7 @@
 <script>
 // @ is an alias to /src
 import Frame from '@/components/Frame.vue'
+
 export default {
   name: '',
   components: {
@@ -82,20 +85,25 @@ export default {
         {
           name: 'DDAOM 프로젝트',
           img_url: require('../assets/cat.jpg'),
-          peer: '이채원, 이종훈, 정혜리, 최진선',
+          peer: ['이채원, 이종훈, 정혜리, 최진선'],
           Date: ['2022. 08. 02', '2022. 08. 05'],
           desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
-          link: {
-            chae: 'https://www.naver.com/',
-            ccc: 'https://www.naver.com/'
-          }
-        }
-      ],
-      detailedProject: [
-        {
-          name: '역할 분배',
-          Date: ['2022. 08. 02', '2022. 08. 02'],
-          completed: ['진행중', '완료']
+          links: [
+            { linkname: 'chae', url: 'https://www.naver.com/' },
+            { linkname: 'ccc', url: 'https://www.naver.com/' }
+          ],
+          detailedProject: [
+            {
+              name: '역할 분배',
+              Date: ['2022. 08. 02', '2022. 08. 02'],
+              completed: ['진행중', '완료']
+            },
+            {
+              name: '역할와~',
+              Date: ['2022. 08. 02', '2022. 08. 02'],
+              completed: ['진행중', '완료']
+            }
+          ]
         }
       ]
     }
@@ -118,7 +126,6 @@ export default {
 
 <style scoped>
 /*button*/
-
 #btnSubmit {
   border: 1px rgb(255, 255, 255) solid;
   border-radius: 20%;
@@ -127,7 +134,6 @@ export default {
   top: 50%;
   left: 20vw;
 }
-
 #projectButton {
   display: none;
 }
@@ -136,7 +142,6 @@ export default {
 * {
   list-style: none;
 }
-
 #bigbody {
   width: 100vw;
   height: 100vh;
@@ -166,7 +171,6 @@ section {
 .projectinf {
   width: 800px;
 }
-
 /* 프로젝트명 li */
 .projectname {
   margin-left: 200px;

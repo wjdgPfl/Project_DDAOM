@@ -35,8 +35,8 @@
         <p>필터</p>
         <ul :key="i" v-for="(project, i) in projectname">
           <li>
-            <input type="checkbox" name="" id="" />{{ projectname[i] }}
-            <!-- <v-color-picker v-model="color" /> -->
+            <input type="checkbox" name="" id="" />{{ project }}
+            <input type="color" :value="color[project]" />
           </li>
         </ul>
       </div>
@@ -53,7 +53,13 @@ export default {
     return {
       isnone: false,
       username: '채원',
-      projectname: ['qwe', 'project_1', 'chae', 'project_3']
+      projectname: ['qwe', 'project_1', 'chae', 'project_3'],
+      color: {
+        qwe: '#00ff00',
+        project_1: '#67AB27',
+        chae: '#ff9214',
+        project_3: '#000000'
+      }
     }
   },
   setup() {},
