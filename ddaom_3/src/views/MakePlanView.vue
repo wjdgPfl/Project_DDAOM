@@ -1,5 +1,5 @@
 <template>
-  <div id="bigbody">
+  <div>
     <Frame />
     <section>
       <div id="sectionBox">
@@ -31,6 +31,9 @@
               <option value="">프로젝트명</option>
               <option value="ddaom">따옴 프로젝트</option>
             </select>
+          </div>
+          <div class="typeOfPlan" id="makeProjectButton">
+            <button v-on:click="moveProjectPage()">+ 프로젝트 생성</button>
           </div>
         </div>
         <div class="sectionDiv" id="getProjectNameDiv">
@@ -175,6 +178,11 @@ export default {
       if (confirm('취소하시겠습니까?')) {
         this.$router.push('/main')
       }
+    },
+    moveProjectPage() {
+      if (confirm('프로젝트 생성 페이지로 이동하시겠습니까?')) {
+        this.$router.push('/makeproject')
+      }
     }
   }
 }
@@ -184,16 +192,15 @@ template {
   width: 100%;
 }
 
-#bigbody {
+/* #bigbody {
   width: 100%;
   height: 100vh;
   margin: 0;
-}
+} */
 
 section {
   margin: 0;
   padding: 0 5% 0 5%;
-  width: calc(100% - 250px);
   height: calc(100vh - 55px);
   background-color: white;
 
@@ -228,6 +235,12 @@ section {
 
 #projectList {
   visibility: hidden;
+}
+
+#makeProjectButton {
+  margin-left: 40%;
+  font-size: 15px;
+  color: rgb(53, 99, 16);
 }
 
 .sectionDiv {

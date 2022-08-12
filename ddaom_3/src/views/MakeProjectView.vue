@@ -1,9 +1,9 @@
 <template>
-  <div id="bigbody">
+  <div>
     <Frame />
     <section>
       <div id="sectionBox">
-        <div class="sectionDiv" style="color:grey">
+        <div class="sectionDiv" style="color: grey">
           * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
         </div>
         <div class="sectionDiv" id="getProjectNameDiv">
@@ -82,14 +82,18 @@
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
-          <input
-            type="file"
-            multiple="multiple"
-            id="addFile" />
+          <input type="file" multiple="multiple" id="addFile" />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
-          <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
-          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
+          <input
+            type="submit"
+            class="bottomButton"
+            id="save"
+            v-on:click="saveCheck()"
+          />
+          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">
+            취소
+          </button>
         </div>
       </div>
     </section>
@@ -145,7 +149,9 @@ export default {
       if (deadlineDate === startDate) {
         if (startDate === '') {
           todayCheckBox.checked = false
-        } else { todayCheckBox.checked = true }
+        } else {
+          todayCheckBox.checked = true
+        }
       } else {
         todayCheckBox.checked = false
       }
@@ -164,7 +170,11 @@ export default {
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
 
-      if (projectName === '' & addMembers === '' & (start === '' || deadline === '')) {
+      if (
+        (projectName === '') &
+        (addMembers === '') &
+        (start === '' || deadline === '')
+      ) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (projectName === '') {
         alert('프로젝트 제목을 입력해주세요.')
@@ -188,21 +198,20 @@ export default {
   }
 }
 </script>
-<style>
+<style scoped>
 template {
   width: 100%;
 }
 
-#bigbody {
+/* #bigbody {
   width: 100%;
   height: 100vh;
   margin: 0;
-}
+} */
 
 section {
   margin: 0;
   padding: 0 5% 0 5%;
-  width: calc(100% - 250px);
   height: calc(100vh - 55px);
   background-color: white;
 

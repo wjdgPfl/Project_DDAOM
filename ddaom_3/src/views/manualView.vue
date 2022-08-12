@@ -1,20 +1,35 @@
 <template>
-  <div id="bigbody">
+  <div>
     <Frame />
     <section>
       <div id="sectionBox">
-        <div class="sectionDiv" id="logoDiv">" DDAOM "</div>
-        <div class="sectionDiv" id="informationDiv">
-          <div id="subtitle">소제목</div>
-          <div id="information">따옴 설명</div>
+        <div class="manualDiv" id="logoDiv">
+          <span id="logo">
+            <img src="../assets/logo.png" />
+          </span>
         </div>
-        <div class="sectionDiv">
-          <div class="listDiv"></div>
-          <div class="listDiv"></div>
+        <div class="manualDiv" id="informationDiv">
+          <div id="subtitle">확실한 성취를 위한 스케줄러, 따옴</div>
+          <div id="information">
+            <span style="margin-bottom: 7px"
+              >"따옴"은 효율적인 일정 관리를 위한 스케줄 관리
+              사이트입니다.</span
+            >
+            <span
+              >개인 일정부터 프로젝트까지, 끝까지 완주할 수 있도록
+              도와드려요!</span
+            >
+          </div>
+        </div>
+        <div class="manualDiv">
           <div class="listDiv"></div>
           <div class="listDiv"></div>
         </div>
-        <div class="sectionDiv">둠다다</div>
+        <div class="manualDiv">
+          <div class="listDiv"></div>
+          <div class="listDiv"></div>
+        </div>
+        <div class="manualDiv"></div>
       </div>
     </section>
   </div>
@@ -29,26 +44,17 @@ export default {
   components: {
     Frame
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
-<style>
-
-template, #bigbody {
+<style scoped>
+template {
   width: 100%;
-}
-
-#bigbody {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
 }
 
 section {
   margin: 0;
   padding: 0 5% 0 5%;
-  width: calc(100% - 250px);
   height: calc(100vh - 55px);
   background-color: white;
 
@@ -65,17 +71,19 @@ section {
   flex-direction: column;
 }
 
-.sectionDiv {
+.manualDiv {
   margin-top: 40px;
   display: flex;
   justify-content: center;
 }
 
 .listDiv {
-  width: 200px;
+  width: 450px;
   height: 200px;
-  margin: 0 10px 0 10px;
-  background-color: blue;
+  margin: 0 10px 10px 10px;
+  background-color: rgb(53, 99, 16);
+  justify-content: center;
+  align-items: center;
 }
 
 #logoDiv {
@@ -94,5 +102,12 @@ section {
 #subtitle {
   font-size: 30px;
   font-weight: bold;
+}
+
+#information {
+  margin-top: 10px;
+  font-size: 17px;
+  display: flex;
+  flex-direction: column;
 }
 </style>

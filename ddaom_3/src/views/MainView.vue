@@ -1,6 +1,6 @@
 <template>
   <div id="bigbody">
-    <Frame />
+    <Frame @checkValue="filterCalendar" @projectColor="changeProjectColor" />
     <div id="app secondapp">
       <v-app id="inspire">
         <v-row class="fill-height">
@@ -151,7 +151,8 @@ export default {
     projects: [
       {
         name: 'qwe',
-        color: 'blue',
+        color: '#00ff00',
+        checked: true,
         plan: [
           {
             planName: 'Meeting',
@@ -166,8 +167,43 @@ export default {
         ]
       },
       {
+        name: 'project_1',
+        color: '#ff9214',
+        checked: false,
+        plan: [
+          {
+            planName: 'Meeting',
+            date: ['2022, 8, 2', '2022, 8, 3'],
+            details: 'dsads'
+          },
+          {
+            planName: 'wha',
+            date: ['2022, 8, 27', '2022, 8, 28'],
+            details: 'dsads'
+          }
+        ]
+      },
+      {
         name: 'chae',
-        color: 'yellow',
+        color: '#67AB27',
+        checked: false,
+        plan: [
+          {
+            planName: 'Meeting',
+            date: ['2022, 8, 2', '2022, 8, 3'],
+            details: 'dsads'
+          },
+          {
+            planName: 'wha',
+            date: ['2022, 8, 27', '2022, 8, 28'],
+            details: 'dsads'
+          }
+        ]
+      },
+      {
+        name: 'project_3',
+        color: '#7B9BE5',
+        checked: false,
         plan: [
           {
             planName: 'Meeting',
@@ -191,6 +227,26 @@ export default {
   },
   unmounted() {},
   methods: {
+    changeProjectColor(projectColor) {
+      for (const j in this.projects) {
+        const ject = this.projects[j]
+        if (ject.name === projectColor[0]) {
+          ject.color = projectColor[1]
+        }
+      }
+      this.updateRange()
+    },
+
+    filterCalendar(checkValue) {
+      for (const j in this.projects) {
+        const ject = this.projects[j]
+        if (ject.name === checkValue[0]) {
+          ject.checked = checkValue[1]
+        }
+      }
+      this.updateRange()
+    },
+
     editDesc() {
       const text = document.getElementById('selectText')
       text.readOnly = false
@@ -240,14 +296,10 @@ export default {
       nativeEvent.stopPropagation()
     },
 
-    updateRange({ start, end }) {
+    updateRange() {
       const events = []
 
       for (const j in this.projects) {
-        if (this.path === true) {
-          continue
-        }
-
         const project = this.projects[j]
         const eventlist = project.plan
         const eventCount = eventlist.length
@@ -260,31 +312,45 @@ export default {
 
           const firstmon = first.getMonth() + 1
           const secondmon = second.getMonth() + 1
-          events.push({
-            name: eventname,
-            start: first,
-            end: second,
-            color: project.color,
-            dateDetails:
-              '기간 : ' +
-              first.getFullYear() +
-              '년 ' +
-              firstmon +
-              '월 ' +
-              first.getDate() +
-              '일' +
-              ' ~ ' +
-              second.getFullYear() +
-              '년 ' +
-              secondmon +
-              '월 ' +
-              second.getDate() +
-              '일',
-            descDetails: Details
-          })
+          const projectname = project.name
+
+          if (project.checked === true) {
+            events.push({
+              project: projectname,
+              name: eventname,
+              start: first,
+              end: second,
+              color: project.color,
+              dateDetails:
+                '기간 : ' +
+                first.getFullYear() +
+                '년 ' +
+                firstmon +
+                '월 ' +
+                first.getDate() +
+                '일' +
+                ' ~ ' +
+                second.getFullYear() +
+                '년 ' +
+                secondmon +
+                '월 ' +
+                second.getDate() +
+                '일',
+              descDetails: Details
+            })
+          } else {
+            // checked가 false인 경우,
+            for (let k = 0; k < events.length; k++) {
+              if (events[k].project === projectname) {
+                alert('hj')
+                events.splice(k, 1)
+                k--
+              }
+            }
+          }
         }
+        this.events = events
       }
-      this.events = events
     }
   }
 }

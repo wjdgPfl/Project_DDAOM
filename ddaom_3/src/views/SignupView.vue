@@ -6,14 +6,20 @@
       <table class="signupContainer">
         <p></p>
         <tr>
-          <td style="color:grey">
+          <td style="color: grey">
             * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
           </td>
         </tr>
         <p></p>
         <tr>
           <td>
-           * 이름 : <input type="text" name="name" id="signup_name" style="margin-left: 8px" />
+            * 이름 :
+            <input
+              type="text"
+              name="name"
+              id="signup_name"
+              style="margin-left: 8px"
+            />
           </td>
         </tr>
         <p></p>
@@ -45,7 +51,7 @@
             <input
               v-model="signup.password"
               type="password"
-              id ="signup_password"
+              id="signup_password"
               maxlength="16"
               @blur="passwordValid"
             />
@@ -118,15 +124,20 @@ export default {
       const idSignup = document.getElementById('signup_id').value
       const passwordSignup = document.getElementById('signup_password').value
       const checkSignup = document.getElementById('signup_check').value
-      if (nameSignup === '' & idSignup === '' & passwordSignup === '' & checkSignup === '') {
+      if (
+        (nameSignup === '') &
+        (idSignup === '') &
+        (passwordSignup === '') &
+        (checkSignup === '')
+      ) {
         alert('필수항목이 입력되지 않았습니다. 다시 입력해 주세요.')
-      } else if ((nameSignup) === '') {
+      } else if (nameSignup === '') {
         alert('이름을 입력해주세요.')
-      } else if ((idSignup) === '') {
+      } else if (idSignup === '') {
         alert('ID를 입력해주세요.')
-      } else if ((passwordSignup) === '' & (this.passwordCheck) === '') {
+      } else if ((passwordSignup === '') & (this.passwordCheck === '')) {
         alert('비밀번호를 입력해주세요.')
-      } else if ((checkSignup) === '') {
+      } else if (checkSignup === '') {
         alert('비밀번호 확인을 입력해주세요.')
       } else {
         if (confirm('가입하시겠습니까?')) {

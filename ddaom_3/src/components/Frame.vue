@@ -33,10 +33,17 @@
       </div>
       <div id="filter">
         <p>필터</p>
-        <ul :key="i" v-for="(project, i) in projectname">
+        <ul :key="i" v-for="(project, i) in Projects">
           <li>
-            <input type="checkbox" name="" id="" />{{ project }}
-            <input type="color" :value="color[project]" />
+            <input type="checkbox" @change="updateParentValue(i)" />{{
+              project.name
+            }}
+            <input
+              type="color"
+              :value="project.color"
+              :id="project.name"
+              @change="changeColor(i)"
+            />
           </li>
         </ul>
       </div>
@@ -53,19 +60,39 @@ export default {
     return {
       isnone: false,
       username: '채원',
-      projectname: ['qwe', 'project_1', 'chae', 'project_3'],
-      color: {
-        qwe: '#00ff00',
-        project_1: '#67AB27',
-        chae: '#ff9214',
-        project_3: '#000000'
-      }
+      checkedproject: [false, false, false, false],
+      Projects: [
+        { name: 'qwe', color: '#00ff00', checked: false },
+        { name: 'project_1', color: '#ff9214', checked: false },
+        { name: 'chae', color: '#67AB27', checked: false },
+        { name: 'project_3', color: '#7B9BE5', checked: false }
+      ]
     }
   },
   setup() {},
   created() {},
   mounted() {},
   methods: {
+    updateParentValue(i) {
+      const checkValue = []
+      checkValue[0] = this.Projects[i].name
+      checkValue[1] = this.Projects[i].checked
+      if (checkValue[1] === false) {
+        checkValue[1] = true
+      } else {
+        checkValue[1] = false
+      }
+
+      this.$emit('checkValue', checkValue)
+    },
+    changeColor(i) {
+      const colorValue = []
+      colorValue[0] = this.Projects[i].name
+      colorValue[1] = document.getElementById(this.Projects[i].name).value
+      this.Projects[i].color = colorValue[1]
+
+      this.$emit('projectColor', colorValue)
+    },
     Isnone() {
       this.isnone = !this.isnone
     },
@@ -147,6 +174,7 @@ header {
   margin: 0px 15px 0px 0px;
   height: 30px;
   width: 90px;
+  border: none;
 }
 
 #infoButton {
