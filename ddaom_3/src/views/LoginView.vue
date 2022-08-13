@@ -5,11 +5,13 @@
       <span id="logo"><img src="../assets/logo.png" /></span>
       <div class="loginContainer">
         <label for="userID"><b>아이디</b></label>
-        <input type="text" placeholder="Enter ID" name="userID" required />
+        <input v-model="login.id" type="text" placeholder="Enter ID" id="login_id" name="userID" required />
         <label for="psw"><b>비밀번호</b></label>
         <input
+          v-model="login.password"
           type="password"
           placeholder="Enter Password"
+          id="login_pw"
           name="psw"
           required
         />
@@ -28,7 +30,10 @@ export default {
   components: {},
   data() {
     return {
-      sampleData: ''
+      login: {
+        id: null,
+        password: null
+      }
     }
   },
   setup() {},
@@ -40,7 +45,17 @@ export default {
       this.$router.push('/signup')
     },
     MoveMainPage() {
-      this.$router.push('/main')
+      const idLogin = document.getElementById('login_id').value
+      const passwordLogin = document.getElementById('login_pw').value
+
+      if (((idLogin === '' & passwordLogin === '')) || (idLogin === '')
+      ) {
+        alert('ID를 입력해주세요.')
+      } else if (passwordLogin === '') {
+        alert('비밀번호를 입력해주세요.')
+      } else {
+        this.$router.push('/main')
+      }
     },
     MovePassword() {
       this.$router.push('/password')
