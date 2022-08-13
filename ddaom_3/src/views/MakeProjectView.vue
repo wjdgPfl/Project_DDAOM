@@ -24,6 +24,7 @@
             class="inputBoxes"
             placeholder="팀원의 ID를 입력해주세요."
             style="width: 650px"
+            @keydown.enter="addMemberbyEnter('keydown')"
           />
           <input
             type="button"
@@ -161,6 +162,9 @@ export default {
           memberMent.setAttribute('style', 'display:contents')
         }
       })
+    },
+    addMemberbyEnter(val) {
+      this.addMember()
     },
     createNewLinkDiv() {
       const addNewLinkDiv = document.createElement('div')
