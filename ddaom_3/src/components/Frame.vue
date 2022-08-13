@@ -35,6 +35,7 @@
         <p>필터</p>
         <ul :key="i" v-for="(project, i) in Projects">
           <li>
+          <div class="filterList">
             <input type="checkbox" @change="updateParentValue(i)" />{{
               project.name
             }}
@@ -42,8 +43,11 @@
               type="color"
               :value="project.color"
               :id="project.name"
+              class="color"
               @change="changeColor(i)"
             />
+            </div>
+
           </li>
         </ul>
       </div>
@@ -221,9 +225,22 @@ nav {
 #filter p {
   margin-left: 20px;
 }
+
 #filter {
   margin-left: 20px;
 }
+
+.filterList {
+  display: flex;
+  justify-content: space-between;
+}
+
+.color {
+  width: 25px;
+  height: 25px;
+  margin-right: 20px;
+}
+
 input[type='checkbox'] {
   margin-right: 20px;
 }
