@@ -91,6 +91,7 @@
           <input type="submit" class="bottomButton" id="save" v-on:click="saveCheck()">
           <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">취소</button>
         </div>
+        <div class="sectionDiv"><button style="height:15px; width:15px"></button></div>
       </div>
     </section>
   </div>

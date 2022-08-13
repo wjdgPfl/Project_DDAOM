@@ -3,8 +3,14 @@
     <Frame />
     <section>
       <div id="sectionBox">
-        <div class="sectionDiv" style="color: grey">
-          * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
+        <div class="sectionDiv">
+          <div style="width:400px; color: grey; font-size:15px">
+            * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
+          </div>
+          <div style="width: calc(100% - 510px)"></div>
+          <div class="typeOfPlan" id="makeProjectButton" style="width:110px">
+            <button v-on:click="moveProjectPage()">+ 프로젝트 생성</button>
+          </div>
         </div>
         <div class="sectionDiv" id="typeOfPlanDiv">
           <sapn style="margin-right: 5px">*</sapn>
@@ -31,9 +37,6 @@
               <option value="">프로젝트명</option>
               <option value="ddaom">따옴 프로젝트</option>
             </select>
-          </div>
-          <div class="typeOfPlan" id="makeProjectButton">
-            <button v-on:click="moveProjectPage()">+ 프로젝트 생성</button>
           </div>
         </div>
         <div class="sectionDiv" id="getProjectNameDiv">
@@ -87,6 +90,7 @@
             취소
           </button>
         </div>
+        <div class="sectionDiv"><button style="height:15px; width:15px"></button></div>
       </div>
     </section>
   </div>
@@ -239,7 +243,6 @@ section {
 }
 
 #makeProjectButton {
-  margin-left: 40%;
   font-size: 15px;
   color: rgb(53, 99, 16);
 }
