@@ -23,20 +23,22 @@
             id="addMembers"
             class="inputBoxes"
             placeholder="팀원의 ID를 입력해주세요."
-            style="width:650px"
+            style="width: 650px"
           />
           <input
             type="button"
             id="submitButton"
             value="추가"
-            style="width:50px; margin-left: 15px;"
+            style="width: 50px; margin-left: 15px"
             v-on:click="addMember()"
           />
         </div>
         <div class="sectionDiv" id="memberListBox">
-          <div style="width: 110px;"></div>
-          <div style="width: 720px;" id="memberList">
-            <div id="noMembers">추가된 팀원이 없습니다. 팀원을 추가해주세요.</div>
+          <div style="width: 110px"></div>
+          <div style="width: 720px" id="memberList">
+            <div id="noMembers">
+              추가된 팀원이 없습니다. 팀원을 추가해주세요.
+            </div>
           </div>
         </div>
         <div class="sectionDiv" id="startDateDiv">
@@ -109,7 +111,9 @@
             취소
           </button>
         </div>
-        <div class="sectionDiv"><button style="height:15px; width:15px"></button></div>
+        <div class="sectionDiv">
+          <button style="height: 15px; width: 15px"></button>
+        </div>
       </div>
     </section>
   </div>
@@ -242,6 +246,7 @@ export default {
   }
 }
 </script>
+
 <style>
 template {
   width: 100%;

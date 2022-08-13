@@ -10,58 +10,57 @@
           </label>
         </div>
       </div>
-      <span id="projectButton">
-        <button type="button" id="btnSubmit">&nbsp;수정&nbsp;</button>
-        <button type="button" id="btnSubmit">&nbsp;완료&nbsp;</button>
-        <button type="button" id="btnSubmit">&nbsp;삭제&nbsp;</button>
-      </span>
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
-          <h4>{{ project.name }}</h4>
+          <div>
+            <h4>{{ project.name }}</h4>
+          </div>
         </li>
         <li class="projectlist">
-          <img class="mainphoto" :src="project.img_url" />
+          <div>
+            <img class="mainphoto" :src="project.img_url" />
+            <span :id="project.butt" style="display: none">
+              <button type="button" class="btnSubmit">&nbsp;수정&nbsp;</button>
+              <button type="button" class="btnSubmit">&nbsp;완료&nbsp;</button>
+              <button type="button" class="btnSubmit">&nbsp;삭제&nbsp;</button>
+            </span>
+          </div>
           <div class="projectinf">
-            <div :key="i" v-for="(person, i) in project.peer">
+            <div :key="t" v-for="(person, t) in project.peer">
               <p class="with">함께하는 사람: {{ person }}</p>
             </div>
             <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
             <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                style="width: 25%"
-                aria-valuenow="25"
-                aria-valuemin="0"
-                aria-valuemax="100"
-              >
+              <div class="progress-bar" role="progressbar" style="width: 20%">
                 25%
               </div>
             </div>
             <br />
-            <div id="viewmore">
+            <div :id="project.name" style="display: none">
               <p class="with">
                 {{ project.desc }}
               </p>
               관련 링크 :
-              <div :key="i" v-for="(link, i) in project.links">
+              <span
+                :key="j"
+                v-for="(link, j) in project.links"
+                class="linkSpan"
+              >
                 <a :href="link.url">{{ link.linkname }}</a>
+              </span>
+              <div :key="v" v-for="(detail, v) in project.detailedProject">
+                <div class="detailedProject">
+                  <v-icon small> mdi-check-bold </v-icon>&nbsp;
+                  {{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~
+                  {{ detail.Date[1] }}, &nbsp;{{ detail.completed[0] }}
+                </div>
               </div>
-              <p></p>
-              <ul :key="v" v-for="(detail, v) in project.detailedProject">
-                <li class="detailedProject">
-                  <p>
-                    {{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~
-                    {{ detail.Date[1] }}, &nbsp;{{ detail.completed[0] }}
-                  </p>
-                </li>
-              </ul>
             </div>
             <button
               type="button"
               class="btn btn-secondary btn-sm"
               style="float: right"
-              @click="openClose(this)"
+              @click="openClose(i)"
             >
               view more
             </button>
@@ -86,6 +85,33 @@ export default {
       projectList: [
         {
           name: 'DDAOM 프로젝트',
+          butt: '1',
+          img_url: require('../assets/cat.jpg'),
+          peer: ['이채원, 이종훈, 정혜리, 최진선'],
+          Date: ['2022. 08. 02', '2022. 08. 05'],
+          progress: "width: '25%'",
+          desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
+          links: [
+            { linkname: 'chae', url: 'https://www.naver.com/' },
+            { linkname: 'ccc', url: 'https://www.naver.com/' }
+          ],
+          detailedProject: [
+            {
+              name: '역할 분배',
+              Date: ['2022. 08. 02', '2022. 08. 02'],
+              completed: ['진행중', '완료']
+            },
+            {
+              name: '역할와~',
+              Date: ['2022. 08. 02', '2022. 08. 02'],
+              completed: ['진행중', '완료']
+            }
+          ]
+        },
+        {
+          name: 'ddaom',
+          butt: '2',
+          progress: ['width: "75%"'],
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
           Date: ['2022. 08. 02', '2022. 08. 05'],
@@ -111,14 +137,19 @@ export default {
     }
   },
   methods: {
-    openClose() {
-      if (document.getElementById('viewmore').style.display === 'block') {
-        document.getElementById('viewmore').style.display = 'none'
-        document.getElementById('projectButton').style.display = 'none'
+    openClose(k) {
+      if (
+        document.getElementById(this.projectList[k].name).style.display ===
+        'block'
+      ) {
+        document.getElementById(this.projectList[k].name).style.display = 'none'
+        document.getElementById(this.projectList[k].butt).style.display = 'none'
         // document.getElementById('toc-toggle').textContent = '보이기'
       } else {
-        document.getElementById('viewmore').style.display = 'block'
-        document.getElementById('projectButton').style.display = 'block'
+        document.getElementById(this.projectList[k].name).style.display =
+          'block'
+        document.getElementById(this.projectList[k].butt).style.display =
+          'block'
         // document.getElementById('toc-toggle').textContent = '숨기기'
       }
     }
@@ -128,17 +159,15 @@ export default {
 
 <style scoped>
 /*button*/
-#btnSubmit {
+.btnSubmit {
   border: 1px rgb(255, 255, 255) solid;
   border-radius: 20%;
   background-color: rgb(214, 214, 214);
-  position: relative;
-  top: 50%;
-  left: 20vw;
+
+  margin-top: 20px;
+  margin-right: 10px;
 }
-#projectButton {
-  display: none;
-}
+
 /*button*/
 /* < -- table --> */
 * {
@@ -162,7 +191,6 @@ section {
   height: 10rem;
   width: 10rem;
   margin-right: 100px;
-  /* margin-left: 200px; */
 }
 #viewmore {
   display: none;
@@ -172,59 +200,27 @@ section {
 }
 /* 프로젝트명 li */
 .projectname {
-  margin-left: 200px;
   margin-bottom: 20px;
 }
 /* 프로젝트 리스트 li */
 .projectlist {
   display: flex;
-  /* width: 1000px; */
   overflow: hidden;
 }
-@import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-.dropbtn_icon {
-  font-family: 'Material Icons';
-}
-.dropbtn {
-  border: 1px solid rgb(37, 37, 37);
-  border-radius: 4px;
-  background-color: #f5f5f5;
-  font-weight: 400;
-  color: rgb(37, 37, 37);
-  padding: 12px;
-  width: 200px;
-  text-align: left;
-  cursor: pointer;
-  font-size: 12px;
-}
-.dropdown-content {
-  display: none;
-  position: absolute;
-  z-index: 1; /*다른 요소들보다 앞에 배치*/
-  font-weight: 400;
-  background-color: #f9f9f9;
-  min-width: 200px;
-}
-.dropdown-content a {
-  display: block;
-  text-decoration: none;
-  color: rgb(37, 37, 37);
-  font-size: 12px;
-  padding: 12px 20px;
-}
-.dropdown-content a:hover {
-  background-color: #ececec;
-}
-.dropdown:hover .dropdown-content {
-  display: block;
-}
+
+/* 진행률 */
 .progress {
   width: 400px;
   height: 20px;
+}
+/* 링크 */
+.linkSpan {
+  margin-left: 8px;
+}
+
+/* 일정 */
+.detailedProject {
+  margin-top: 10px;
 }
 /*< -- table -->*/
 /*< -- toggle -->*/
