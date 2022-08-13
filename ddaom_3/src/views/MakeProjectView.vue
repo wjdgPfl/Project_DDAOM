@@ -17,13 +17,14 @@
           />
         </div>
         <div class="sectionDiv" id="addMembersDiv">
-          <span class="sectionText">* 팀원 추가 :</span>
+          <span class="sectionText">팀원 추가 :</span>
           <input
             type="text"
             id="addMembers"
             class="inputBoxes"
             placeholder="팀원의 ID를 입력해주세요."
             style="width: 650px"
+            @keydown.enter="addMemberbyEnter('keydown')"
           />
           <input
             type="button"
@@ -162,6 +163,9 @@ export default {
         }
       })
     },
+    addMemberbyEnter(val) {
+      this.addMember()
+    },
     createNewLinkDiv() {
       const addNewLinkDiv = document.createElement('div')
       addNewLinkDiv.className = 'linkSectionDiv'
@@ -218,20 +222,16 @@ export default {
     },
     saveCheck() {
       const projectName = document.getElementById('getProjectName').value
-      const addMembers = document.getElementById('addMembers').value
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
 
       if (
         (projectName === '') &
-        (addMembers === '') &
         (start === '' || deadline === '')
       ) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (projectName === '') {
         alert('프로젝트 제목을 입력해주세요.')
-      } else if (addMembers === '') {
-        alert('팀원을 추가해주세요.')
       } else if (start === '' || deadline === '') {
         alert('기간을 입력해주세요.')
       } else if (start > deadline) {
@@ -316,12 +316,11 @@ section {
 }
 
 #addedMember {
-  min-width: 115px;
+  min-width: 70px;
   width: max-content;
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 0 5px 0 5px;
-  text-align: center;
 }
 
 #removeIDbutton {
