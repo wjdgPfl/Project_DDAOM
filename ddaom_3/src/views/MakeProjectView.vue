@@ -214,19 +214,19 @@ export default {
     },
     saveCheck() {
       const projectName = document.getElementById('getProjectName').value
-      const addMembers = document.getElementById('addMembers').value
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
+      const number = document.querySelectorAll('#addedMember').length
 
       if (
         (projectName === '') &
-        (addMembers === '') &
+        (number === 0) &
         (start === '' || deadline === '')
       ) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (projectName === '') {
         alert('프로젝트 제목을 입력해주세요.')
-      } else if (addMembers === '') {
+      } else if (number === 0) {
         alert('팀원을 추가해주세요.')
       } else if (start === '' || deadline === '') {
         alert('기간을 입력해주세요.')
