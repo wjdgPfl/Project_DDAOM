@@ -38,11 +38,11 @@
         </tr>
         <p></p>
         <tr>
-          <td>
-            <p id="duplicate">ID중복 여부를 확인해주세요.</p>
-          </td>
           <span>
-            <button id="duplicate_button">&nbsp;ID 중복 검사&nbsp;</button>
+            <td>
+              <p id="duplicate">ID중복 여부를 확인해주세요.</p>
+            </td>
+              <button id="duplicate_button">&nbsp;ID 중복 검사&nbsp;</button>
           </span>
         </tr>
         <tr>
@@ -86,14 +86,14 @@
               가입하기
             </button>
           </td>
-          <span>
+          <td>
             <button id="backButton" @click="MoveBack()">
               <img
                 id="back"
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQrlVgUyXzl9ndi6xTSIQHZPsEB_N8E6w6fjg&usqp=CAU"
               />
             </button>
-          </span>
+          </td>
         </tr>
       </table>
     </div>
@@ -198,16 +198,14 @@ input[type='password'] {
   background-color: rgb(238, 235, 235);
   border: 1px solid rgb(172, 171, 171);
 }
-
 /*button*/
 #signupButton {
-  height: 100%;
-  width: 120%;
-  float: center;
   background-color: #fcc820;
   color: white;
+  padding: 14px 0;
   border: none;
   cursor: pointer;
+  width: 50vw;
 }
 #overlapButton {
   float: right;
@@ -221,17 +219,16 @@ button:hover {
 }
 /*img*/
 #back {
+  margin-left: 1vw;
   height: 100%;
-  width: 15px;
+  width: 2vw;
 }
-
 #logo {
   width: 40%;
   height: 30%;
   display: block;
   margin: 0px auto;
 }
-
 /* 중복여부 */
 #duplicate {
   color: red;
@@ -239,5 +236,6 @@ button:hover {
 #duplicate_button {
   background-color: rgb(238, 235, 235);
   border: 1px solid rgb(172, 171, 171);
+  float: right;
 }
 </style>
