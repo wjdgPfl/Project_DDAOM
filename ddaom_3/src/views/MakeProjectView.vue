@@ -246,7 +246,7 @@ export default {
   }
 }
 </script>
-<style scoped>
+<style>
 template {
   width: 100%;
 }
@@ -311,12 +311,11 @@ section {
 }
 
 #addedMember {
-  min-width: 115px;
+  min-width: 70px;
   width: max-content;
   margin-right: 10px;
   margin-bottom: 10px;
   padding: 0 5px 0 5px;
-  text-align: center;
 }
 
 #removeIDbutton {
