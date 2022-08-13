@@ -17,7 +17,7 @@
           />
         </div>
         <div class="sectionDiv" id="addMembersDiv">
-          <span class="sectionText">* 팀원 추가 :</span>
+          <span class="sectionText">팀원 추가 :</span>
           <input
             type="text"
             id="addMembers"
@@ -216,18 +216,14 @@ export default {
       const projectName = document.getElementById('getProjectName').value
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
-      const number = document.querySelectorAll('#addedMember').length
 
       if (
         (projectName === '') &
-        (number === 0) &
         (start === '' || deadline === '')
       ) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (projectName === '') {
         alert('프로젝트 제목을 입력해주세요.')
-      } else if (number === 0) {
-        alert('팀원을 추가해주세요.')
       } else if (start === '' || deadline === '') {
         alert('기간을 입력해주세요.')
       } else if (start > deadline) {
