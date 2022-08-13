@@ -10,7 +10,6 @@
           </label>
         </div>
       </div>
-
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
           <div>
@@ -32,11 +31,7 @@
             </div>
             <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
             <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                :style="project.progress"
-              >
+              <div class="progress-bar" role="progressbar" style="width: 20%">
                 25%
               </div>
             </div>
