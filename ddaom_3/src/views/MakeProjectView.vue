@@ -23,7 +23,21 @@
             id="addMembers"
             class="inputBoxes"
             placeholder="팀원의 ID를 입력해주세요."
+            style="width:650px"
           />
+          <input
+            type="button"
+            id="submitButton"
+            value="추가"
+            style="width:50px; margin-left: 15px;"
+            v-on:click="addMember()"
+          />
+        </div>
+        <div class="sectionDiv" id="memberListBox">
+          <div style="width: 110px;"></div>
+          <div style="width: 720px;" id="memberList">
+            <div id="noMembers">추가된 팀원이 없습니다. 팀원을 추가해주세요.</div>
+          </div>
         </div>
         <div class="sectionDiv" id="startDateDiv">
           <span class="sectionText">* 시작 일자 :</span>
@@ -107,6 +121,39 @@ export default {
     Frame
   },
   methods: {
+    addMember() {
+      const memberID = document.getElementById('addMembers').value
+      const memberList = document.getElementById('memberList')
+      const addedMember = document.createElement('button')
+      addedMember.className = 'inputBoxes'
+      addedMember.setAttribute('id', 'addedMember')
+      const memberMent = document.getElementById('noMembers')
+      const removeIDButton = document.createElement('button')
+      removeIDButton.setAttribute('id', 'removeIDbutton')
+      removeIDButton.innerText = 'X'
+
+      if (memberID === '') {
+        alert('팀원의 아이디를 입력해주세요.')
+      } else {
+        memberMent.setAttribute('style', 'display:none;')
+        memberList.appendChild(addedMember)
+        addedMember.innerText = memberID
+        addedMember.appendChild(removeIDButton)
+        document.getElementById('addMembers').value = ''
+      }
+
+      removeIDButton.addEventListener('click', function () {
+        const parentID = this.parentElement
+        const ID = parentID.innerText.slice(0, -1)
+        if (confirm(ID + '님을 삭제하시겠습니까?')) {
+          parentID.remove()
+        }
+        const number = document.querySelectorAll('#addedMember').length
+        if (number === 0) {
+          memberMent.setAttribute('style', 'display:contents')
+        }
+      })
+    },
     createNewLinkDiv() {
       const addNewLinkDiv = document.createElement('div')
       addNewLinkDiv.className = 'linkSectionDiv'
@@ -247,6 +294,27 @@ section {
 #getProjectName,
 #addMembers {
   width: 720px;
+}
+
+#noMembers {
+  display: contents;
+  width: 100%;
+}
+
+#addedMember {
+  min-width: 115px;
+  width: max-content;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 0 5px 0 5px;
+  text-align: center;
+}
+
+#removeIDbutton {
+  width: 9px;
+  font-size: 10px;
+  margin-left: 15px;
+  color: gray;
 }
 
 #projectDetail {
