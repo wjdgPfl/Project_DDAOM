@@ -10,19 +10,20 @@
           </label>
         </div>
       </div>
-      <span id="projectButton">
-        <button type="button" id="btnSubmit">&nbsp;수정&nbsp;</button>
-        <button type="button" id="btnSubmit">&nbsp;완료&nbsp;</button>
-        <button type="button" id="btnSubmit">&nbsp;삭제&nbsp;</button>
-      </span>
+
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
+          <span :id="project.butt" style="display: none">
+            <button type="button" id="btnSubmit">&nbsp;수정&nbsp;</button>
+            <button type="button" id="btnSubmit">&nbsp;완료&nbsp;</button>
+            <button type="button" id="btnSubmit">&nbsp;삭제&nbsp;</button>
+          </span>
           <h4>{{ project.name }}</h4>
         </li>
         <li class="projectlist">
           <img class="mainphoto" :src="project.img_url" />
           <div class="projectinf">
-            <div :key="i" v-for="(person, i) in project.peer">
+            <div :key="t" v-for="(person, t) in project.peer">
               <p class="with">함께하는 사람: {{ person }}</p>
             </div>
             <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
@@ -39,12 +40,12 @@
               </div>
             </div>
             <br />
-            <div id="viewmore">
+            <div :id="project.name" style="display: none">
               <p class="with">
                 {{ project.desc }}
               </p>
               관련 링크 :
-              <div :key="i" v-for="(link, i) in project.links">
+              <div :key="j" v-for="(link, j) in project.links">
                 <a :href="link.url">{{ link.linkname }}</a>
               </div>
               <p></p>
@@ -61,7 +62,7 @@
               type="button"
               class="btn btn-secondary btn-sm"
               style="float: right"
-              @click="openClose(this)"
+              @click="openClose(i)"
             >
               view more
             </button>
@@ -86,6 +87,32 @@ export default {
       projectList: [
         {
           name: 'DDAOM 프로젝트',
+          butt: '1',
+          img_url: require('../assets/cat.jpg'),
+          peer: ['이채원, 이종훈, 정혜리, 최진선'],
+          Date: ['2022. 08. 02', '2022. 08. 05'],
+          desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
+          links: [
+            { linkname: 'chae', url: 'https://www.naver.com/' },
+            { linkname: 'ccc', url: 'https://www.naver.com/' }
+          ],
+          detailedProject: [
+            {
+              name: '역할 분배',
+              Date: ['2022. 08. 02', '2022. 08. 02'],
+              completed: ['진행중', '완료']
+            },
+            {
+              name: '역할와~',
+              Date: ['2022. 08. 02', '2022. 08. 02'],
+              completed: ['진행중', '완료']
+            }
+          ]
+        },
+        {
+          name: 'ddaom',
+          butt: '2',
+
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
           Date: ['2022. 08. 02', '2022. 08. 05'],
@@ -111,14 +138,19 @@ export default {
     }
   },
   methods: {
-    openClose() {
-      if (document.getElementById('viewmore').style.display === 'block') {
-        document.getElementById('viewmore').style.display = 'none'
-        document.getElementById('projectButton').style.display = 'none'
+    openClose(k) {
+      if (
+        document.getElementById(this.projectList[k].name).style.display ===
+        'block'
+      ) {
+        document.getElementById(this.projectList[k].name).style.display = 'none'
+        document.getElementById(this.projectList[k].butt).style.display = 'none'
         // document.getElementById('toc-toggle').textContent = '보이기'
       } else {
-        document.getElementById('viewmore').style.display = 'block'
-        document.getElementById('projectButton').style.display = 'block'
+        document.getElementById(this.projectList[k].name).style.display =
+          'block'
+        document.getElementById(this.projectList[k].butt).style.display =
+          'block'
         // document.getElementById('toc-toggle').textContent = '숨기기'
       }
     }
