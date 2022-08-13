@@ -343,8 +343,7 @@ export default {
             for (let k = 0; k < events.length; k++) {
               if (events[k].project === projectname) {
                 alert('hj')
-                events.splice(k, 1)
-                k--
+                events.slice(k)
               }
             }
           }
