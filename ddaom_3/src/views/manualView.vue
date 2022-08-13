@@ -1,18 +1,24 @@
 <template>
-  <div id="bigbody">
+  <div>
     <Frame />
     <section>
       <div id="sectionBox">
         <div class="manualDiv" id="logoDiv">
           <span id="logo">
             <img src="../assets/logo.png" />
-            </span>
-          </div>
+          </span>
+        </div>
         <div class="manualDiv" id="informationDiv">
           <div id="subtitle">확실한 성취를 위한 스케줄러, 따옴</div>
           <div id="information">
-            <span style="margin-bottom:7px">"따옴"은 효율적인 일정 관리를 위한 스케줄 관리 사이트입니다.</span>
-            <span>개인 일정부터 프로젝트까지, 끝까지 완주할 수 있도록 도와드려요!</span>
+            <span style="margin-bottom: 7px"
+              >"따옴"은 효율적인 일정 관리를 위한 스케줄 관리
+              사이트입니다.</span
+            >
+            <span
+              >개인 일정부터 프로젝트까지, 끝까지 완주할 수 있도록
+              도와드려요!</span
+            >
           </div>
         </div>
         <div class="manualDiv">
@@ -38,26 +44,17 @@ export default {
   components: {
     Frame
   },
-  methods: {
-  }
+  methods: {}
 }
 </script>
-<style>
-
-template, #bigbody {
+<style scoped>
+template {
   width: 100%;
-}
-
-#bigbody {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
 }
 
 section {
   margin: 0;
   padding: 0 5% 0 5%;
-  width: calc(100% - 250px);
   height: calc(100vh - 55px);
   background-color: white;
 

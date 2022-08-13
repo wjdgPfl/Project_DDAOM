@@ -1,13 +1,15 @@
 <template>
   <div id="bigbody">
     <Frame />
-    <div class="toggle_box">
-      <input type="checkbox" id="custom_input" />
-      <label for="custom_input" class="toggle_btn_label">
-        <span></span>
-      </label>
-    </div>
     <section>
+      <div id="togggle">
+        <div class="toggle_box">
+          <input type="checkbox" id="custom_input" />
+          <label for="custom_input" class="toggle_btn_label">
+            <span></span>
+          </label>
+        </div>
+      </div>
       <span id="projectButton">
         <button type="button" id="btnSubmit">&nbsp;수정&nbsp;</button>
         <button type="button" id="btnSubmit">&nbsp;완료&nbsp;</button>
@@ -142,14 +144,11 @@ export default {
 * {
   list-style: none;
 }
-#bigbody {
-  width: 100vw;
-  height: 100vh;
-  margin: 0;
+template {
+  width: 100%;
 }
 section {
   margin: 0px;
-  width: calc(100vw - 250px);
   height: calc(100vh - 55px);
   background-color: white;
   display: flex;
@@ -163,13 +162,13 @@ section {
   height: 10rem;
   width: 10rem;
   margin-right: 100px;
-  margin-left: 200px;
+  /* margin-left: 200px; */
 }
 #viewmore {
   display: none;
 }
 .projectinf {
-  width: 800px;
+  width: 50vw;
 }
 /* 프로젝트명 li */
 .projectname {
@@ -229,13 +228,12 @@ section {
 }
 /*< -- table -->*/
 /*< -- toggle -->*/
+#togggle {
+  width: 70vw;
+}
 .toggle_box {
   float: right;
-  display: flex;
-  align-items: right;
-  z-index: -1;
   margin-top: 20px;
-  margin-right: 40px;
 }
 #custom_input {
   display: none;

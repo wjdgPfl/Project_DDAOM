@@ -1,5 +1,5 @@
 <template>
-  <div id="bigbody">
+  <div>
     <Frame />
     <section>
       <div id="sectionBox">
@@ -192,16 +192,15 @@ template {
   width: 100%;
 }
 
-#bigbody {
+/* #bigbody {
   width: 100%;
   height: 100vh;
   margin: 0;
-}
+} */
 
 section {
   margin: 0;
   padding: 0 5% 0 5%;
-  width: calc(100% - 250px);
   height: calc(100vh - 55px);
   background-color: white;
 
