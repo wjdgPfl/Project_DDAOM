@@ -115,7 +115,7 @@ export default {
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
           Date: ['2022. 08. 02', '2022. 08. 05'],
-          desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
+          desc: '짜잔~',
           links: [
             { linkname: 'chae', url: 'https://www.naver.com/' },
             { linkname: 'ccc', url: 'https://www.naver.com/' }

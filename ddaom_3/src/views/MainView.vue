@@ -151,8 +151,8 @@ export default {
     projects: [
       {
         name: 'qwe',
-        color: '#00ff00',
-        checked: true,
+        color: '#FF99D4',
+        checked: false,
         plan: [
           {
             planName: 'Meeting',
@@ -168,7 +168,7 @@ export default {
       },
       {
         name: 'project_1',
-        color: '#ff9214',
+        color: '#82D3D9',
         checked: false,
         plan: [
           {
@@ -185,17 +185,17 @@ export default {
       },
       {
         name: 'chae',
-        color: '#67AB27',
+        color: '#AB8EC7',
         checked: false,
         plan: [
           {
             planName: 'Meeting',
-            date: ['2022, 8, 2', '2022, 8, 3'],
+            date: ['2022, 8, 21', '2022, 8, 23'],
             details: 'dsads'
           },
           {
             planName: 'wha',
-            date: ['2022, 8, 27', '2022, 8, 28'],
+            date: ['2022, 8, 11', '2022, 8, 12'],
             details: 'dsads'
           }
         ]
@@ -207,12 +207,12 @@ export default {
         plan: [
           {
             planName: 'Meeting',
-            date: ['2022, 8, 2', '2022, 8, 3'],
+            date: ['2022, 8, 12', '2022, 8, 13'],
             details: 'dsads'
           },
           {
             planName: 'wha',
-            date: ['2022, 8, 27', '2022, 8, 28'],
+            date: ['2022, 8, 7', '2022, 8, 8'],
             details: 'dsads'
           }
         ]

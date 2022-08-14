@@ -35,19 +35,18 @@
         <p>필터</p>
         <ul :key="i" v-for="(project, i) in Projects">
           <li>
-          <div class="filterList">
-            <input type="checkbox" @change="updateParentValue(i)" />{{
-              project.name
-            }}
-            <input
-              type="color"
-              :value="project.color"
-              :id="project.name"
-              class="color"
-              @change="changeColor(i)"
-            />
+            <div class="filterList">
+              <input type="checkbox" @change="updateParentValue(i)" />{{
+                project.name
+              }}
+              <input
+                type="color"
+                :value="project.color"
+                :id="project.name"
+                class="color"
+                @change="changeColor(i)"
+              />
             </div>
-
           </li>
         </ul>
       </div>
@@ -64,11 +63,10 @@ export default {
     return {
       isnone: false,
       username: '채원',
-      checkedproject: [false, false, false, false],
       Projects: [
-        { name: 'qwe', color: '#00ff00', checked: false },
-        { name: 'project_1', color: '#ff9214', checked: false },
-        { name: 'chae', color: '#67AB27', checked: false },
+        { name: 'qwe', color: '#FF99D4', checked: false },
+        { name: 'project_1', color: '#82D3D9', checked: false },
+        { name: 'chae', color: '#AB8EC7', checked: false },
         { name: 'project_3', color: '#7B9BE5', checked: false }
       ]
     }
@@ -83,10 +81,11 @@ export default {
       checkValue[1] = this.Projects[i].checked
       if (checkValue[1] === false) {
         checkValue[1] = true
-      } else {
+        this.Projects[i].checked = true
+      } else if (checkValue[1] === true) {
         checkValue[1] = false
+        this.Projects[i].checked = false
       }
-
       this.$emit('checkValue', checkValue)
     },
     changeColor(i) {
