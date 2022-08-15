@@ -225,10 +225,7 @@ export default {
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
 
-      if (
-        (projectName === '') &
-        (start === '' || deadline === '')
-      ) {
+      if ((projectName === '') & (start === '' || deadline === '')) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (projectName === '') {
         alert('프로젝트 제목을 입력해주세요.')

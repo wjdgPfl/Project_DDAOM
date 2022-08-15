@@ -1,126 +1,134 @@
 <template>
   <div id="bigbody">
     <Frame @checkValue="filterCalendar" @projectColor="changeProjectColor" />
-    <div id="app secondapp">
-      <v-app id="inspire">
-        <v-row class="fill-height">
-          <v-col>
-            <!-- 캘린더 상단바 -->
-            <v-sheet height="64">
-              <v-toolbar flat>
-                <v-btn outlined class="mr-4 navbutton" @click="setToday">
-                  Today
-                </v-btn>
-                <v-btn fab text small color="grey darken-2" @click="prev">
-                  <v-icon small> mdi-chevron-left </v-icon>
-                </v-btn>
-                <v-btn fab text small color="grey darken-2" @click="next">
-                  <v-icon small> mdi-chevron-right </v-icon>
-                </v-btn>
-                <v-toolbar-title v-if="$refs.calendar">
-                  {{ $refs.calendar.title }}
-                </v-toolbar-title>
-                <v-spacer></v-spacer>
-                <!-- 드롭다운 (month, day, week) -->
-                <v-menu bottom right>
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn outlined v-bind="attrs" v-on="on" class="navbutton">
-                      <span>{{ typeToLabel[type] }}</span>
-                      <v-icon right> mdi-menu-down </v-icon>
-                    </v-btn>
-                  </template>
-                  <v-list>
-                    <v-list-item @click="type = 'day'">
-                      <v-list-item-title>Day</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = 'week'">
-                      <v-list-item-title>Week</v-list-item-title>
-                    </v-list-item>
-                    <v-list-item @click="type = 'month'">
-                      <v-list-item-title>Month</v-list-item-title>
-                    </v-list-item>
-                  </v-list>
-                </v-menu>
-              </v-toolbar>
-            </v-sheet>
-            <!-- 메인 캘린더 -->
-            <v-sheet height="calc(100vh - 119px)">
-              <v-calendar
-                ref="calendar"
-                v-model="focus"
-                color="primary"
-                :events="events"
-                :event-color="getEventColor"
-                :type="type"
-                @click:event="showEvent"
-                @click:more="viewDay"
-                @click:date="viewDay"
-                @change="updateRange"
-              ></v-calendar>
-              <v-menu
-                v-model="selectedOpen"
-                :close-on-content-click="false"
-                :activator="selectedElement"
-                offset-x
-              >
-                <!-- 레이어 -->
-                <v-card color="grey lighten-4" min-width="350px" flat>
-                  <!-- 레이어 상단 -->
-                  <v-toolbar :color="selectedEvent.color" dark>
-                    <v-toolbar-title
-                      v-html="selectedEvent.name"
-                    ></v-toolbar-title>
-                    <v-spacer></v-spacer>
-                    <v-btn icon @click="editDesc()">
-                      <v-icon>mdi-pencil</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="saveDesc()">
-                      <v-icon>mdi-content-save</v-icon>
-                    </v-btn>
-                    <v-btn icon @click="remove()">
-                      <v-icon>mdi-trash-can</v-icon>
-                    </v-btn>
-                  </v-toolbar>
-                  <!-- 레이어 내용 -->
-
-                  <v-card-text style="height: 120px">
-                    <!-- <input
-                        id="selectInput"
-                        type="text"
-                        readonly
-                        :value="selectedEvent.dateDetails"
-                      /> -->
-                    <span v-html="selectedEvent.dateDetails"></span>
-                    <div>
-                      내용 :
-                      <textarea
-                        id="selectText"
-                        readonly
-                        :value="selectedEvent.descDetails"
-                        style="resize: none"
-                        rows="3"
+    <div id="heightt">
+      <div id="app">
+        <v-app id="inspire">
+          <v-row class="fill-height">
+            <v-col>
+              <!-- 캘린더 상단바 -->
+              <v-sheet height="64">
+                <v-toolbar flat>
+                  <v-btn outlined class="mr-4 navbutton" @click="setToday">
+                    Today
+                  </v-btn>
+                  <v-btn fab text small color="grey darken-2" @click="prev">
+                    <v-icon small> mdi-chevron-left </v-icon>
+                  </v-btn>
+                  <v-btn fab text small color="grey darken-2" @click="next">
+                    <v-icon small> mdi-chevron-right </v-icon>
+                  </v-btn>
+                  <v-toolbar-title v-if="$refs.calendar">
+                    {{ $refs.calendar.title }}
+                  </v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <!-- 드롭다운 (month, day, week) -->
+                  <v-menu bottom right>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        outlined
+                        v-bind="attrs"
+                        v-on="on"
+                        class="navbutton"
                       >
-                      </textarea>
-                    </div>
-                  </v-card-text>
-                  <v-card-actions>
-                    <v-btn
-                      text
-                      color="secondary"
-                      @click="selectedOpen = false"
-                      id="cancelbutton"
-                    >
-                      Cancel
-                    </v-btn>
-                    <v-checkbox text color="secondary"> </v-checkbox>
-                    <p style="margin-top: 18px">FINISH</p>
-                  </v-card-actions>
-                </v-card>
-              </v-menu>
-            </v-sheet>
-          </v-col>
-        </v-row>
-      </v-app>
+                        <span>{{ typeToLabel[type] }}</span>
+                        <v-icon right> mdi-menu-down </v-icon>
+                      </v-btn>
+                    </template>
+                    <v-list>
+                      <v-list-item @click="type = 'day'">
+                        <v-list-item-title>Day</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = 'week'">
+                        <v-list-item-title>Week</v-list-item-title>
+                      </v-list-item>
+                      <v-list-item @click="type = 'month'">
+                        <v-list-item-title>Month</v-list-item-title>
+                      </v-list-item>
+                    </v-list>
+                  </v-menu>
+                </v-toolbar>
+              </v-sheet>
+              <!-- 메인 캘린더 -->
+              <v-sheet height="calc(100vh - 119px)">
+                <v-calendar
+                  ref="calendar"
+                  v-model="focus"
+                  color="primary"
+                  :events="events"
+                  :event-color="getEventColor"
+                  :type="type"
+                  @click:event="showEvent"
+                  @click:more="viewDay"
+                  @click:date="viewDay"
+                  @change="updateRange"
+                ></v-calendar>
+                <v-menu
+                  v-model="selectedOpen"
+                  :close-on-content-click="false"
+                  :activator="selectedElement"
+                  offset-x
+                >
+                  <!-- 레이어 -->
+                  <v-card
+                    color="grey lighten-4"
+                    min-width="350px"
+                    flat
+                    id="cardwidth"
+                  >
+                    <!-- 레이어 상단 -->
+                    <v-toolbar :color="selectedEvent.color" dark>
+                      <v-toolbar-title
+                        v-html="selectedEvent.name"
+                      ></v-toolbar-title>
+                      <v-spacer></v-spacer>
+                      <v-btn icon @click="editDesc()">
+                        <v-icon>mdi-pencil</v-icon>
+                      </v-btn>
+                      <v-btn icon @click="saveDesc()">
+                        <v-icon>mdi-content-save</v-icon>
+                      </v-btn>
+                      <v-btn icon @click="remove()">
+                        <v-icon>mdi-trash-can</v-icon>
+                      </v-btn>
+                    </v-toolbar>
+                    <!-- 레이어 내용 -->
+
+                    <v-card-text style="height: 120px">
+                      <span v-html="selectedEvent.dateDetails"></span>
+                      <div>
+                        내용 :
+                        <textarea
+                          id="selectText"
+                          readonly
+                          :value="selectedEvent.descDetails"
+                          style="resize: none"
+                          rows="3"
+                        >
+                        </textarea>
+                      </div>
+                    </v-card-text>
+                    <v-card-actions>
+                      <v-btn
+                        text
+                        color="secondary"
+                        @click="selectedOpen = false"
+                        id="cancelbutton"
+                      >
+                        Cancel
+                      </v-btn>
+                      <div id="finish">
+                        <p style="margin-top: 18px" id="finishcheck">FINISH</p>
+                        <v-checkbox text color="secondary"> </v-checkbox>
+                      </div>
+                    </v-card-actions>
+                  </v-card>
+                </v-menu>
+              </v-sheet>
+            </v-col>
+          </v-row>
+        </v-app>
+      </div>
     </div>
   </div>
 </template>
@@ -356,6 +364,18 @@ export default {
 </script>
 
 <style scoped>
+#finishcheck {
+  float: left;
+  margin-right: 5px;
+}
+.v-card__actions {
+  justify-content: space-between;
+}
+#heightt {
+  margin: 0;
+  height: calc(100vh - 55px);
+  overflow: hidden;
+}
 .navbutton {
   background-color: white;
   border: 1px solid rgb(84, 84, 84);
@@ -369,5 +389,11 @@ export default {
 #selectText {
   width: 100%;
   height: 100%;
+}
+#cancelbutton {
+  float: left;
+}
+#finish {
+  float: right;
 }
 </style>
