@@ -13,15 +13,25 @@
       <ul :key="i" v-for="(project, i) in projectList">
         <li class="projectname">
           <div>
-            <h4>{{ project.name }}</h4>
+            <input
+              type="text"
+              :value="project.name"
+              :id="project.view"
+              readonly
+              class="title"
+            />
           </div>
         </li>
         <li class="projectlist">
           <div>
             <img class="mainphoto" :src="project.img_url" />
             <span :id="project.butt" style="display: none">
-              <button type="button" class="btnSubmit">&nbsp;수정&nbsp;</button>
-              <button type="button" class="btnSubmit">&nbsp;완료&nbsp;</button>
+              <button type="button" class="btnSubmit" @click="readOnlyTrue(i)">
+                &nbsp;수정&nbsp;
+              </button>
+              <button type="button" class="btnSubmit" @click="readOnlyFalse(i)">
+                &nbsp;완료&nbsp;
+              </button>
               <button type="button" class="btnSubmit">&nbsp;삭제&nbsp;</button>
             </span>
           </div>
@@ -37,9 +47,14 @@
             </div>
             <br />
             <div :id="project.name" style="display: none">
-              <p class="with">
-                {{ project.desc }}
-              </p>
+              <textarea
+                class="with"
+                :id="project.view"
+                :value="project.desc"
+                readonly
+                style="resize: none; width: 50vw"
+                rows="5"
+              ></textarea>
               관련 링크 :
               <span
                 :key="j"
@@ -47,6 +62,14 @@
                 class="linkSpan"
               >
                 <a :href="link.url">{{ link.linkname }}</a>
+                <div :class="project.name" style="display: none">
+                  <input
+                    type="text"
+                    :value="link.linkname"
+                    style="width: 50vw"
+                  />
+                  <input type="text" :value="link.url" style="width: 50vw" />
+                </div>
               </span>
               <div :key="v" v-for="(detail, v) in project.detailedProject">
                 <div class="detailedProject">
@@ -85,7 +108,7 @@ export default {
       projectList: [
         {
           name: 'DDAOM 프로젝트',
-          butt: '1',
+          view: 'a',
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
           Date: ['2022. 08. 02', '2022. 08. 05'],
@@ -110,7 +133,7 @@ export default {
         },
         {
           name: 'ddaom',
-          butt: '2',
+          view: 'b',
           progress: ['width: "75%"'],
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
@@ -138,19 +161,32 @@ export default {
   },
   methods: {
     openClose(k) {
-      if (
-        document.getElementById(this.projectList[k].name).style.display ===
-        'block'
-      ) {
-        document.getElementById(this.projectList[k].name).style.display = 'none'
-        document.getElementById(this.projectList[k].butt).style.display = 'none'
-        // document.getElementById('toc-toggle').textContent = '보이기'
+      // 부모의 이전형제의 두번째 자식
+      const projectName = document.getElementById(this.projectList[k].name)
+      const buttons =
+        projectName.parentElement.previousElementSibling.childNodes[1]
+      if (projectName.style.display === 'block') {
+        projectName.style.display = 'none'
+        buttons.style.display = 'none'
       } else {
-        document.getElementById(this.projectList[k].name).style.display =
-          'block'
-        document.getElementById(this.projectList[k].butt).style.display =
-          'block'
-        // document.getElementById('toc-toggle').textContent = '숨기기'
+        projectName.style.display = 'block'
+        buttons.style.display = 'block'
+      }
+    },
+    readOnlyTrue(k) {
+      const project = this.projectList[k]
+      const link = document.getElementsByClassName(project.name)
+      for (let i = 0; i < link.length; i++) {
+        link[i].style.display = 'block'
+        link[i].previousElementSibling.style.display = 'none'
+      }
+    },
+    readOnlyFalse(k) {
+      const project = this.projectList[k]
+      const link = document.getElementsByClassName(project.name)
+      for (let i = 0; i < link.length; i++) {
+        link[i].style.display = 'none'
+        link[i].previousElementSibling.style.display = 'block'
       }
     }
   }
@@ -281,5 +317,11 @@ section {
 #custom_input:disabled + label.toggle_btn_label {
   display: none;
 }
+
 /*< -- toggle -->*/
+
+.title {
+  font-size: 30px;
+  font-weight: bold;
+}
 </style>
