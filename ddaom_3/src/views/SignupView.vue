@@ -82,6 +82,18 @@
         <p></p>
         <tr>
           <td>
+            * e-mail :
+            <input
+              type="text"
+              name="email"
+              id="signup_email"
+              style="margin-left: 8px"
+            />
+          </td>
+        </tr>
+        <p></p>
+        <tr>
+          <td>
             <button id="signupButton" type="submit" @click="MoveLogin()">
               가입하기
             </button>
@@ -124,11 +136,14 @@ export default {
       const idSignup = document.getElementById('signup_id').value
       const passwordSignup = document.getElementById('signup_password').value
       const checkSignup = document.getElementById('signup_check').value
+      const emailSignup = document.getElementById('signup_email').value
+
       if (
         (nameSignup === '') &
         (idSignup === '') &
         (passwordSignup === '') &
-        (checkSignup === '')
+        (checkSignup === '') &
+        (emailSignup === '')
       ) {
         alert('필수항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (nameSignup === '') {
@@ -139,6 +154,8 @@ export default {
         alert('비밀번호를 입력해주세요.')
       } else if (checkSignup === '') {
         alert('비밀번호 확인을 입력해주세요.')
+      } else if (emailSignup === '') {
+        alert('이메일을 입력해주세요.')
       } else {
         if (confirm('가입하시겠습니까?')) {
           alert('회원가입 성공!')
@@ -172,10 +189,6 @@ export default {
 <style scoped>
 body {
   font-family: Arial, Helvetica, sans-serif;
-}
-/* header */
-h2 {
-  text-align: center;
 }
 /* container */
 .totalContainer {
@@ -224,8 +237,10 @@ button:hover {
   width: 2vw;
 }
 #logo {
-  width: 40%;
-  height: 30%;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translate(-50%, -100%);
   display: block;
   margin: 0px auto;
 }
