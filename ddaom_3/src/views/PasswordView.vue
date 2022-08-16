@@ -5,10 +5,11 @@
       <span id="logo">? Forgot your password</span>
       <div class="passwordContainer">
         <label for="userName"><b>이름</b></label>
-        <input type="text" placeholder="Enter Username" name="userName" required />
+        <input type="text" id= "pw_name" placeholder="Enter Username" name="userName" required />
         <label for="psw"><b>아이디</b></label>
         <input
           type="text"
+          id="pw_id"
           placeholder="Enter ID"
           name="ID"
           required
@@ -16,13 +17,14 @@
         <label for="psw"><b>비밀번호 힌트 답변</b></label>
         <input
           type="text"
+          id="pw_hint"
           placeholder="Enter Answer"
           name="Answer"
           required
         />
         <table>
           <td>
-            <button type="submit" @click="Gobackend()">비밀번호찾기</button>
+            <button type="submit" @click="Searchpw()">비밀번호찾기</button>
           </td>
           <td>
             <button id="backButton" @click="MoveBack()">
@@ -50,6 +52,26 @@ export default {
   methods: {
     MoveBack() {
       this.$router.push('/')
+    },
+    Searchpw() {
+      const namePw = document.getElementById('pw_name').value
+      const idPw = document.getElementById('pw_id').value
+      const hintPw = document.getElementById('pw_hint').value
+
+      if (
+        (namePw === '') &
+        (idPw === '') &
+        (hintPw === '') ||
+        (namePw === '')
+      ) {
+        alert('이름을 입력해주세요.')
+      } else if (idPw === '') {
+        alert('아이디를 입력해주세요.')
+      } else if (hintPw === '') {
+        alert('비밀번호 힌트 답변을 입력해주세요.')
+      } else {
+        alert('비밀번호는 XXXXXXX입니다.')
+      }
     }
   }
 }
