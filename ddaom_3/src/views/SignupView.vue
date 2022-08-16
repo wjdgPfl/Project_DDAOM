@@ -47,7 +47,7 @@
         </tr>
         <tr>
           <td>
-            * 비밀번호 :
+            * 비밀번호 :&nbsp;
             <input
               v-model="signup.password"
               type="password"
@@ -68,7 +68,7 @@
         </tr>
         <tr>
           <td>
-            * 비밀번호 확인:
+            * 비밀번호 확인 :&nbsp;
             <input
               v-model="passwordCheck"
               type="password"
@@ -82,14 +82,22 @@
         <p></p>
         <tr>
           <td>
-            * e-mail :
-            <input
-              type="text"
-              name="email"
-              id="signup_email"
-              style="margin-left: 8px"
-            />
+            * 비밀번호 힌트/답변 :&nbsp;
+            <select v-model="signup.pwhint" size="1" class="select_hint">
+              <option value="">
+               &nbsp; 질문을 선택해주세요.
+              </option>
+              <option v-for="(item, index) in pwhintList" :key="index" :value="item.value">
+                {{ item.text }}
+              </option>
+            </select>
           </td>
+        </tr>
+        <p></p>
+        <tr>
+        <tr>
+          <td>* 답변 :&nbsp;
+          <input v-model="signup.pwhintans" type="text"></td>
         </tr>
         <p></p>
         <tr>
@@ -119,11 +127,18 @@ export default {
     return {
       signup: {
         id: null,
-        password: null
+        password: null,
+        pwhint: '',
+        pwhintans: null
       },
       passwordCheck: '',
       passwordCheckFlag: true,
-      passwordValidFlag: true
+      passwordValidFlag: true,
+      pwhintList: [
+        { text: ' 키우는 애완동물의 이름은? ', val: '0' },
+        { text: ' 가장 인상깊게 본 영화는? ', val: '1' },
+        { text: ' 기억에 남는 추억의 장소는? ', val: '2' }
+      ]
     }
   },
   setup() {},
@@ -252,5 +267,9 @@ button:hover {
   background-color: rgb(238, 235, 235);
   border: 1px solid rgb(172, 171, 171);
   float: right;
+}
+/* hint_option */
+.select_hint{
+  border:1px solid rgb(172, 171, 171);
 }
 </style>

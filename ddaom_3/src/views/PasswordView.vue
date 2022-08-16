@@ -13,6 +13,13 @@
           name="ID"
           required
         />
+        <label for="psw"><b>비밀번호 힌트 답변</b></label>
+        <input
+          type="text"
+          placeholder="Enter Answer"
+          name="Answer"
+          required
+        />
         <table>
           <td>
             <button type="submit" @click="Gobackend()">비밀번호찾기</button>
