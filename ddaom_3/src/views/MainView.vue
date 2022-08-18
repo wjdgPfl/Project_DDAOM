@@ -262,7 +262,7 @@ export default {
     saveDesc() {
       const text = document.getElementById('selectText')
       text.readOnly = true
-      this.selectedEvent.descDetails = text.value
+      this.selectedEvent.descDetails = text.value // 데이터베이스에서 수정
       // this.selectedEvent -> 현재 레이어가 뜬 이벤트를 가리킴
     },
     remove() {
