@@ -1,94 +1,121 @@
 <template>
-  <div id="bigbody">
+  <div>
     <Frame />
     <section>
-      <div id="togggle">
-        <div class="toggle_box">
-          <input type="checkbox" id="custom_input" />
-          <label for="custom_input" class="toggle_btn_label">
-            <span></span>
-          </label>
+      <div id="sectionBox">
+        <div class="sectionDiv" style="color: grey">
+          * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
         </div>
-      </div>
-      <ul :key="i" v-for="(project, i) in projectList">
-        <li class="projectname">
-          <div>
+        <div class="sectionDiv" id="getProjectNameDiv">
+          <span class="sectionText">* 프로젝트 명 :</span>
+          <input
+            type="text"
+            id="getProjectName"
+            class="inputBoxes"
+            placeholder="프로젝트 명을 입력해주세요."
+            autofocus
+          />
+        </div>
+        <div class="sectionDiv" id="addMembersDiv">
+          <span class="sectionText">팀원 추가 :</span>
+          <input
+            type="text"
+            id="addMembers"
+            class="inputBoxes"
+            placeholder="팀원의 ID를 입력해주세요."
+            style="width: 650px"
+            @keydown.enter="addMemberbyEnter('keydown')"
+          />
+          <input
+            type="button"
+            id="submitButton"
+            value="추가"
+            style="width: 50px; margin-left: 15px"
+            v-on:click="addMember()"
+          />
+        </div>
+        <div class="sectionDiv" id="memberListBox">
+          <div style="width: 110px"></div>
+          <div style="width: 720px" id="memberList">
+            <div id="noMembers">
+              추가된 팀원이 없습니다. 팀원을 추가해주세요.
+            </div>
+          </div>
+        </div>
+        <div class="sectionDiv" id="startDateDiv">
+          <span class="sectionText">* 시작 일자 :</span>
+          <input
+            type="date"
+            id="startDate"
+            class="inputBoxes"
+            style="margin-right: 15px"
+            @change="sameDatePlan()"
+          />
+          <div id="TodayDiv">
+            <span style="margin-right: 15px">당일</span>
+            <input type="checkbox" id="todayCheckBox" @change="todayPlan()" />
+          </div>
+        </div>
+        <div class="sectionDiv" id="deadlineDateDiv">
+          <span class="sectionText">* 마감 일자 :</span>
+          <input
+            type="date"
+            id="deadlineDate"
+            class="inputBoxes"
+            @change="sameDatePlan()"
+          />
+        </div>
+        <div class="sectionDiv" id="projectDetailDiv">
+          <span class="sectionText">상세 설명 :</span>
+          <textarea
+            id="projectDetail"
+            class="inputBoxes"
+            placeholder="상세 설명을 입력해주세요."
+          ></textarea>
+        </div>
+        <div id="linkDiv">
+          <div class="sectionDiv" id="addLinkDiv">
+            <span class="sectionText" id="linkText">링크 :</span>
             <input
               type="text"
-              :value="project.name"
-              :id="project.view"
-              readonly
-              class="title"
+              id="addLinkName"
+              class="inputBoxes"
+              placeholder="링크명을 입력해주세요."
             />
-          </div>
-        </li>
-        <li class="projectlist">
-          <div>
-            <img class="mainphoto" :src="project.img_url" />
-            <span style="display: none">
-              <button type="button" class="btnSubmit" @click="readOnlyFalse(i)">
-                &nbsp;수정&nbsp;
-              </button>
-              <button type="button" class="btnSubmit" @click="readOnlyTrue(i)">
-                &nbsp;완료&nbsp;
-              </button>
-              <button type="button" class="btnSubmit">&nbsp;삭제&nbsp;</button>
-            </span>
-          </div>
-          <div class="projectinf">
-            <div :key="t" v-for="(person, t) in project.peer">
-              <p class="with">함께하는 사람: {{ person }}</p>
-            </div>
-            <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
-            <div class="progress">
-              <div class="progress-bar" role="progressbar" style="width: 20%">
-                25%
-              </div>
-            </div>
-            <br />
-            <div :id="project.id" style="display: none">
-              <textarea
-                class="with"
-                :value="project.desc"
-                readonly
-                style="resize: none; width: 50vw"
-                rows="5"
-              ></textarea>
-              관련 링크 :
-              <span
-                :key="j"
-                v-for="(link, j) in project.links"
-                class="linkSpan"
-              >
-                <a :href="link.url" target="_blank">{{ link.linkname }}</a>
-                <div :class="project.id" style="display: none">
-                  <input
-                    type="text"
-                    :value="link.linkname"
-                    style="width: 50vw"
-                  />
-                  <input type="text" :value="link.url" style="width: 50vw" />
-                </div>
-              </span>
-              <div :key="v" v-for="(detail, v) in project.detailedProject">
-                <div class="detailedProject">
-                  <v-icon small> mdi-check-bold </v-icon>&nbsp;
-                  {{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~
-                  {{ detail.Date[1] }}, &nbsp;{{ detail.completed[0] }}
-                </div>
-              </div>
-            </div>
-            <button
-              type="button"
-              class="btn btn-secondary btn-sm"
-              style="float: right"
-              @click="openClose(i)"
-            >
-              view more
+            <input
+              type="url"
+              id="addLinkURL"
+              class="inputBoxes"
+              placeholder="URL을 입력해주세요."
+            />
+            <button class="addNewLinkButton" v-on:click="createNewLinkDiv()">
+              +
             </button>
           </div>
-        </li>
-      </ul>
+        </div>
+        <div class="sectionDiv" id="addReoresehtativePictureDiv">
+          <span class="sectionText">대표사진 :</span>
+          <input type="file" id="addReoresehtativePicture" />
+        </div>
+        <div class="sectionDiv" id="addFileDiv">
+          <span class="sectionText">파일 첨부 :</span>
+          <input type="file" multiple="multiple" id="addFile" />
+        </div>
+        <div class="sectionDiv" id="saveOrCancleDiv">
+          <input
+            type="submit"
+            class="bottomButton"
+            id="save"
+            v-on:click="saveCheck()"
+          />
+          <button class="bottomButton" id="cancle" v-on:click="cancleCheck()">
+            취소
+          </button>
+        </div>
+        <div class="sectionDiv">
+          <button style="height: 15px; width: 15px"></button>
+        </div>
+      </div>
     </section>
   </div>
 </template>
@@ -96,252 +123,223 @@
 <script>
 // @ is an alias to /src
 import Frame from '@/components/Frame.vue'
-
 export default {
   name: '',
   components: {
     Frame
   },
-  data() {
-    return {
-      projectList: [
-        {
-          name: 'DDAOM 프로젝트',
-          id: '1',
-          view: 'a',
-          img_url: require('../assets/cat.jpg'),
-          peer: ['이채원, 이종훈, 정혜리, 최진선'],
-          Date: ['2022. 08. 02', '2022. 08. 05'],
-          progress: "width: '25%'",
-          desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
-          links: [
-            { linkname: 'chae', url: 'https://www.naver.com/' },
-            { linkname: 'ccc', url: 'https://sseong66.tistory.com/21' }
-          ],
-          detailedProject: [
-            {
-              name: '역할 분배',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            },
-            {
-              name: '역할와~',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            }
-          ]
-        },
-        {
-          name: 'ddaom',
-          id: '2',
-          view: 'b',
-          progress: ['width: "75%"'],
-          img_url: require('../assets/cat.jpg'),
-          peer: ['이채원, 이종훈, 정혜리, 최진선'],
-          Date: ['2022. 08. 02', '2022. 08. 05'],
-          desc: '짜잔~',
-          links: [
-            { linkname: 'chae', url: 'https://www.naver.com/' },
-            { linkname: 'ccc', url: 'https://sseong66.tistory.com/21' }
-          ],
-          detailedProject: [
-            {
-              name: '역할 분배',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            },
-            {
-              name: '역할와~',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            }
-          ]
-        }
-      ]
-    }
-  },
   methods: {
-    openClose(k) {
-      // 부모의 이전형제의 두번째 자식
-      const projectName = document.getElementById(this.projectList[k].id)
-      const buttons =
-        projectName.parentElement.previousElementSibling.childNodes[1]
-      if (projectName.style.display === 'block') {
-        projectName.style.display = 'none'
-        buttons.style.display = 'none'
+    addMember() {
+      const memberID = document.getElementById('addMembers').value
+      const memberList = document.getElementById('memberList')
+      const addedMember = document.createElement('button')
+      addedMember.className = 'inputBoxes'
+      addedMember.setAttribute('id', 'addedMember')
+      const memberMent = document.getElementById('noMembers')
+      const removeIDButton = document.createElement('button')
+      removeIDButton.setAttribute('id', 'removeIDbutton')
+      removeIDButton.innerText = 'X'
+      if (memberID === '') {
+        alert('팀원의 아이디를 입력해주세요.')
       } else {
-        projectName.style.display = 'block'
-        buttons.style.display = 'block'
+        memberMent.setAttribute('style', 'display:none;')
+        memberList.appendChild(addedMember)
+        addedMember.innerText = memberID
+        addedMember.appendChild(removeIDButton)
+        document.getElementById('addMembers').value = ''
       }
-    }, // 부모의 부모의 이전형제의 자식의 자식
-    readOnlyTrue(k) {
-      const project = this.projectList[k]
-      const link = document.getElementsByClassName(project.id)
-
-      const projectName = document.getElementById(project.id)
-      const details = projectName.childNodes[0] // 상세설명
-      const projectTitle =
-        projectName.parentElement.parentElement.previousElementSibling
-          .childNodes[0].childNodes[0]
-      for (let i = 0; i < link.length; i++) {
-        project.links.linkname = link[i].childNodes[0].value // 데이터베이스에서 수정
-        project.links.url = link[i].childNodes[1].value // 데이터베이스에서 수정
-
-        link[i].style.display = 'none'
-        link[i].previousElementSibling.style.display = 'block'
-        details.readOnly = true
-        projectTitle.readOnly = true
+      removeIDButton.addEventListener('click', function () {
+        const parentID = this.parentElement
+        const ID = parentID.innerText.slice(0, -1)
+        if (confirm(ID + '님을 삭제하시겠습니까?')) {
+          parentID.remove()
+        }
+        const number = document.querySelectorAll('#addedMember').length
+        if (number === 0) {
+          memberMent.setAttribute('style', 'display:contents')
+        }
+      })
+    },
+    addMemberbyEnter(val) {
+      this.addMember()
+    },
+    createNewLinkDiv() {
+      const addNewLinkDiv = document.createElement('div')
+      addNewLinkDiv.className = 'linkSectionDiv'
+      addNewLinkDiv.setAttribute('id', 'addNewLinkDiv')
+      const addLinkName = document.createElement('input')
+      addLinkName.type = 'text'
+      addLinkName.className = 'inputBoxes'
+      addLinkName.setAttribute('id', 'addLinkName')
+      addLinkName.setAttribute('placeholder', '링크명을 입력해주세요.')
+      const addLinkURL = document.createElement('input')
+      addLinkURL.type = 'text'
+      addLinkURL.className = 'inputBoxes'
+      addLinkURL.setAttribute('id', 'addLinkURL')
+      addLinkURL.setAttribute('placeholder', 'URL을 입력해주세요.')
+      const removeLinkButton = document.createElement('button')
+      removeLinkButton.className = 'addNewLinkButton'
+      removeLinkButton.innerText = 'x'
+      removeLinkButton.addEventListener('click', function () {
+        const parentlink = this.parentElement
+        parentlink.remove()
+      })
+      const linkDiv = document.getElementById('linkDiv')
+      linkDiv.appendChild(addNewLinkDiv)
+      addNewLinkDiv.appendChild(addLinkName)
+      addNewLinkDiv.appendChild(addLinkURL)
+      addNewLinkDiv.appendChild(removeLinkButton)
+    },
+    sameDatePlan() {
+      const startDate = document.getElementById('startDate').value
+      const deadlineDate = document.getElementById('deadlineDate').value
+      const todayCheckBox = document.getElementById('todayCheckBox')
+      if (deadlineDate === startDate) {
+        if (startDate === '') {
+          todayCheckBox.checked = false
+        } else {
+          todayCheckBox.checked = true
+        }
+      } else {
+        todayCheckBox.checked = false
       }
     },
-    readOnlyFalse(k) {
-      const project = this.projectList[k]
-      const link = document.getElementsByClassName(project.id)
-
-      const projectName = document.getElementById(project.id)
-      const details = projectName.childNodes[0] // 상세설명
-      const projectTitle =
-        projectName.parentElement.parentElement.previousElementSibling
-          .childNodes[0].childNodes[0]
-      for (let i = 0; i < link.length; i++) {
-        link[i].style.display = 'block'
-        link[i].previousElementSibling.style.display = 'none'
-        details.readOnly = false
-        projectTitle.readOnly = false
+    todayPlan() {
+      const todayCheckBox = document.getElementById('todayCheckBox')
+      if (todayCheckBox.checked) {
+        document.getElementById('deadlineDate').value =
+          document.getElementById('startDate').value
+      }
+    },
+    saveCheck() {
+      const projectName = document.getElementById('getProjectName').value
+      const start = document.getElementById('startDate').value
+      const deadline = document.getElementById('deadlineDate').value
+      if ((projectName === '') & (start === '' || deadline === '')) {
+        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
+      } else if (projectName === '') {
+        alert('프로젝트 제목을 입력해주세요.')
+      } else if (start === '' || deadline === '') {
+        alert('기간을 입력해주세요.')
+      } else if (start > deadline) {
+        alert('잘못된 기간입니다. 다시 입력해주세요.')
+      } else {
+        if (confirm('제출하시겠습니까?')) {
+          this.$router.push('/project')
+        }
+      }
+    },
+    cancleCheck() {
+      if (confirm('취소하시겠습니까?')) {
+        this.$router.push('/project')
       }
     }
   }
 }
 </script>
 
-<style scoped>
-/*button*/
-.btnSubmit {
-  border: 1px rgb(255, 255, 255) solid;
-  border-radius: 20%;
-  background-color: rgb(214, 214, 214);
-
-  margin-top: 20px;
-  margin-right: 10px;
-}
-
-/*button*/
-/* < -- table --> */
-* {
-  list-style: none;
-}
+<style>
 template {
   width: 100%;
 }
+/* #bigbody {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+} */
 section {
-  margin: 0px;
+  margin: 0;
+  padding: 0 5% 0 5%;
   height: calc(100vh - 55px);
   background-color: white;
   display: flex;
-  position: relative;
   flex-direction: column;
-  align-items: center;
   overflow-y: scroll;
+  align-items: center;
 }
-/* project */
-.mainphoto {
-  height: 10rem;
-  width: 10rem;
-  margin-right: 100px;
-}
-#viewmore {
-  display: none;
-}
-.projectinf {
-  width: 50vw;
-}
-/* 프로젝트명 li */
-.projectname {
-  margin-bottom: 20px;
-}
-/* 프로젝트 리스트 li */
-.projectlist {
+#sectionBox {
+  max-width: 100%;
+  max-height: 100%;
   display: flex;
-  overflow: hidden;
+  flex-direction: column;
 }
-
-/* 진행률 */
-.progress {
-  width: 400px;
-  height: 20px;
+.inputBoxes {
+  background-color: white;
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 5px;
+  padding: 5px;
 }
-/* 링크 */
-.linkSpan {
-  margin-left: 8px;
+.sectionDiv {
+  margin-top: 40px;
+  display: flex;
 }
-
-/* 일정 */
-.detailedProject {
+.linkSectionDiv {
   margin-top: 10px;
 }
-/*< -- table -->*/
-/*< -- toggle -->*/
-#togggle {
-  width: 70vw;
+.sectionText {
+  margin-right: 10px;
+  min-width: 100px;
+  font-size: 15px;
+  font-weight: bold;
 }
-.toggle_box {
-  float: right;
-  margin-top: 20px;
+#getProjectName,
+#addMembers {
+  width: 720px;
 }
-#custom_input {
-  display: none;
+#noMembers {
+  display: contents;
+  width: 100%;
 }
-#custom_input + label.toggle_btn_label {
-  position: relative;
-  width: 12rem;
-  height: 2.5rem;
+#addedMember {
+  min-width: 70px;
+  width: max-content;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  padding: 0 5px 0 5px;
 }
-#custom_input + label.toggle_btn_label > span {
-  position: absolute;
-  cursor: pointer;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  border-radius: 40px;
-  background-color: #ccc;
-  transition: all 0.4s;
+#removeIDbutton {
+  width: 9px;
+  font-size: 10px;
+  margin-left: 15px;
+  color: gray;
 }
-#custom_input + label.toggle_btn_label > span:before {
+#projectDetail {
+  resize: none;
+  width: 720px;
+  height: 250px;
+}
+#addNewLinkDiv {
+  padding-left: 110px;
+}
+#addLinkName {
+  width: 150px;
+  margin-right: 10px;
+  font-size: 13px;
+}
+#addLinkURL {
+  width: 510px;
+  margin-right: 10px;
+  font-size: 13px;
+}
+.addNewLinkButton {
+  width: 30px;
+  text-align: center;
+}
+#saveOrCancleDiv {
   display: flex;
-  position: absolute;
-  height: 2rem;
-  width: fit-content;
-  padding: 0 1rem;
-  left: 0.25rem;
-  bottom: 0.25rem;
-  border-radius: 20px;
-  background-color: #fff;
-  content: 'ongoing';
+  justify-content: center;
   align-items: center;
-  font-weight: bold;
-  color: rgb(29, 29, 29);
-  -webkit-transition: all 0.4s;
-  transition: all 0.4s;
 }
-#custom_input:checked + label.toggle_btn_label > span {
-  background-color: rgb(59, 119, 10);
+.bottomButton {
+  width: 70px;
+  height: 25px;
+  margin-right: 15px;
+  text-align: center;
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 5px;
 }
-#custom_input:checked + label.toggle_btn_label > span:before {
-  -webkit-transform: translateX(calc(11.5rem - 100%));
-  -ms-transform: translateX(calc(11.5rem - 100%));
-  transform: translateX(calc(11.5rem - 100%));
-  right: 0.25rem;
-  bottom: 0.25rem;
-  content: 'complete';
-}
-#custom_input:disabled + label.toggle_btn_label {
-  display: none;
-}
-
-/*< — toggle —>*/
-
-.title {
-  font-size: 30px;
-  font-weight: bold;
+.bottomButton:hover {
+  background-color: rgb(53, 99, 16);
+  color: white;
 }
 </style>

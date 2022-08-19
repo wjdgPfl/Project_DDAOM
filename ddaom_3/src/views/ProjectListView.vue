@@ -41,8 +41,8 @@
             </div>
             <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
             <div class="progress">
-              <div class="progress-bar" role="progressbar" :style="project.progress">
-                25%
+              <div class="progress-bar" role="progressbar" :style="project.progress_width">
+                {{ project.progress }}
               </div>
             </div>
             <br />
@@ -111,8 +111,9 @@ export default {
           view: 'a',
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
-          Date: ['2022. 08. 02', '2022. 08. 05'],
-          progress: 'width:25%',
+          Date: ['2022-08-02', '2022-09-15'],
+          progress_width: 'width:' + this.viewProjress('2022-08-02', '2022-09-15'),
+          progress: this.viewProjress('2022-08-02', '2022-09-15'),
           desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
           links: [
             { linkname: 'chae', url: 'https://www.naver.com/' },
@@ -134,10 +135,11 @@ export default {
         {
           name: 'ddaom',
           view: 'b',
-          progress: 'width:50%',
+          progress_width: 'width:' + this.viewProjress('2022-08-18', '2022-08-25'),
+          progress: this.viewProjress('2022-08-18', '2022-08-25'),
           img_url: require('../assets/cat.jpg'),
           peer: ['이채원, 이종훈, 정혜리, 최진선'],
-          Date: ['2022. 08. 02', '2022. 08. 05'],
+          Date: ['2022-08-18', '2022-08-25'],
           desc: '짜잔~',
           links: [
             { linkname: 'chae', url: 'https://www.naver.com/' },
@@ -187,6 +189,27 @@ export default {
       for (let i = 0; i < link.length; i++) {
         link[i].style.display = 'none'
         link[i].previousElementSibling.style.display = 'block'
+      }
+    },
+    viewProjress(s, d) {
+      const today = new Date()
+      const start = new Date(s)
+      const deadline = new Date(d)
+
+      today.setHours(0, 0, 0, 0)
+      start.setHours(0, 0, 0, 0)
+      deadline.setHours(0, 0, 0, 0)
+
+      const entirePeriod = deadline - start
+      const pastPeriod = today - start
+      const progress = Math.abs((pastPeriod / entirePeriod) * 100)
+
+      if (today > deadline) {
+        return '100%'
+      } else if (today <= start) {
+        return '0%'
+      } else {
+        return progress.toFixed(1) + '%'
       }
     }
   }
