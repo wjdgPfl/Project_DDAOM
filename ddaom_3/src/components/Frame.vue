@@ -9,7 +9,7 @@
         <router-link to="/main" id="logo">DDAOM</router-link>
       </div>
       <div id="userNameBox">
-        <span>{{ username }}님 환영합니다.</span>
+        <span>{{ state.username }}님 환영합니다.</span>
       </div>
       <div style="display: flex; flex-direction: row; align-content: center">
         <button class="navbutton" id="listButton" @click="MoveLogin()">
@@ -21,8 +21,9 @@
       </div>
     </header>
 
-    <nav :class="{ navv: isnone }">
+    <nav :class="{ navv: state.isnone }">
       <div>
+        <!-- <button> text </button> -->
         <button class="navbutton" @click="MoveMakeProject()">
           Make Project
         </button>
@@ -33,7 +34,7 @@
       </div>
       <div id="filter">
         <p>필터</p>
-        <ul :key="i" v-for="(project, i) in Projects">
+        <ul :key="i" v-for="(project, i) in state.Projects">
           <li>
             <div class="filterList">
               <input type="checkbox" @change="updateParentValue(i)" />{{
@@ -57,47 +58,55 @@
 </template>
 
 <script>
+import axios from 'axios'
+
+import { reactive } from 'vue'
+
 export default {
   conponents: {},
   data() {
-    return {
-      isnone: false,
-      username: '채원',
-      Projects: [
-        { name: 'qwe', color: '#FF99D4', checked: false },
-        { name: 'project_1', color: '#82D3D9', checked: false },
-        { name: 'chae', color: '#AB8EC7', checked: false },
-        { name: 'project_3', color: '#7B9BE5', checked: false }
-      ]
-    }
+    return {}
   },
-  setup() {},
+  setup() {
+    const state = reactive({
+      isnone: false,
+      username: '',
+      Projects: []
+    })
+
+    axios.get('/api/frame').then((res) => {
+      state.isnone = res.data.isnone
+      state.username = res.data.username
+      state.Projects = res.data.Projects
+    })
+    return { state }
+  },
   created() {},
   mounted() {},
   methods: {
     updateParentValue(i) {
       const checkValue = []
-      checkValue[0] = this.Projects[i].name
-      checkValue[1] = this.Projects[i].checked
+      checkValue[0] = this.state.Projects[i].name
+      checkValue[1] = this.state.Projects[i].checked
       if (checkValue[1] === false) {
         checkValue[1] = true
-        this.Projects[i].checked = true
+        this.state.Projects[i].checked = true
       } else if (checkValue[1] === true) {
         checkValue[1] = false
-        this.Projects[i].checked = false
+        this.state.Projects[i].checked = false
       }
       this.$emit('checkValue', checkValue)
     },
     changeColor(i) {
       const colorValue = []
-      colorValue[0] = this.Projects[i].name
-      colorValue[1] = document.getElementById(this.Projects[i].name).value
-      this.Projects[i].color = colorValue[1]
+      colorValue[0] = this.state.Projects[i].name
+      colorValue[1] = document.getElementById(this.state.Projects[i].name).value
+      this.state.Projects[i].color = colorValue[1]
 
       this.$emit('projectColor', colorValue)
     },
     Isnone() {
-      this.isnone = !this.isnone
+      this.state.isnone = !this.state.isnone
     },
     MoveMakeProject() {
       this.$router.push('/makeproject')
