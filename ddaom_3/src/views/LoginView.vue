@@ -5,10 +5,17 @@
       <span id="logo"><img src="../assets/logo.png" /></span>
       <div class="loginContainer">
         <label for="userID"><b>아이디</b></label>
-        <input v-model="login.id" type="text" placeholder="Enter ID" id="login_id" name="userID" required />
+        <input
+          v-model="logininf.loginform.loginId"
+          type="text"
+          placeholder="Enter ID"
+          id="login_id"
+          name="userID"
+          required
+        />
         <label for="psw"><b>비밀번호</b></label>
         <input
-          v-model="login.password"
+          v-model="logininf.loginform.loginPw"
           type="password"
           placeholder="Enter Password"
           id="login_pw"
@@ -26,17 +33,32 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+import axios from 'axios'
+
 export default {
   components: {},
   data() {
-    return {
-      login: {
+    return {}
+  },
+  setup() {
+    const logininf = reactive({
+      loginaccount: {
         id: null,
         password: null
+      },
+      loginform: {
+        loginId: '',
+        loginPw: ''
       }
-    }
+    })
+
+    axios.get('/api/login').then((res) => {
+      logininf.loginaccount = res.data
+    })
+
+    return { logininf }
   },
-  setup() {},
   created() {},
   mounted() {},
   unmounted() {},
@@ -45,11 +67,26 @@ export default {
       this.$router.push('/signup')
     },
     MoveMainPage() {
+      const args = {
+        loginId: this.logininf.loginform.loginId,
+        loginPw: this.logininf.loginform.loginPw
+      }
+
+      axios
+        .post('/api/login', args)
+        .then((res) => {
+          alert('로그인에 성공했습니다.')
+          this.logininf.loginaccount = res.data
+        })
+        .catch(() => {
+          console.log(args)
+          alert('로그인에 실패했습니다. 계정 정보를 확인해주세요.')
+        })
+
       const idLogin = document.getElementById('login_id').value
       const passwordLogin = document.getElementById('login_pw').value
 
-      if (((idLogin === '' & passwordLogin === '')) || (idLogin === '')
-      ) {
+      if ((idLogin === '') & (passwordLogin === '') || idLogin === '') {
         alert('ID를 입력해주세요.')
       } else if (passwordLogin === '') {
         alert('비밀번호를 입력해주세요.')
@@ -117,7 +154,7 @@ button:hover {
   opacity: 0.3;
 }
 /* img */
-img{
+img {
   width: 40%;
   height: 30%;
   display: block;
