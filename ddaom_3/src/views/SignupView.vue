@@ -85,11 +85,7 @@
         <tr>
           <td>
             * 비밀번호 힌트/답변 :&nbsp;
-            <select
-              v-model="signupinf.signup.pwhint"
-              size="1"
-              class="select_hint"
-            >
+            <select size="1" class="select_hint">
               <option value="">&nbsp; 질문을 선택해주세요.</option>
               <option
                 v-for="(item, index) in pwhintList"
@@ -173,14 +169,13 @@ export default {
       const idSignup = document.getElementById('signup_id').value
       const passwordSignup = document.getElementById('signup_password').value
       const checkSignup = document.getElementById('signup_check').value
-      const emailSignup = document.getElementById('signup_email').value
+      // const emailSignup = document.getElementById('signup_email').value
 
       if (
         (nameSignup === '') &
         (idSignup === '') &
         (passwordSignup === '') &
-        (checkSignup === '') &
-        (emailSignup === '')
+        (checkSignup === '')
       ) {
         alert('필수항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (nameSignup === '') {
@@ -191,8 +186,6 @@ export default {
         alert('비밀번호를 입력해주세요.')
       } else if (checkSignup === '') {
         alert('비밀번호 확인을 입력해주세요.')
-      } else if (emailSignup === '') {
-        alert('이메일을 입력해주세요.')
       } else {
         if (confirm('가입하시겠습니까?')) {
           alert('회원가입 성공!')
