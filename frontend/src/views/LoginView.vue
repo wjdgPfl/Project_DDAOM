@@ -43,10 +43,6 @@ export default {
   },
   setup() {
     const logininf = reactive({
-      // loginaccount: {
-      //   id: null,
-      //   password: null
-      // },
       loginform: {
         loginId: '',
         loginPw: ''

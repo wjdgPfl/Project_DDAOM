@@ -4,20 +4,21 @@
       <button @click="Isnone()" id="asideBarButton">
         <v-icon>mdi-menu</v-icon>
       </button>
-      <div style="width: 70px"></div>
       <div id="mainLogo">
         <router-link to="/main" id="logo">DDAOM</router-link>
       </div>
-      <div id="userNameBox">
-        <span>{{ state.username }}님 환영합니다.</span>
-      </div>
-      <div style="display: flex; flex-direction: row; align-content: center">
-        <button class="navbutton" id="listButton" @click="MoveLogin()">
-          Log Out
-        </button>
-        <button id="infoButton" @click="MoveManual()">
-          <v-icon large> mdi-comment-question-outline</v-icon>
-        </button>
+      <div id="rightItem">
+        <div id="userNameBox">
+          {{ logininf.loginaccount.name }}님 환영합니다.
+        </div>
+        <div style="display: flex; flex-direction: row; align-content: center">
+          <button class="navbutton" id="listButton" @click="MoveLogin()">
+            Log Out
+          </button>
+          <button id="infoButton" @click="MoveManual()">
+            <v-icon large> mdi-comment-question-outline</v-icon>
+          </button>
+        </div>
       </div>
     </header>
 
@@ -73,13 +74,25 @@ export default {
       username: '',
       Projects: []
     })
+
+    const logininf = reactive({
+      loginaccount: {
+        id: null,
+        name: null
+      }
+    })
+
     axios.get('/api/frame').then((res) => {
       state.isnone = res.data.isnone
       state.username = res.data.username
       state.Projects = res.data.Projects
     })
 
-    return { state }
+    axios.get('/api/login').then((res) => {
+      logininf.loginaccount = res.data
+    })
+
+    return { state, logininf }
   },
   created() {},
   mounted() {},
@@ -131,6 +144,7 @@ export default {
 * {
   list-style: none;
 }
+
 /* tmplate */
 template {
   height: 100vh;
@@ -147,7 +161,13 @@ header {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+}
+
+#rightItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
 
 #asideBarButton {
@@ -156,11 +176,8 @@ header {
 }
 
 #mainLogo {
-  width: calc(100% - 400px);
-  padding-left: 160px;
   display: flex;
-  align-items: center;
-  justify-content: center;
+  align-self: center;
 }
 
 #logo {
@@ -169,10 +186,12 @@ header {
 
   font-size: 30px;
   font-weight: bold;
+  position: absolute;
+  left: 45%;
+  top: 5px;
 }
 
 #userNameBox {
-  width: 180px;
   height: 55px;
   margin-right: 15px;
 
