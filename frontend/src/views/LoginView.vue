@@ -5,17 +5,26 @@
       <span id="logo"><img src="../assets/logo.png" /></span>
       <div class="loginContainer">
         <label for="userID"><b>아이디</b></label>
-        <input v-model="login.id" type="text" placeholder="Enter ID" id="login_id" name="userID" required />
+        <input
+          v-model="logininf.loginform.loginId"
+          type="text"
+          placeholder="Enter ID"
+          id="login_id"
+          name="userID"
+          required
+          @keyup.enter="goLogin()"
+        />
         <label for="psw"><b>비밀번호</b></label>
         <input
-          v-model="login.password"
+          v-model="logininf.loginform.loginPw"
           type="password"
           placeholder="Enter Password"
           id="login_pw"
           name="psw"
           required
+          @keyup.enter="goLogin()"
         />
-        <button type="submit" @click="MoveMainPage()">로그인</button>
+        <button type="submit" @click="goLogin()">로그인</button>
         <div class="addOn">
           <button @click="MoveSignup()">&nbsp;|&nbsp;회원가입</button>
           <button @click="MovePassword()">비밀번호 찾기&nbsp;</button>
@@ -26,17 +35,24 @@
 </template>
 
 <script>
+import { reactive } from 'vue'
+import axios from 'axios'
+
 export default {
   components: {},
   data() {
-    return {
-      login: {
-        id: null,
-        password: null
-      }
-    }
+    return {}
   },
-  setup() {},
+  setup() {
+    const logininf = reactive({
+      loginform: {
+        loginId: '',
+        loginPw: ''
+      }
+    })
+
+    return { logininf }
+  },
   created() {},
   mounted() {},
   unmounted() {},
@@ -44,19 +60,33 @@ export default {
     MoveSignup() {
       this.$router.push('/signup')
     },
-    MoveMainPage() {
+    goLogin() {
+      const args = {
+        loginId: this.logininf.loginform.loginId,
+        loginPw: this.logininf.loginform.loginPw
+      }
+
       const idLogin = document.getElementById('login_id').value
       const passwordLogin = document.getElementById('login_pw').value
 
-      if (((idLogin === '' & passwordLogin === '')) || (idLogin === '')
-      ) {
-        alert('ID를 입력해주세요.')
-      } else if (passwordLogin === '') {
-        alert('비밀번호를 입력해주세요.')
-      } else {
-        this.$router.push('/main')
-      }
+      axios
+        .post('/api/login', args)
+        .then((res) => {
+          alert('로그인에 성공했습니다.')
+          // this.logininf.loginaccount = res.data
+          this.$router.push('/main')
+        })
+        .catch(() => {
+          if ((idLogin === '') & (passwordLogin === '') || idLogin === '') {
+            alert('ID를 입력해주세요.')
+          } else if (passwordLogin === '') {
+            alert('비밀번호를 입력해주세요.')
+          } else {
+            alert('로그인에 실패했습니다. 계정 정보를 확인해주세요.')
+          }
+        })
     },
+
     MovePassword() {
       this.$router.push('/password')
     }
@@ -117,7 +147,7 @@ button:hover {
   opacity: 0.3;
 }
 /* img */
-img{
+img {
   width: 40%;
   height: 30%;
   display: block;

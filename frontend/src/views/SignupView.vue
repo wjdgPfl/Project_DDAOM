@@ -19,6 +19,7 @@
               name="name"
               id="signup_name"
               style="margin-left: 8px"
+              v-model="signupinf.signup.name"
             />
           </td>
         </tr>
@@ -33,6 +34,7 @@
               check_result="fail"
               style="margin-left: 8px"
               required
+              v-model="signupinf.signup.id"
             />
           </td>
         </tr>
@@ -42,14 +44,14 @@
             <td>
               <p id="duplicate">ID중복 여부를 확인해주세요.</p>
             </td>
-              <button id="duplicate_button">&nbsp;ID 중복 검사&nbsp;</button>
+            <button id="duplicate_button">&nbsp;ID 중복 검사&nbsp;</button>
           </span>
         </tr>
         <tr>
           <td>
             * 비밀번호 :&nbsp;
             <input
-              v-model="signup.password"
+              v-model="signupinf.signup.password"
               type="password"
               id="signup_password"
               maxlength="16"
@@ -83,21 +85,25 @@
         <tr>
           <td>
             * 비밀번호 힌트/답변 :&nbsp;
-            <select v-model="signup.pwhint" size="1" class="select_hint">
-              <option value="">
-               &nbsp; 질문을 선택해주세요.
-              </option>
-              <option v-for="(item, index) in pwhintList" :key="index" :value="item.value">
+            <select size="1" class="select_hint">
+              <option value="">&nbsp; 질문을 선택해주세요.</option>
+              <option
+                v-for="(item, index) in pwhintList"
+                :key="index"
+                :value="item.value"
+              >
                 {{ item.text }}
               </option>
             </select>
           </td>
         </tr>
         <p></p>
+        <tr></tr>
         <tr>
-        <tr>
-          <td>* 답변 :&nbsp;
-          <input v-model="signup.pwhintans" type="text"></td>
+          <td>
+            * 답변 :&nbsp;
+            <input type="text" v-model="signupinf.signup.pwhint" />
+          </td>
         </tr>
         <p></p>
         <tr>
@@ -121,16 +127,13 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { reactive } from 'vue'
+
 export default {
   components: {},
   data() {
     return {
-      signup: {
-        id: null,
-        password: null,
-        pwhint: '',
-        pwhintans: null
-      },
       passwordCheck: '',
       passwordCheckFlag: true,
       passwordValidFlag: true,
@@ -141,24 +144,38 @@ export default {
       ]
     }
   },
-  setup() {},
+  setup() {
+    const signupinf = reactive({
+      signup: {
+        name: '',
+        id: '',
+        password: '',
+        pwhint: ''
+      }
+    })
+
+    axios.get('/api/signup').then((res) => {})
+    return { signupinf }
+  },
   created() {},
   mounted() {},
   unmounted() {},
   methods: {
     MoveLogin() {
+      const content = this.signupinf.signup
+      axios.post('/api/signup', { content }).then((res) => {})
+
       const nameSignup = document.getElementById('signup_name').value
       const idSignup = document.getElementById('signup_id').value
       const passwordSignup = document.getElementById('signup_password').value
       const checkSignup = document.getElementById('signup_check').value
-      const emailSignup = document.getElementById('signup_email').value
+      // const emailSignup = document.getElementById('signup_email').value
 
       if (
         (nameSignup === '') &
         (idSignup === '') &
         (passwordSignup === '') &
-        (checkSignup === '') &
-        (emailSignup === '')
+        (checkSignup === '')
       ) {
         alert('필수항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (nameSignup === '') {
@@ -169,8 +186,6 @@ export default {
         alert('비밀번호를 입력해주세요.')
       } else if (checkSignup === '') {
         alert('비밀번호 확인을 입력해주세요.')
-      } else if (emailSignup === '') {
-        alert('이메일을 입력해주세요.')
       } else {
         if (confirm('가입하시겠습니까?')) {
           alert('회원가입 성공!')
@@ -183,7 +198,9 @@ export default {
     },
     passwordValid() {
       if (
-        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(this.signup.password)
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9]).{8,16}$/.test(
+          this.signupinf.signup.password
+        )
       ) {
         this.passwordValidFlag = true
       } else {
@@ -191,7 +208,7 @@ export default {
       }
     },
     passwordCheckValid() {
-      if (this.signup.password === this.passwordCheck) {
+      if (this.signupinf.signup.password === this.passwordCheck) {
         this.passwordCheckFlag = true
       } else {
         this.passwordCheckFlag = false
@@ -269,7 +286,7 @@ button:hover {
   float: right;
 }
 /* hint_option */
-.select_hint{
-  border:1px solid rgb(172, 171, 171);
+.select_hint {
+  border: 1px solid rgb(172, 171, 171);
 }
 </style>
