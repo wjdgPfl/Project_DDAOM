@@ -12,6 +12,7 @@
           id="login_id"
           name="userID"
           required
+          @keyup.enter="goLogin()"
         />
         <label for="psw"><b>비밀번호</b></label>
         <input
@@ -21,8 +22,9 @@
           id="login_pw"
           name="psw"
           required
+          @keyup.enter="goLogin()"
         />
-        <button type="submit" @click="MoveMainPage()">로그인</button>
+        <button type="submit" @click="goLogin()">로그인</button>
         <div class="addOn">
           <button @click="MoveSignup()">&nbsp;|&nbsp;회원가입</button>
           <button @click="MovePassword()">비밀번호 찾기&nbsp;</button>
@@ -58,7 +60,7 @@ export default {
     MoveSignup() {
       this.$router.push('/signup')
     },
-    MoveMainPage() {
+    goLogin() {
       const args = {
         loginId: this.logininf.loginform.loginId,
         loginPw: this.logininf.loginform.loginPw
