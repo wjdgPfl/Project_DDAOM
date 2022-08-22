@@ -76,6 +76,14 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
+app.delete("/api/login", (req, res) => {
+  if (req.cookies && req.cookies.token) {
+    res.clearCookie("token");
+  }
+
+  res.sendStatus(200);
+});
+
 // 로그인 끝
 
 app.listen(port, () => {
