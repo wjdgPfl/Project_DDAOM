@@ -10,22 +10,16 @@
           </label>
         </div>
       </div>
-      <ul :key="i" v-for="(project, i) in projectList">
+      <ul :key="i" v-for="(project, i) in project.projectList">
         <li class="projectname">
           <div>
-            <input
-              type="text"
-              :value="project.name"
-              :id="project.view"
-              readonly
-              class="title"
-            />
+            <input type="text" :value="project.name" readonly class="title" />
           </div>
         </li>
         <li class="projectlist">
           <div>
-            <img class="mainphoto" :src="project.img_url" />
-            <span :id="project.butt" style="display: none">
+            <img class="mainphoto" :src="project.image_path" />
+            <span style="display: none">
               <button type="button" class="btnSubmit" @click="readOnlyTrue(i)">
                 &nbsp;수정&nbsp;
               </button>
@@ -36,21 +30,30 @@
             </span>
           </div>
           <div class="projectinf">
-            <div :key="t" v-for="(person, t) in project.peer">
-              <p class="with">함께하는 사람: {{ person }}</p>
+            <p>함께하는 사람:</p>
+            <div :key="t" v-for="(peer, t) in peerlist.Peer">
+              <p class="with" v-if="project.id === peer.project_id">
+                {{ peer.user_name }}
+              </p>
             </div>
-            <p>일정: {{ project.Date[0] }} ~ {{ project.Date[1] }}</p>
+            <p>일정: {{ project.start_date }} ~ {{ project.end_date }}</p>
+
+            <!-- 진행률 -->
             <div class="progress">
-              <div class="progress-bar" role="progressbar" :style="project.progress_width">
-                {{ project.progress }}
+              <div
+                class="progress-bar"
+                role="progressbar"
+                :style="process.progress_width"
+              >
+                {{ process.progress }}
               </div>
             </div>
+
             <br />
             <div :id="project.name" style="display: none">
               <textarea
                 class="with"
-                :id="project.view"
-                :value="project.desc"
+                :value="project.description"
                 readonly
                 style="resize: none; width: 50vw"
                 rows="5"
@@ -58,26 +61,29 @@
               관련 링크 :
               <span
                 :key="j"
-                v-for="(link, j) in project.links"
+                v-for="(link, j) in linklist.Link"
                 class="linkSpan"
               >
-                <a :href="link.url">{{ link.linkname }}</a>
-                <div :class="project.name" style="display: none">
-                  <input
-                    type="text"
-                    :value="link.linkname"
-                    style="width: 50vw"
-                  />
+                <a :href="link.url" v-if="project.id === link.project_id">{{
+                  link.title
+                }}</a>
+                <div
+                  :class="project.name"
+                  style="display: none"
+                  v-if="project.id === link.project_id"
+                >
+                  >
+                  <input type="text" :value="link.title" style="width: 50vw" />
                   <input type="text" :value="link.url" style="width: 50vw" />
                 </div>
               </span>
-              <div :key="v" v-for="(detail, v) in project.detailedProject">
+              <!-- <div :key="v" v-for="(detail, v) in project.detailedProject">
                 <div class="detailedProject">
                   <v-icon small> mdi-check-bold </v-icon>&nbsp;
                   {{ detail.name }}, &nbsp;{{ detail.Date[0] }} ~
                   {{ detail.Date[1] }}, &nbsp;{{ detail.completed[0] }}
                 </div>
-              </div>
+              </div> -->
             </div>
             <button
               type="button"
@@ -85,7 +91,7 @@
               style="float: right"
               @click="openClose(i)"
             >
-              view more
+              view more{{ progress }}
             </button>
           </div>
         </li>
@@ -97,6 +103,8 @@
 <script>
 // @ is an alias to /src
 import Frame from '@/components/Frame.vue'
+import axios from 'axios'
+import { reactive } from 'vue'
 
 export default {
   name: '',
@@ -104,67 +112,65 @@ export default {
     Frame
   },
   data() {
-    return {
-      projectList: [
-        {
-          name: 'DDAOM 프로젝트',
-          view: 'a',
-          img_url: require('../assets/cat.jpg'),
-          peer: ['이채원, 이종훈, 정혜리, 최진선'],
-          Date: ['2022-08-02', '2022-09-15'],
-          progress_width: 'width:' + this.viewProjress('2022-08-02', '2022-09-15'),
-          progress: this.viewProjress('2022-08-02', '2022-09-15'),
-          desc: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?Lorem ipsum dolor sit amet consectetur adipisicing elit. Illum eveniet ex quia cumque libero quis unde, officia amet iste, maxime voluptatibus tempora nihil. Maxime ab itaque blanditiis officiis cumque placeat?',
-          links: [
-            { linkname: 'chae', url: 'https://www.naver.com/' },
-            { linkname: 'ccc', url: 'https://www.naver.com/' }
-          ],
-          detailedProject: [
-            {
-              name: '역할 분배',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            },
-            {
-              name: '역할와~',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            }
-          ]
-        },
-        {
-          name: 'ddaom',
-          view: 'b',
-          progress_width: 'width:' + this.viewProjress('2022-08-18', '2022-08-25'),
-          progress: this.viewProjress('2022-08-18', '2022-08-25'),
-          img_url: require('../assets/cat.jpg'),
-          peer: ['이채원, 이종훈, 정혜리, 최진선'],
-          Date: ['2022-08-18', '2022-08-25'],
-          desc: '짜잔~',
-          links: [
-            { linkname: 'chae', url: 'https://www.naver.com/' },
-            { linkname: 'ccc', url: 'https://www.naver.com/' }
-          ],
-          detailedProject: [
-            {
-              name: '역할 분배',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            },
-            {
-              name: '역할와~',
-              Date: ['2022. 08. 02', '2022. 08. 02'],
-              completed: ['진행중', '완료']
-            }
-          ]
-        }
-      ]
-    }
+    return {}
+  },
+  setup() {
+    const logininf = reactive({
+      loginaccount: {
+        id: null,
+        name: null
+      }
+    })
+
+    axios.get('/api/login').then((res) => {
+      logininf.loginaccount = res.data
+    })
+    const process = reactive({
+      // progress_width:
+      //   'width:' +
+      //   this.viewProgress(
+      //     this.project.projectList.start_date,
+      //     this.project.projectList.end_date
+      //   ),
+      // progress: this.viewProgress(
+      //   this.project.projectList.start_date,
+      //   this.project.projectList.end_date
+      // )
+    })
+
+    const project = reactive({
+      projectList: []
+    })
+    const linklist = reactive({
+      Link: []
+    })
+
+    const peerlist = reactive({
+      Peer: []
+    })
+
+    axios.get('/api/link').then((res) => {
+      linklist.Link = res.data
+    })
+
+    axios.get('/api/peer').then((res) => {
+      // console.log(res.data)
+      peerlist.Peer = res.data
+      console.log(peerlist.Peer)
+    })
+
+    axios.get('/api/list').then((res) => {
+      project.projectList = res.data
+    })
+
+    return { project, logininf, linklist, peerlist, process }
   },
   methods: {
     openClose(k) {
       // 부모의 이전형제의 두번째 자식
-      const projectName = document.getElementById(this.projectList[k].name)
+      const projectName = document.getElementById(
+        this.project.projectList[k].name
+      )
       const buttons =
         projectName.parentElement.previousElementSibling.childNodes[1]
       if (projectName.style.display === 'block') {
@@ -176,7 +182,7 @@ export default {
       }
     },
     readOnlyTrue(k) {
-      const project = this.projectList[k]
+      const project = this.project.projectList[k]
       const link = document.getElementsByClassName(project.name)
       for (let i = 0; i < link.length; i++) {
         link[i].style.display = 'block'
@@ -184,14 +190,14 @@ export default {
       }
     },
     readOnlyFalse(k) {
-      const project = this.projectList[k]
+      const project = this.project.projectList[k]
       const link = document.getElementsByClassName(project.name)
       for (let i = 0; i < link.length; i++) {
         link[i].style.display = 'none'
         link[i].previousElementSibling.style.display = 'block'
       }
     },
-    viewProjress(s, d) {
+    viewProgress(s, d) {
       const today = new Date()
       const start = new Date(s)
       const deadline = new Date(d)

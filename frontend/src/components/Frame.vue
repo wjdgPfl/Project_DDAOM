@@ -128,6 +128,10 @@ export default {
       this.$router.push('/makeplan')
     },
     MoveLogin() {
+      axios.delete('/api/login').then((res) => {
+        alert('로그아웃하였습니다.')
+      })
+
       this.$router.push('/')
     },
     MoveProjectList() {
