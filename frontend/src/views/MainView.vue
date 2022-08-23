@@ -1,6 +1,10 @@
 <template>
   <div id="bigbody">
-    <Frame @checkValue="filterCalendar" @projectColor="changeProjectColor" />
+    <Frame
+      @checkValue="filterCalendar"
+      @projectColor="changeProjectColor"
+      @projectPersonalColor="changePersonalColor"
+    />
     <div id="heightt">
       <div id="app">
         <v-app id="inspire">
@@ -244,7 +248,10 @@ export default {
       }
       this.updateRange()
     },
-
+    changePersonalColor(projectPersonalColor) {
+      // 유저 아이디인 경우 코드 작성
+      this.updateRange()
+    },
     filterCalendar(checkValue) {
       for (const j in this.projects) {
         const ject = this.projects[j]
@@ -346,14 +353,6 @@ export default {
                 '일',
               descDetails: Details
             })
-          } else {
-            // checked가 false인 경우,
-            for (let k = 0; k < events.length; k++) {
-              if (events[k].project === projectname) {
-                alert('hj')
-                events.slice(k)
-              }
-            }
           }
         }
         this.events = events
