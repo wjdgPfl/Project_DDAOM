@@ -5,19 +5,45 @@ const database = require("./database");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-
+global.a = "";
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/api/frame", (req, res) => {
-  // res.send(backdata);
+// 프레임 시작
+
+app.post("/api/frame/color", async (req, res) => {
+
+  const project_color = await database.run(
+    `SELECT * FROM Project_User WHERE user_id = "${a}" ORDER BY project_id`
+  )
+  res.send(project_color);
+
 });
+
+app.post("/api/frame/project_name", async (req, res) => {
+
+  const project_name = await database.run(
+    `SELECT * FROM Project WHERE id IN
+    (SELECT project_id FROM Project_User WHERE user_id ='${a}');`
+  );
+  res.send(project_name);
+
+});
+
+// 프레임 끝
+
+// 회원가입 시작
 
 app.post("/api/signup", async (req, res) => {
   await database.run(
     `INSERT INTO User (id,name,password,hint) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.password}','${req.body.content.pwhint}')`
   );
+  await database.run(
+    `INSERT INTO Project_User (user_id,user_name,color, checked) VALUES ('${req.body.content.id}','${req.body.content.name}','#000000', FALSE)`
+  );
 });
+
+// 회원가입 끝
 
 // 로그인 시작
 
@@ -31,6 +57,7 @@ app.get("/api/login", async (req, res) => {
         // 쿠키 토큰과 암호가 타당하지 않으면 401
         return res.send(401);
       }
+
       res.send(decoded); //쿠키의 정보가 맞으면 쿠키토큰 안에있는걸 프론트로 보냄
     });
   } else {
@@ -43,7 +70,7 @@ app.post("/api/login", async (req, res) => {
 
   const loginId = req.body.loginId; // 프론트앤드에서 입력받은 아이디
   const loginpw = req.body.loginPw; //  비밀번호
-
+  global.a = req.body.loginId;
   const member = members.find(
     (m) => m.id === loginId && m.password === loginpw // 백앤드에 있는 아디비번과 프론트앤드에서 입력한 아디비번이 일치하면 멤버변수에 넣음
   );
@@ -85,6 +112,38 @@ app.delete("/api/login", (req, res) => {
 });
 
 // 로그인 끝
+
+// 프로젝트 리스트
+
+// app.get("/api/list", async (req, res) => {
+//   const id = req.body.content;
+//   console.log(id);
+// });
+
+app.get("/api/list", async (req, res) => {
+  const result = await database.run(
+    `SELECT * FROM Project WHERE id IN (SELECT project_id FROM Project_User WHERE user_id ='${a}')`
+  );
+  console.log(a);
+
+  res.send(result);
+});
+
+app.get("/api/link", async (req, res) => {
+  const result = await database.run(
+    `SELECT * FROM Link WHERE project_id IN (SELECT project_id FROM Project_User WHERE user_id = '${a}')`
+  );
+
+  res.send(result);
+});
+
+app.get("/api/peer", async (req, res) => {
+  const result = await database.run("SELECT * FROM Project_User");
+
+  res.send(result);
+});
+
+// 프로젝트 리스트
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
