@@ -119,6 +119,25 @@ app.get("/api/peer", async (req, res) => {
 
 // 프로젝트 리스트
 
+// 프레임 시작
+
+app.post("/api/frame/color", async (req, res) => {
+  const project_color = await database.run(
+    `SELECT * FROM Project_User WHERE user_id = "${a}"`
+  );
+  res.send(project_color);
+});
+
+app.post("/api/frame/project_name", async (req, res) => {
+  const project_name = await database.run(
+    `SELECT * FROM Project WHERE id IN
+    (SELECT project_id FROM Project_User WHERE user_id ='${a}');`
+  );
+  res.send(project_name);
+});
+
+// 프레임 끝
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 });

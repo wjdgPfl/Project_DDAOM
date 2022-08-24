@@ -156,7 +156,7 @@ export default {
     axios.get('/api/peer').then((res) => {
       // console.log(res.data)
       peerlist.Peer = res.data
-      console.log(peerlist.Peer)
+      // console.log(peerlist.Peer)
     })
 
     axios.get('/api/list').then((res) => {
