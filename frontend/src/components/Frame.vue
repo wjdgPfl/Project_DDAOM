@@ -24,7 +24,6 @@
 
     <nav :class="{ navv: this.isnone }">
       <div>
-        <!-- <button> text </button> -->
         <button class="navbutton" @click="MoveMakeProject()">
           Make Project
         </button>
@@ -37,13 +36,15 @@
         <p>필터</p>
         <ul>
           <li>
+            <!-- 개인 일정 필터 -->
             <div class="filterList">
-              <input type="checkbox" @change="updateParentValue(i)" />
+              <input type="checkbox" @change="changePersonalChecked()" />
               {{ logininf.loginaccount.name }}
+              <!-- 개인 일정 색상 = value값 & 현재의 username = id -->
               <input
                 type="color"
                 :value="state.Project_User[0].color"
-                :id="logininf.loginaccount.name"
+                :id="state.Project_User[0].id"
                 class="color"
                 @change="changePersonalColor()"
               />
@@ -52,15 +53,17 @@
           <li>
             <hr style="width: 80%; border-top: 1px dashed black" />
           </li>
+          <!-- 프로젝트 일정 필터 -->
           <li :key="i" v-for="(project, i) in state.Project">
             <div class="filterList">
-              <input type="checkbox" @change="updateParentValue(i)" />{{
+              <input type="checkbox" @change="changeChecked(i)" />{{
                 project.name
               }}
+              <!-- 색상 = value값 & 현재의 project name = id -->
               <input
                 type="color"
                 :value="state.Project_User[i + 1].color"
-                :id="project.name"
+                :id="state.Project_User[i + 1].id"
                 class="color"
                 @change="changeColor(i)"
               />
@@ -76,7 +79,6 @@
 
 <script>
 import axios from 'axios'
-
 import { reactive } from 'vue'
 
 export default {
@@ -84,12 +86,6 @@ export default {
   data() {
     return {
       isnone: false
-      // Projects: [
-      //   { name: 'qwe', color: '#00ff00', checked: false },
-      //   { name: 'project_1', color: '#ff9214', checked: false },
-      //   { name: 'chae', color: '#67AB27', checked: false },
-      //   { name: 'project_3', color: '#7B9BE5', checked: false }
-      // ]
     }
   },
   setup() {
@@ -126,36 +122,47 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    updateParentValue(i) {
+    changeChecked(i) {
       const checkValue = []
-      checkValue[0] = this.state.Project[i].name
-      checkValue[1] = this.state.Project[i].checked
-      if (checkValue[1] === false) {
-        checkValue[1] = true
-        this.state.Project[i].checked = true
-      } else if (checkValue[1] === true) {
-        checkValue[1] = false
-        this.state.Projects[i].checked = false
-      }
-      this.$emit('checkValue', checkValue) // 이름과 checked 여부 쌍으로 보내기
+      checkValue[0] = this.state.Project_User[i + 1].id // 프로젝트
+      checkValue[1] = this.state.Project_User[i + 1].checked // 프로젝트의 변수 chedcked
+      alert(checkValue[1])
+
+      const content = checkValue
+      // alert(content)
+      axios.post('/api/frame/update/checked', { content }).then((res) => {})
+    },
+    changePersonalChecked() {
+      const checkValue = []
+      checkValue[0] = this.state.Project_User[0].id
+      checkValue[1] = this.state.Project_User[0].checked
+      alert(checkValue[1])
+
+      const content = checkValue
+      axios.post('/api/frame/update/checked', { content }).then((res) => {})
     },
     changeColor(i) {
       const colorValue = []
-      colorValue[0] = this.state.Project[i].name
-      colorValue[1] = document.getElementById(this.state.Project[i].name).value // 현재의 색상 변경 값
-      // this.state.Project[i].color = colorValue[1] 데이터베이스 바로 색상 바꾸도록!!!!
-
-      this.$emit('projectColor', colorValue) // 이름과 색상 쌍으로 보내기
-    },
-    changePersonalColor(i) {
-      const colorValue = []
-      colorValue[0] = this.logininf.loginaccount.name
+      colorValue[0] = this.state.Project_User[i + 1].id
+      // i값을 이용해서 project i번째의 프로젝트 이름의 색상 값 가져옴
       colorValue[1] = document.getElementById(
-        this.logininf.loginaccount.name
-      ).value // 현재의 색상 변경 값
-      // this.state.Project_User[0].color = colorValue[1] 데이터베이스 바로 색상 바꾸도록!!!!
+        this.state.Project_User[i + 1].id
+      ).value
+      alert(colorValue[1])
 
-      this.$emit('projectPersonalColor', colorValue) // 이름과 색상 쌍으로 보내기
+      const content = colorValue
+      axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
+    },
+    changePersonalColor() {
+      const colorValue = []
+      colorValue[0] = this.state.Project_User[0].id
+      colorValue[1] = document.getElementById(
+        this.state.Project_User[0].id
+      ).value // 유저네임으로 추출
+      alert(colorValue[1])
+
+      const content = colorValue
+      axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
     },
     Isnone() {
       this.isnone = !this.isnone
