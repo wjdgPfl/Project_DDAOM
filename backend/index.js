@@ -13,21 +13,47 @@ app.use(cookieParser());
 
 app.post("/api/frame/color", async (req, res) => {
 
-  const project_color = await database.run(
+  const Project_User = await database.run(
     `SELECT * FROM Project_User WHERE user_id = "${a}" ORDER BY project_id`
   )
-  res.send(project_color);
+  res.send(Project_User);
 
 });
 
 app.post("/api/frame/project_name", async (req, res) => {
 
-  const project_name = await database.run(
+  const Project = await database.run(
     `SELECT * FROM Project WHERE id IN
     (SELECT project_id FROM Project_User WHERE user_id ='${a}');`
   );
-  res.send(project_name);
+  res.send(Project);
 
+});
+
+app.post("/api/frame/update/checked", async (req, res) => {
+  // content : [0] = 프로젝트 id, [1] = 체크 value
+  const checkValue = req.body.content
+  if (checkValue[1] === 0) {
+    // false인 경우
+    checkValue[1] = 1
+  } else if (checkValue[1] === 1) {
+    // true인 경우
+    checkValue[1] = 0
+  }
+  await database.run(
+    `UPDATE Project_User SET checked = ${checkValue[1]} WHERE id = ${checkValue[0]}`
+  );
+  console.log(req.body.content[1])
+});
+
+app.post("/api/frame/update/color", async (req, res) => {
+  // content : [0] = 프로젝트 id, [1] = 색상 value
+  const colorValue = req.body.content
+
+  await database.run(
+    `UPDATE Project_User SET color = '${colorValue[1]}' WHERE id = ${colorValue[0]}`
+  );
+  console.log(req.body.content[1])
 });
 
 // 프레임 끝
