@@ -1,10 +1,7 @@
 <template>
   <div id="bigbody">
-    <Frame
-      @checkValue="filterCalendar"
-      @projectColor="changeProjectColor"
-      @projectPersonalColor="changePersonalColor"
-    />
+    <Frame />
+
     <div id="heightt">
       <div id="app">
         <v-app id="inspire">
@@ -26,6 +23,7 @@
                     {{ $refs.calendar.title }}
                   </v-toolbar-title>
                   <v-spacer></v-spacer>
+
                   <!-- 드롭다운 (month, day, week) -->
                   <v-menu bottom right>
                     <template v-slot:activator="{ on, attrs }">
@@ -53,6 +51,7 @@
                   </v-menu>
                 </v-toolbar>
               </v-sheet>
+
               <!-- 메인 캘린더 -->
               <v-sheet height="calc(100vh - 119px)">
                 <v-calendar
@@ -96,8 +95,8 @@
                         <v-icon>mdi-trash-can</v-icon>
                       </v-btn>
                     </v-toolbar>
-                    <!-- 레이어 내용 -->
 
+                    <!-- 레이어 내용 -->
                     <v-card-text style="height: 120px">
                       <span v-html="selectedEvent.dateDetails"></span>
                       <div>
@@ -138,6 +137,8 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { reactive } from 'vue'
 import Frame from '@/components/Frame.vue'
 
 export default {
@@ -164,7 +165,7 @@ export default {
       {
         name: 'qwe',
         color: '#FF99D4',
-        checked: false,
+        checked: true,
         plan: [
           {
             planName: 'Meeting',
@@ -232,35 +233,62 @@ export default {
     ]
   }),
 
-  setup() {},
+  setup() {
+    const state = reactive({
+      Project: {},
+      Project_User: {},
+      Schedule: {}
+    })
+
+    axios.post('/api/frame/color').then((res) => {
+      // 색상과 체크 여부 보유
+      state.Project_User = res.data
+    })
+
+    axios.post('/api/frame/project_name').then((res) => {
+      // 프로젝트 이름
+      state.Project = res.data
+    })
+  },
   created() {},
   mounted() {
     this.$refs.calendar.checkChange()
   },
   unmounted() {},
   methods: {
-    changeProjectColor(projectColor) {
-      for (const j in this.projects) {
-        const ject = this.projects[j]
-        if (ject.name === projectColor[0]) {
-          ject.color = projectColor[1]
-        }
-      }
-      this.updateRange()
-    },
-    changePersonalColor(projectPersonalColor) {
-      // 유저 아이디인 경우 코드 작성
-      this.updateRange()
-    },
-    filterCalendar(checkValue) {
-      for (const j in this.projects) {
-        const ject = this.projects[j]
-        if (ject.name === checkValue[0]) {
-          ject.checked = checkValue[1]
-        }
-      }
-      this.updateRange()
-    },
+    // // 색상 변수 가져오기
+    // changeColor(projectColor) {
+    //   for (const j in this.projects) {
+    //     const ject = this.projects[j]
+    //     if (ject.name === projectColor[0]) {
+    //       ject.color = projectColor[1]
+    //     }
+    //   }
+    //   this.updateRange()
+    // },
+    // // 개인 일정 색상 가져오기
+    // changePersonalColor(projectPersonalColor) {
+    //   // 유저 아이디인 경우 코드 작성
+    //   this.updateRange()
+    // },
+    // 체크 변수 가져오기
+    // changeChecked(projectChecked) {
+    //   axios.get('/api/signup').then((res) => {
+    //     checked = res.data
+    //   })
+    //   for (const j in this.projects) {
+    //     const ject = this.projects[j]
+    //     if (ject.name === projectChecked[0]) {
+    //       ject.checked = projectChecked[1]
+    //     }
+    //   }
+    //   this.updateRange()
+    // },
+    // // 개인 일정 체크 여부 가져오기
+    // changePersonalChecked(projectPersonalChecked) {
+    //   // 유저 아이디인 경우 코드 작성
+    //   this.updateRange()
+    // },
 
     editDesc() {
       const text = document.getElementById('selectText')
@@ -269,7 +297,8 @@ export default {
     saveDesc() {
       const text = document.getElementById('selectText')
       text.readOnly = true
-      this.selectedEvent.descDetails = text.value // 데이터베이스에서 수정
+      this.selectedEvent.descDetails = text.value
+      // 데이터베이스에서 저장
       // this.selectedEvent -> 현재 레이어가 뜬 이벤트를 가리킴
     },
     remove() {
@@ -313,7 +342,7 @@ export default {
 
     updateRange() {
       const events = []
-
+      // 프로젝트 변수를 돌면서 checked 여부를 확인하여 일정 삽입
       for (const j in this.projects) {
         const project = this.projects[j]
         const eventlist = project.plan
@@ -327,11 +356,9 @@ export default {
 
           const firstmon = first.getMonth() + 1
           const secondmon = second.getMonth() + 1
-          const projectname = project.name
 
           if (project.checked === true) {
             events.push({
-              project: projectname,
               name: eventname,
               start: first,
               end: second,

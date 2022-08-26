@@ -171,6 +171,7 @@ export default {
       const projectName = document.getElementById(
         this.project.projectList[k].name
       )
+      alert(this.project.projectList[k].name)
       const buttons =
         projectName.parentElement.previousElementSibling.childNodes[1]
       if (projectName.style.display === 'block') {
