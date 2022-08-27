@@ -139,6 +139,16 @@ app.delete("/api/login", (req, res) => {
 
 // 로그인 끝
 
+// 프로젝트 생성 시작
+
+app.post("/api/makeProject", async (req, res) => {
+  await database.run(
+    `INSERT INTO Project (name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.description}','${req.body.image_path}','${req.body.file_path}')`
+  );
+});
+
+// 프로젝트 생성 끝
+
 // 프로젝트 리스트
 
 // app.get("/api/list", async (req, res) => {
