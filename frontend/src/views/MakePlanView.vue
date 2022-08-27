@@ -35,7 +35,7 @@
           <div class="typeOfPlan" id="projectChoose">
             <select id="projectList">
               <option value="">프로젝트명</option>
-              <option value="ddaom">따옴 프로젝트</option>
+              <option :key="project_id" :value="project_name" v-for="(project_name, project_id) in projectinf.project"> {{ project_name }} </option>
             </select>
           </div>
         </div>
@@ -46,6 +46,7 @@
             id="getProjectName"
             class="inputBoxes"
             placeholder="제목을 입력해주세요."
+            v-model="makePlaninf.makePlan.title"
             autofocus
           />
         </div>
@@ -55,6 +56,7 @@
             type="date"
             id="startDate"
             class="inputBoxes"
+            v-model="makePlaninf.makePlan.start_date"
             @change="sameDatePlan()"
           />
           <div id="TodayDiv">
@@ -68,6 +70,7 @@
             type="date"
             id="deadlineDate"
             class="inputBoxes"
+            v-model="makePlaninf.makePlan.end_date"
             @change="sameDatePlan()"
           />
         </div>
@@ -77,6 +80,7 @@
             id="projectDetail"
             class="inputBoxes"
             placeholder="상세 설명을 입력해주세요."
+            @input="makePlaninf.makePlan.description = $event.target.value"
           ></textarea>
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
@@ -98,12 +102,58 @@
 
 <script>
 // @ is an alias to /src
+import axios from 'axios'
+import { reactive } from 'vue'
 import Frame from '@/components/Frame.vue'
 
 export default {
-  name: '',
   components: {
     Frame
+  },
+  data() {
+    return {}
+  },
+  setup() {
+    const logininf = reactive({
+      loginaccount: {
+        // 사용자 계정
+        id: null,
+        name: null
+      }
+    })
+
+    axios.get('/api/login').then((res) => {
+      // 사용자 계정 쿠키로 받아옴
+      logininf.loginaccount = res.data
+    })
+
+    const projectinf = reactive({
+      project: {
+        project_name: '',
+        project_id: ''
+      }
+    })
+
+    axios.get('/api/makePlan/project/name').then((res) => {
+      // 사용자 계정 쿠키로 받아옴
+      projectinf.project.project_name = res.data
+    })
+
+    axios.get('/api/makePlan/project/id').then((res) => {
+      // 사용자 계정 쿠키로 받아옴
+      projectinf.project.project_id = res.data
+    })
+
+    const makePlaninf = reactive({
+      makePlan: {
+        title: '',
+        start_date: '',
+        end_date: '',
+        description: ''
+      }
+    })
+
+    return { logininf, projectinf, makePlaninf }
   },
   methods: {
     appearProjectList() {
@@ -137,6 +187,7 @@ export default {
       if (todayCheckBox.checked) {
         document.getElementById('deadlineDate').value =
           document.getElementById('startDate').value
+        this.makePlaninf.makePlan.end_date = this.makePlaninf.makePlan.start_date
       }
     },
     dateCondition() {
@@ -148,6 +199,7 @@ export default {
       }
     },
     saveCheck() {
+      const content = this.makePlaninf.makePlan
       const together = document.getElementById('together')
       const personal = document.getElementById('personal')
       const projectList = document.getElementById('projectList')
@@ -174,6 +226,7 @@ export default {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
       } else {
         if (confirm('제출하시겠습니까?')) {
+          axios.post('/api/makePlan', { content }).then((res) => {})
           this.$router.push('/main')
         }
       }
