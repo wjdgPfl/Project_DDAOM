@@ -143,7 +143,7 @@ app.delete("/api/login", (req, res) => {
 
 app.post("/api/makeProject", async (req, res) => {
   await database.run(
-    `INSERT INTO Project (name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.description}','${req.body.image_path}','${req.body.file_path}')`
+    `INSERT INTO Project (name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
   );
 });
 

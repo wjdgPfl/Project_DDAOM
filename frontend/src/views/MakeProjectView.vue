@@ -102,7 +102,7 @@
           <input
             type="file"
             id="addReoresehtativePicture"
-            @change="onImageChange(e)"/>
+            @change="onImageChange()"/>
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
@@ -110,7 +110,7 @@
             type="file"
             multiple="multiple"
             id="addFile"
-            @change="onFileChange(e)" />
+            @change="onFileChange()" />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
           <input
@@ -150,8 +150,8 @@ export default {
         start_date: '',
         end_date: '',
         description: '',
-        image_path: '',
-        file_path: ''
+        image_path: [],
+        file_path: []
       }
     })
 
@@ -262,7 +262,7 @@ export default {
       }
     },
     onImageChange(e) {
-      const imageFile = e.target.file
+      const imageFile = e.target.files
       const url = URL.createObjectURL(imageFile[0])
       this.image_path = url
     },
