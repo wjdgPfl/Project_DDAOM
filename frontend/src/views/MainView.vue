@@ -91,7 +91,7 @@
                       <v-btn icon @click="saveDesc()">
                         <v-icon>mdi-content-save</v-icon>
                       </v-btn>
-                      <v-btn icon @click="remove()">
+                      <v-btn icon @click="removeDesc()">
                         <v-icon>mdi-trash-can</v-icon>
                       </v-btn>
                     </v-toolbar>
@@ -159,96 +159,45 @@ export default {
     selectedEvent: {}, // 선택한 일정 양방향 바인딩
     selectedElement: null, // 사용자가 클릭한 일정 타겟
     selectedOpen: false, // 레이어 오픈 여부 확인
-    events: [], // 한 달 일정들을 담고 있는 느낌
-
-    projects: [
-      {
-        name: 'qwe',
-        color: '#FF99D4',
-        checked: true,
-        plan: [
-          {
-            planName: 'Meeting',
-            date: ['2022, 8, 13', '2022, 8, 16'],
-            details: 'dsads'
-          },
-          {
-            planName: 'wha',
-            date: ['2022, 8, 1', '2022, 8, 6'],
-            details: 'dsads'
-          }
-        ]
-      },
-      {
-        name: 'project_1',
-        color: '#82D3D9',
-        checked: false,
-        plan: [
-          {
-            planName: 'Meeting',
-            date: ['2022, 8, 2', '2022, 8, 3'],
-            details: 'dsads'
-          },
-          {
-            planName: 'wha',
-            date: ['2022, 8, 27', '2022, 8, 28'],
-            details: 'dsads'
-          }
-        ]
-      },
-      {
-        name: 'chae',
-        color: '#AB8EC7',
-        checked: false,
-        plan: [
-          {
-            planName: 'Meeting',
-            date: ['2022, 8, 21', '2022, 8, 23'],
-            details: 'dsads'
-          },
-          {
-            planName: 'wha',
-            date: ['2022, 8, 11', '2022, 8, 12'],
-            details: 'dsads'
-          }
-        ]
-      },
-      {
-        name: 'project_3',
-        color: '#7B9BE5',
-        checked: false,
-        plan: [
-          {
-            planName: 'Meeting',
-            date: ['2022, 8, 12', '2022, 8, 13'],
-            details: 'dsads'
-          },
-          {
-            planName: 'wha',
-            date: ['2022, 8, 7', '2022, 8, 8'],
-            details: 'dsads'
-          }
-        ]
-      }
-    ]
+    events: [] // 한 달 일정들을 담고 있는 느낌
   }),
 
   setup() {
+    const logininf = reactive({
+      loginaccount: {
+        // 사용자 계정
+        id: null,
+        name: null
+      }
+    })
+
+    axios.get('/api/login').then((res) => {
+      // 사용자 계정 쿠키로 받아옴
+      logininf.loginaccount = res.data
+    })
+
     const state = reactive({
       Project: {},
       Project_User: {},
       Schedule: {}
     })
 
-    axios.post('/api/frame/color').then((res) => {
+    axios.post('/api/main/Project').then((res) => {
+      // 프로젝트 이름
+      state.Project = res.data
+    })
+
+    axios.post('/api/main/Project_User').then((res) => {
       // 색상과 체크 여부 보유
       state.Project_User = res.data
     })
 
-    axios.post('/api/frame/project_name').then((res) => {
-      // 프로젝트 이름
-      state.Project = res.data
+    axios.post('/api/main/Schedule').then((res) => {
+      // 색상과 체크 여부 보유
+      state.Schedule = res.data
     })
+
+    return { state, logininf }
   },
   created() {},
   mounted() {
@@ -256,40 +205,6 @@ export default {
   },
   unmounted() {},
   methods: {
-    // // 색상 변수 가져오기
-    // changeColor(projectColor) {
-    //   for (const j in this.projects) {
-    //     const ject = this.projects[j]
-    //     if (ject.name === projectColor[0]) {
-    //       ject.color = projectColor[1]
-    //     }
-    //   }
-    //   this.updateRange()
-    // },
-    // // 개인 일정 색상 가져오기
-    // changePersonalColor(projectPersonalColor) {
-    //   // 유저 아이디인 경우 코드 작성
-    //   this.updateRange()
-    // },
-    // 체크 변수 가져오기
-    // changeChecked(projectChecked) {
-    //   axios.get('/api/signup').then((res) => {
-    //     checked = res.data
-    //   })
-    //   for (const j in this.projects) {
-    //     const ject = this.projects[j]
-    //     if (ject.name === projectChecked[0]) {
-    //       ject.checked = projectChecked[1]
-    //     }
-    //   }
-    //   this.updateRange()
-    // },
-    // // 개인 일정 체크 여부 가져오기
-    // changePersonalChecked(projectPersonalChecked) {
-    //   // 유저 아이디인 경우 코드 작성
-    //   this.updateRange()
-    // },
-
     editDesc() {
       const text = document.getElementById('selectText')
       text.readOnly = false
@@ -298,12 +213,26 @@ export default {
       const text = document.getElementById('selectText')
       text.readOnly = true
       this.selectedEvent.descDetails = text.value
+
       // 데이터베이스에서 저장
-      // this.selectedEvent -> 현재 레이어가 뜬 이벤트를 가리킴
+      const textValue = []
+      textValue[0] = this.selectedEvent.id
+      textValue[1] = text.value
+
+      const content = textValue
+      axios.post('/api/main/Schedule/edit', { content }).then((res) => {})
+      // this.updateRange()
     },
-    remove() {
-      confirm('삭제하시겠습니까?')
-      // 일정 삭제 함수 구현하기
+    removeDesc() {
+      if (confirm('삭제하시겠습니까?')) {
+        // 데이터베이스에 저장
+        const removeValue = this.selectedEvent.id
+        alert(removeValue)
+
+        const content = removeValue
+        axios.post('/api/main/Schedule/remove', { content }).then((res) => {})
+        // this.updateRange()
+      }
     },
     viewDay({ date }) {
       this.focus = date
@@ -342,48 +271,54 @@ export default {
 
     updateRange() {
       const events = []
-      // 프로젝트 변수를 돌면서 checked 여부를 확인하여 일정 삽입
-      for (const j in this.projects) {
-        const project = this.projects[j]
-        const eventlist = project.plan
-        const eventCount = eventlist.length
+      for (const i in this.state.Schedule) {
+        // schedule table
+        const schedule = this.state.Schedule[i]
 
-        for (let i = 0; i < eventCount; i++) {
-          const eventname = eventlist[i].planName
-          const first = new Date(eventlist[i].date[0])
-          const second = new Date(eventlist[i].date[1])
-          const Details = eventlist[i].details
+        // Project_User table
+        for (const j in this.state.Project_User) {
+          const projectUser = this.state.Project_User[j]
 
-          const firstmon = first.getMonth() + 1
-          const secondmon = second.getMonth() + 1
+          // project_User table에서 checked가 1인 경우
+          if (projectUser.checked === 1) {
+            // project_id가 동일한 경우를 찾아 event push
+            if (projectUser.project_id === schedule.project_id) {
+              const Color = projectUser.color
 
-          if (project.checked === true) {
-            events.push({
-              name: eventname,
-              start: first,
-              end: second,
-              color: project.color,
-              dateDetails:
-                '기간 : ' +
-                first.getFullYear() +
-                '년 ' +
-                firstmon +
-                '월 ' +
-                first.getDate() +
-                '일' +
-                ' ~ ' +
-                second.getFullYear() +
-                '년 ' +
-                secondmon +
-                '월 ' +
-                second.getDate() +
-                '일',
-              descDetails: Details
-            })
+              const first = new Date(schedule.start_date)
+              const second = new Date(schedule.end_date)
+
+              const firstmon = first.getMonth() + 1
+              const secondmon = second.getMonth() + 1
+
+              events.push({
+                id: schedule.id,
+                name: schedule.title,
+                start: first,
+                end: second,
+                color: Color,
+                dateDetails:
+                  '기간 : ' +
+                  first.getFullYear() +
+                  '년 ' +
+                  firstmon +
+                  '월 ' +
+                  first.getDate() +
+                  '일' +
+                  ' ~ ' +
+                  second.getFullYear() +
+                  '년 ' +
+                  secondmon +
+                  '월 ' +
+                  second.getDate() +
+                  '일',
+                descDetails: schedule.description
+              })
+            }
           }
         }
-        this.events = events
       }
+      this.events = events
     }
   }
 }

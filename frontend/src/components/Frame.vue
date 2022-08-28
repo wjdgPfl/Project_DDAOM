@@ -80,9 +80,10 @@
 <script>
 import axios from 'axios'
 import { reactive } from 'vue'
+import Main from '../views/MainView.vue'
 
 export default {
-  conponents: {},
+  conponents: { Main },
   data() {
     return {
       isnone: false
@@ -126,17 +127,30 @@ export default {
       const checkValue = []
       checkValue[0] = this.state.Project_User[i + 1].id // 프로젝트
       checkValue[1] = this.state.Project_User[i + 1].checked // 프로젝트의 변수 chedcked
-      alert(checkValue[1])
+      alert(checkValue)
+
+      if (checkValue[1] === 0) {
+        // false인 경우
+        checkValue[1] = 1
+      } else if (checkValue[1] === 1) {
+        // true인 경우
+        checkValue[1] = 0
+      }
 
       const content = checkValue
-      // alert(content)
       axios.post('/api/frame/update/checked', { content }).then((res) => {})
     },
     changePersonalChecked() {
       const checkValue = []
       checkValue[0] = this.state.Project_User[0].id
       checkValue[1] = this.state.Project_User[0].checked
-      alert(checkValue[1])
+      alert(checkValue)
+
+      if (checkValue[1] === 0) {
+        checkValue[1] = 1
+      } else if (checkValue[1] === 1) {
+        checkValue[1] = 0
+      }
 
       const content = checkValue
       axios.post('/api/frame/update/checked', { content }).then((res) => {})
@@ -148,7 +162,6 @@ export default {
       colorValue[1] = document.getElementById(
         this.state.Project_User[i + 1].id
       ).value
-      alert(colorValue[1])
 
       const content = colorValue
       axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
@@ -159,7 +172,6 @@ export default {
       colorValue[1] = document.getElementById(
         this.state.Project_User[0].id
       ).value // 유저네임으로 추출
-      alert(colorValue[1])
 
       const content = colorValue
       axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송

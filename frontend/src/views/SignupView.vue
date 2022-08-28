@@ -155,6 +155,7 @@ export default {
     })
 
     axios.get('/api/signup').then((res) => {})
+
     return { signupinf }
   },
   created() {},
