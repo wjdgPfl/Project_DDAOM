@@ -44,7 +44,7 @@
             <td>
               <p id="duplicate">ID중복 여부를 확인해주세요.</p>
             </td>
-            <button id="duplicate_button">&nbsp;ID 중복 검사&nbsp;</button>
+            <button id="duplicate_button" @click="checkID()">&nbsp;ID 중복 검사&nbsp;</button>
           </span>
         </tr>
         <tr>
@@ -153,9 +153,10 @@ export default {
         pwhint: ''
       }
     })
-
     axios.get('/api/signup').then((res) => {})
-
+    axios.get('/api/checkid').then((res) => {
+      signupinf.signup.id = res.data
+    })
     return { signupinf }
   },
   created() {},
@@ -213,6 +214,16 @@ export default {
       } else {
         this.passwordCheckFlag = false
       }
+    },
+    checkID() {
+      const content = this.signupinf.signup.id
+      axios.post('/api/checkid', { content }).then((res) => {
+        if (res.data === '사용불가능') {
+          alert('이미 존재하는 아이디입니다.')
+        } else if (res.data === '사용가능') {
+          alert('사용가능한 아이디입니다.')
+        }
+      })
     }
   }
 }
