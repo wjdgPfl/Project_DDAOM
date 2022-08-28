@@ -1,5 +1,6 @@
 <template>
   <div id="body">
+    <MainPage @testValue="testFunction" />
     <header>
       <button @click="Isnone()" id="asideBarButton">
         <v-icon>mdi-menu</v-icon>
@@ -80,10 +81,10 @@
 <script>
 import axios from 'axios'
 import { reactive } from 'vue'
-import Main from '../views/MainView.vue'
+import MainPage from '../views/MainView.vue'
 
 export default {
-  conponents: { Main },
+  conponents: { MainPage },
   data() {
     return {
       isnone: false
@@ -123,6 +124,9 @@ export default {
   created() {},
   mounted() {},
   methods: {
+    testFunction(testValue) {
+      console.log(testValue)
+    },
     changeChecked(i) {
       const checkValue = []
       checkValue[0] = this.state.Project_User[i + 1].id // 프로젝트
@@ -136,6 +140,8 @@ export default {
         // true인 경우
         checkValue[1] = 0
       }
+
+      this.testFunction()
 
       const content = checkValue
       axios.post('/api/frame/update/checked', { content }).then((res) => {})

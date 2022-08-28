@@ -4,7 +4,7 @@
     <section>
       <div id="togggle">
         <div class="toggle_box">
-          <input type="checkbox" id="custom_input" />
+          <input type="checkbox" id="custom_input" @change="toggle()" />
           <label for="custom_input" class="toggle_btn_label">
             <span></span>
           </label>
@@ -20,10 +20,10 @@
           <div>
             <img class="mainphoto" :src="project.image_path" />
             <span style="display: none">
-              <button type="button" class="btnSubmit" @click="readOnlyTrue(i)">
+              <button type="button" class="btnSubmit" @click="readOnlyFalse(i)">
                 &nbsp;수정&nbsp;
               </button>
-              <button type="button" class="btnSubmit" @click="readOnlyFalse(i)">
+              <button type="button" class="btnSubmit" @click="readOnlyTrue(i)">
                 &nbsp;완료&nbsp;
               </button>
               <button type="button" class="btnSubmit">&nbsp;삭제&nbsp;</button>
@@ -40,12 +40,8 @@
 
             <!-- 진행률 -->
             <div class="progress">
-              <div
-                class="progress-bar"
-                role="progressbar"
-                :style="process.progress_width"
-              >
-                {{ process.progress }}
+              <div class="progress-bar" role="progressbar">
+                {{ viewProgress(project.start_date, project.end_date) }}
               </div>
             </div>
 
@@ -91,7 +87,7 @@
               style="float: right"
               @click="openClose(i)"
             >
-              view more{{ progress }}
+              view more
             </button>
           </div>
         </li>
@@ -156,7 +152,7 @@ export default {
     axios.get('/api/peer').then((res) => {
       // console.log(res.data)
       peerlist.Peer = res.data
-      console.log(peerlist.Peer)
+      // console.log(peerlist.Peer)
     })
 
     axios.get('/api/list').then((res) => {
@@ -166,6 +162,28 @@ export default {
     return { project, logininf, linklist, peerlist, process }
   },
   methods: {
+    toggle() {
+      const togglebutton = document.getElementById('custom_input')
+      // const today = new Date()
+
+      if (togglebutton.checked === false) {
+        // 진행중인
+        // for (let i = 0; i < projectend.length; i++) {
+        //   const projectend = this.project.projectList[i].end_Data
+        //   const projectName = document.getElementById(
+        //     this.project.projectList[i].name
+        //   )
+        //   if (projectend[i] > today) {
+        //     projectName.parentElement.parentElement.display = 'none'
+        //   }
+        // }
+
+        alert('ongoing')
+      } else {
+        alert('complete')
+      }
+    },
+
     openClose(k) {
       // 부모의 이전형제의 두번째 자식
       const projectName = document.getElementById(
@@ -185,14 +203,31 @@ export default {
     readOnlyTrue(k) {
       const project = this.project.projectList[k]
       const link = document.getElementsByClassName(project.name)
+      const projectName = document.getElementById(
+        this.project.projectList[k].name
+      )
+      projectName.parentElement.parentElement.previousElementSibling.childNodes[0].childNodes[0].readOnly = true
+      projectName.childNodes[0].readOnly = true
       for (let i = 0; i < link.length; i++) {
+        // link[i].childNodes[0].readonly = true
+
         link[i].style.display = 'block'
         link[i].previousElementSibling.style.display = 'none'
       }
+      this.fixedData(k)
     },
     readOnlyFalse(k) {
       const project = this.project.projectList[k]
       const link = document.getElementsByClassName(project.name)
+      // project[k]
+      const projectName = document.getElementById(
+        this.project.projectList[k].name
+      )
+      alert(projectName.childNodes[0])
+      projectName.parentElement.parentElement.previousElementSibling.childNodes[0].childNodes[0].readOnly = false // 프로젝트 제목
+
+      projectName.childNodes[0].readOnly = false // 상세설명
+
       for (let i = 0; i < link.length; i++) {
         link[i].style.display = 'none'
         link[i].previousElementSibling.style.display = 'block'
@@ -218,6 +253,22 @@ export default {
       } else {
         return progress.toFixed(1) + '%'
       }
+    },
+    fixedData(k) {
+      const projectName = document.getElementById(
+        this.project.projectList[k].name
+      )
+      const nameid = this.project.projectList[k].id
+      const fixedProjectName =
+        projectName.parentElement.parentElement.previousElementSibling
+          .childNodes[0].childNodes[0].value
+      const fixedDesc = projectName.childNodes[0].value
+      const fixed = [fixedProjectName, fixedDesc]
+      alert(fixed)
+      axios.put('/api/fix/' + nameid, { fixed }).then((res) => {
+        this.project.projectList = res.data
+      })
+      alert('저장되었습니다.')
     }
   }
 }

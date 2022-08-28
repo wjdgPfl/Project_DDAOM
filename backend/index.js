@@ -12,7 +12,6 @@ app.use(cookieParser());
 // 프레임 시작
 
 app.post("/api/frame/color", async (req, res) => {
-
   const Project_User = await database.run(
     `SELECT * FROM Project_User WHERE user_id = "${a}" ORDER BY project_id`
   )
@@ -187,6 +186,7 @@ app.get("/api/list", async (req, res) => {
 });
 
 app.get("/api/link", async (req, res) => {
+  // 링크
   const result = await database.run(
     `SELECT * FROM Link WHERE project_id IN (SELECT project_id FROM Project_User WHERE user_id = '${a}')`
   );
@@ -195,8 +195,22 @@ app.get("/api/link", async (req, res) => {
 });
 
 app.get("/api/peer", async (req, res) => {
+  // 같이하는 팀원
   const result = await database.run("SELECT * FROM Project_User");
 
+  res.send(result);
+});
+
+// 프로젝트 리스트
+
+app.put("/api/fix/:nameid", async (req, res) => {
+  console.log(req.body.fixed);
+  await database.run(
+    `UPDATE Project SET name ='${req.body.fixed[0]}',description ='${req.body.fixed[1]}' WHERE id=${req.params.nameid}`
+  );
+  const result = await database.run(
+    `SELECT * FROM Link WHERE project_id IN (SELECT project_id FROM Project_User WHERE user_id = '${a}')`
+  );
   res.send(result);
 });
 
