@@ -73,7 +73,6 @@ export default {
         .post('/api/login', args)
         .then((res) => {
           alert('로그인에 성공했습니다.')
-          // this.logininf.loginaccount = res.data
           this.$router.push('/main')
         })
         .catch(() => {
