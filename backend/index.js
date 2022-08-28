@@ -61,6 +61,24 @@ app.post("/api/signup", async (req, res) => {
   );
 });
 
+app.post("/api/checkid", async (req, res) => {
+  // const query = await database.run(`SELECT id FROM User where id ='${req.body.content}';`)
+  // if (query[0].id === null){
+  //   res.send('사용가능')
+  // } else {
+  //   res.send('사용불가능')
+  // }
+
+  const query = await database.run(`SELECT id FROM User;`)
+  let result = '사용가능'
+  for (i in query) {
+    const exist = query[i].id
+    if (req.body.content === exist) {
+      result = '사용불가능'
+    }
+  }
+  res.send(result)
+});
 // 회원가입 끝
 
 // 로그인 시작
