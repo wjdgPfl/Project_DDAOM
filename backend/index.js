@@ -9,15 +9,37 @@ global.a = "";
 app.use(bodyParser.json());
 app.use(cookieParser());
 
-app.get("/api/frame", (req, res) => {
-  // res.send(backdata);
+// 프레임 시작
+
+app.post("/api/frame/color", async (req, res) => {
+  const project_color = await database.run(
+    `SELECT * FROM Project_User WHERE user_id = "${a}" ORDER BY project_id`
+  );
+  res.send(project_color);
 });
+
+app.post("/api/frame/project_name", async (req, res) => {
+  const project_name = await database.run(
+    `SELECT * FROM Project WHERE id IN
+    (SELECT project_id FROM Project_User WHERE user_id ='${a}');`
+  );
+  res.send(project_name);
+});
+
+// 프레임 끝
+
+// 회원가입 시작
 
 app.post("/api/signup", async (req, res) => {
   await database.run(
     `INSERT INTO User (id,name,password,hint) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.password}','${req.body.content.pwhint}')`
   );
+  await database.run(
+    `INSERT INTO Project_User (user_id,user_name,color, checked) VALUES ('${req.body.content.id}','${req.body.content.name}','#000000', FALSE)`
+  );
 });
+
+// 회원가입 끝
 
 // 로그인 시작
 
@@ -104,6 +126,7 @@ app.get("/api/list", async (req, res) => {
 });
 
 app.get("/api/link", async (req, res) => {
+  // 링크
   const result = await database.run(
     `SELECT * FROM Link WHERE project_id IN (SELECT project_id FROM Project_User WHERE user_id = '${a}')`
   );
@@ -112,31 +135,24 @@ app.get("/api/link", async (req, res) => {
 });
 
 app.get("/api/peer", async (req, res) => {
+  // 같이하는 팀원
   const result = await database.run("SELECT * FROM Project_User");
 
   res.send(result);
 });
 
+app.put("/api/fix/:nameid", async (req, res) => {
+  console.log(req.body.fixed);
+  await database.run(
+    `UPDATE Project SET name ='${req.body.fixed[0]}',description ='${req.body.fixed[1]}' WHERE id=${req.params.nameid}`
+  );
+  const result = await database.run(
+    `SELECT * FROM Link WHERE project_id IN (SELECT project_id FROM Project_User WHERE user_id = '${a}')`
+  );
+  res.send(result);
+});
+
 // 프로젝트 리스트
-
-// 프레임 시작
-
-app.post("/api/frame/color", async (req, res) => {
-  const project_color = await database.run(
-    `SELECT * FROM Project_User WHERE user_id = "${a}"`
-  );
-  res.send(project_color);
-});
-
-app.post("/api/frame/project_name", async (req, res) => {
-  const project_name = await database.run(
-    `SELECT * FROM Project WHERE id IN
-    (SELECT project_id FROM Project_User WHERE user_id ='${a}');`
-  );
-  res.send(project_name);
-});
-
-// 프레임 끝
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
