@@ -4,7 +4,8 @@ const port = 3000;
 const database = require("./database");
 const bodyParser = require("body-parser");
 const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");  
+const { createConnection } = require("mariadb");
 global.a = "";
 app.use(bodyParser.json());
 app.use(cookieParser());
@@ -41,6 +42,27 @@ app.post("/api/signup", async (req, res) => {
   await database.run(
     `INSERT INTO Project_User (user_id,user_name,color, checked) VALUES ('${req.body.content.id}','${req.body.content.name}','#000000', FALSE)`
   );
+});
+
+app.post("/api/checkid", async (req, res) => {
+  // const query = await database.run(`SELECT id FROM User where id ='${req.body.content}';`)
+  // if (query[0].id === null){
+  //   res.send('사용가능')
+  // } else {
+  //   res.send('사용불가능')
+  // }
+
+  const query = await database.run(`SELECT id FROM User;`)
+  let result = '사용가능'
+  for (i in query) {
+    const exist = query[i].id
+    if (req.body.content === exist) {
+      console.log(exist)
+      result = '사용불가능'
+    }
+  }
+  res.send(result)
+  console.log(result)
 });
 
 // 회원가입 끝
