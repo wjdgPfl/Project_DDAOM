@@ -4,11 +4,11 @@
     <section>
       <div id="sectionBox">
         <div class="sectionDiv">
-          <div style="width:400px; color: grey; font-size:15px">
+          <div style="width: 400px; color: grey; font-size: 15px">
             * 표시된 항목은 필수 항목입니다. 반드시 입력해주세요.
           </div>
           <div style="width: calc(100% - 510px)"></div>
-          <div class="typeOfPlan" id="makeProjectButton" style="width:110px">
+          <div class="typeOfPlan" id="makeProjectButton" style="width: 110px">
             <button v-on:click="moveProjectPage()">+ 프로젝트 생성</button>
           </div>
         </div>
@@ -35,7 +35,13 @@
           <div class="typeOfPlan" id="projectChoose">
             <select id="projectList">
               <option value="">프로젝트명</option>
-              <option :key="project_id" :value="project_name" v-for="(project_name, project_id) in projectinf.project"> {{ project_name }} </option>
+              <option
+                :key="i"
+                :value="project.id"
+                v-for="(project, i) in projectinf.Project"
+              >
+                {{ project.name }}
+              </option>
             </select>
           </div>
         </div>
@@ -94,7 +100,9 @@
             취소
           </button>
         </div>
-        <div class="sectionDiv"><button style="height:15px; width:15px"></button></div>
+        <div class="sectionDiv">
+          <button style="height: 15px; width: 15px"></button>
+        </div>
       </div>
     </section>
   </div>
@@ -114,34 +122,12 @@ export default {
     return {}
   },
   setup() {
-    const logininf = reactive({
-      loginaccount: {
-        // 사용자 계정
-        id: null,
-        name: null
-      }
-    })
-
-    axios.get('/api/login').then((res) => {
-      // 사용자 계정 쿠키로 받아옴
-      logininf.loginaccount = res.data
-    })
-
     const projectinf = reactive({
-      project: {
-        project_name: '',
-        project_id: ''
-      }
+      Project: {}
     })
 
-    axios.get('/api/makePlan/project/name').then((res) => {
-      // 사용자 계정 쿠키로 받아옴
-      projectinf.project.project_name = res.data
-    })
-
-    axios.get('/api/makePlan/project/id').then((res) => {
-      // 사용자 계정 쿠키로 받아옴
-      projectinf.project.project_id = res.data
+    axios.post('/api/makePlan/project').then((res) => {
+      projectinf.Project = res.data
     })
 
     const makePlaninf = reactive({
@@ -149,11 +135,12 @@ export default {
         title: '',
         start_date: '',
         end_date: '',
-        description: ''
+        description: '',
+        projectId: ''
       }
     })
 
-    return { logininf, projectinf, makePlaninf }
+    return { makePlaninf, projectinf }
   },
   methods: {
     appearProjectList() {
@@ -187,19 +174,11 @@ export default {
       if (todayCheckBox.checked) {
         document.getElementById('deadlineDate').value =
           document.getElementById('startDate').value
-        this.makePlaninf.makePlan.end_date = this.makePlaninf.makePlan.start_date
-      }
-    },
-    dateCondition() {
-      const startDate = document.getElementById('startDate').value
-      const deadlineDate = document.getElementById('deadlineDate').value
-
-      if (startDate > deadlineDate) {
-        alert('잘못된 기간입니다. 다시 입력해주세요.')
+        this.makePlaninf.makePlan.end_date =
+          this.makePlaninf.makePlan.start_date
       }
     },
     saveCheck() {
-      const content = this.makePlaninf.makePlan
       const together = document.getElementById('together')
       const personal = document.getElementById('personal')
       const projectList = document.getElementById('projectList')
@@ -226,7 +205,20 @@ export default {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
       } else {
         if (confirm('제출하시겠습니까?')) {
-          axios.post('/api/makePlan', { content }).then((res) => {})
+          if (together.checked) {
+            // 협업 일정 체크시 드롭박스 value값 가져오기
+            const projectId = document.getElementById('projectList').value
+            this.makePlaninf.makePlan.projectId = projectId
+
+            const content = this.makePlaninf.makePlan
+            axios.post('/api/makePlan/together', { content }).then((res) => {})
+          } else if (personal.checked) {
+            // 개인 일정 체크시 null로 지정
+            this.makePlaninf.makePlan.projectId = null
+
+            const content = this.makePlaninf.makePlan
+            axios.post('/api/makePlan/personal', { content }).then((res) => {})
+          }
           this.$router.push('/main')
         }
       }

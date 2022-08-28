@@ -74,7 +74,9 @@
             id="projectDetail"
             class="inputBoxes"
             placeholder="상세 설명을 입력해주세요."
-            @input="makeProjectinf.makeProject.description = $event.target.value"
+            @input="
+              makeProjectinf.makeProject.description = $event.target.value
+            "
           ></textarea>
         </div>
         <div id="linkDiv">
@@ -102,7 +104,8 @@
           <input
             type="file"
             id="addReoresehtativePicture"
-            @change="onImageChange()"/>
+            @change="onImageChange()"
+          />
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
@@ -110,7 +113,8 @@
             type="file"
             multiple="multiple"
             id="addFile"
-            @change="onFileChange()" />
+            @change="onFileChange()"
+          />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
           <input
@@ -188,6 +192,7 @@ export default {
       const removeIDButton = document.createElement('button')
       removeIDButton.setAttribute('id', 'removeIDbutton')
       removeIDButton.innerText = 'X'
+
       if (memberID === '') {
         alert('팀원의 아이디를 입력해주세요.')
       } else {
@@ -258,7 +263,8 @@ export default {
       if (todayCheckBox.checked) {
         document.getElementById('deadlineDate').value =
           document.getElementById('startDate').value
-        this.makeProjectinf.makeProject.end_date = this.makeProjectinf.makeProject.start_date
+        this.makeProjectinf.makeProject.end_date =
+          this.makeProjectinf.makeProject.start_date
       }
     },
     onImageChange(e) {
