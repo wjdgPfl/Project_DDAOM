@@ -132,7 +132,45 @@ app.delete("/api/login", (req, res) => {
 
 // 로그인 끝
 
-// 프로젝트 리스트 시작
+// 프로젝트 생성 시작
+
+app.post("/api/makeProject", async (req, res) => {
+  await database.run(
+    `INSERT INTO Project (name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
+  );
+});
+
+// 프로젝트 생성 끝
+
+// 일정 생성
+
+app.post("/api/makePlan/project/name", async (req, res) => {
+
+  const project_name = await database.run(
+    `SELECT name FROM Project`
+  );
+  res.send(project_name);
+
+});
+
+app.post("/api/makePlan/project/id", async (req, res) => {
+
+  const project_id = await database.run(
+    `SELECT id FROM Project`
+  );
+  res.send(project_id);
+
+});
+
+app.post("/api/makePlan", async (req, res) => {
+  await database.run(
+    `INSERT INTO Schedule (title,start_date,end_date,description) VALUES ('${req.body.content.title}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}')`
+  );
+});
+
+// 일정 생성 끝
+
+// 프로젝트 리스트
 
 // app.get("/api/list", async (req, res) => {
 //   const id = req.body.content;
