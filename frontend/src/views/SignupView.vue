@@ -155,6 +155,7 @@ export default {
     })
 
     axios.get('/api/signup').then((res) => {})
+
     return { signupinf }
   },
   created() {},
@@ -169,7 +170,6 @@ export default {
       const idSignup = document.getElementById('signup_id').value
       const passwordSignup = document.getElementById('signup_password').value
       const checkSignup = document.getElementById('signup_check').value
-      // const emailSignup = document.getElementById('signup_email').value
 
       if (
         (nameSignup === '') &

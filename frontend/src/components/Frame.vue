@@ -1,5 +1,6 @@
 <template>
   <div id="body">
+    <MainPage @testValue="testFunction" />
     <header>
       <button @click="Isnone()" id="asideBarButton">
         <v-icon>mdi-menu</v-icon>
@@ -24,7 +25,6 @@
 
     <nav :class="{ navv: this.isnone }">
       <div>
-        <!-- <button> text </button> -->
         <button class="navbutton" @click="MoveMakeProject()">
           Make Project
         </button>
@@ -37,17 +37,34 @@
         <p>필터</p>
         <ul>
           <li>
-            <hr style="width: 80%; border-top: 1px dashed black" />
-          </li>
-          <li :key="i" v-for="(project, i) in state.Projects">
+            <!-- 개인 일정 필터 -->
             <div class="filterList">
-              <input type="checkbox" @change="updateParentValue(i)" />{{
-                project.name
-              }}
+              <input type="checkbox" @change="changePersonalChecked()" />
+              {{ logininf.loginaccount.name }}
+              <!-- 개인 일정 색상 = value값 & 현재의 username = id -->
               <input
                 type="color"
-                :value="project.color"
-                :id="project.name"
+                :value="state.Project_User[0].color"
+                :id="state.Project_User[0].id"
+                class="color"
+                @change="changePersonalColor()"
+              />
+            </div>
+          </li>
+          <li>
+            <hr style="width: 80%; border-top: 1px dashed black" />
+          </li>
+          <!-- 프로젝트 일정 필터 -->
+          <li :key="i" v-for="(project, i) in state.Project">
+            <div class="filterList">
+              <input type="checkbox" @change="changeChecked(i)" />{{
+                project.name
+              }}
+              <!-- 색상 = value값 & 현재의 project name = id -->
+              <input
+                type="color"
+                :value="state.Project_User[i + 1].color"
+                :id="state.Project_User[i + 1].id"
                 class="color"
                 @change="changeColor(i)"
               />
@@ -63,20 +80,14 @@
 
 <script>
 import axios from 'axios'
-
 import { reactive } from 'vue'
+import MainPage from '../views/MainView.vue'
 
 export default {
-  conponents: {},
+  conponents: { MainPage },
   data() {
     return {
       isnone: false
-      // Projects: [
-      //   { name: 'qwe', color: '#00ff00', checked: false },
-      //   { name: 'project_1', color: '#ff9214', checked: false },
-      //   { name: 'chae', color: '#67AB27', checked: false },
-      //   { name: 'project_3', color: '#7B9BE5', checked: false }
-      // ]
     }
   },
   setup() {
@@ -94,24 +105,18 @@ export default {
     })
 
     const state = reactive({
-      Projects: [
-        { name: null, color: '#00ff00', checked: false },
-        { name: 'username', color: '#00ff00', checked: false },
-        { name: 'username', color: '#00ff00', checked: false },
-        { name: 'username', color: '#00ff00', checked: false }
-      ]
+      Project: {},
+      Project_User: {}
     })
 
     axios.post('/api/frame/color').then((res) => {
-      // 색상
-      console.log(res.data)
-      state.Projects.color = res.data
+      // 색상과 체크 여부 보유
+      state.Project_User = res.data
     })
 
     axios.post('/api/frame/project_name').then((res) => {
       // 프로젝트 이름
-      state.Projects[0].name = logininf.loginaccount.name
-      state.Projects.name = res.data
+      state.Project = res.data
     })
 
     return { state, logininf }
@@ -119,26 +124,63 @@ export default {
   created() {},
   mounted() {},
   methods: {
-    updateParentValue(i) {
+    testFunction(testValue) {
+      console.log(testValue)
+    },
+    changeChecked(i) {
       const checkValue = []
-      checkValue[0] = this.state.Projects[i].name
-      checkValue[1] = this.state.Projects[i].checked
-      if (checkValue[1] === false) {
-        checkValue[1] = true
-        this.state.Projects[i].checked = true
-      } else if (checkValue[1] === true) {
-        checkValue[1] = false
-        this.state.Projects[i].checked = false
+      checkValue[0] = this.state.Project_User[i + 1].id // 프로젝트
+      checkValue[1] = this.state.Project_User[i + 1].checked // 프로젝트의 변수 chedcked
+      alert(checkValue)
+
+      if (checkValue[1] === 0) {
+        // false인 경우
+        checkValue[1] = 1
+      } else if (checkValue[1] === 1) {
+        // true인 경우
+        checkValue[1] = 0
       }
-      this.$emit('checkValue', checkValue) // 이름과 checked 여부 쌍으로 보내기
+
+      this.testFunction()
+
+      const content = checkValue
+      axios.post('/api/frame/update/checked', { content }).then((res) => {})
+    },
+    changePersonalChecked() {
+      const checkValue = []
+      checkValue[0] = this.state.Project_User[0].id
+      checkValue[1] = this.state.Project_User[0].checked
+      alert(checkValue)
+
+      if (checkValue[1] === 0) {
+        checkValue[1] = 1
+      } else if (checkValue[1] === 1) {
+        checkValue[1] = 0
+      }
+
+      const content = checkValue
+      axios.post('/api/frame/update/checked', { content }).then((res) => {})
     },
     changeColor(i) {
       const colorValue = []
-      colorValue[0] = this.state.Projects[i].name
-      colorValue[1] = document.getElementById(this.state.Projects[i].name).value
-      this.state.Projects[i].color = colorValue[1]
+      colorValue[0] = this.state.Project_User[i + 1].id
+      // i값을 이용해서 project i번째의 프로젝트 이름의 색상 값 가져옴
+      colorValue[1] = document.getElementById(
+        this.state.Project_User[i + 1].id
+      ).value
 
-      this.$emit('projectColor', colorValue) // 이름과 색상 쌍으로 보내기
+      const content = colorValue
+      axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
+    },
+    changePersonalColor() {
+      const colorValue = []
+      colorValue[0] = this.state.Project_User[0].id
+      colorValue[1] = document.getElementById(
+        this.state.Project_User[0].id
+      ).value // 유저네임으로 추출
+
+      const content = colorValue
+      axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
     },
     Isnone() {
       this.isnone = !this.isnone
@@ -150,6 +192,10 @@ export default {
       this.$router.push('/makeplan')
     },
     MoveLogin() {
+      axios.delete('/api/login').then((res) => {
+        alert('로그아웃하였습니다.')
+      })
+
       this.$router.push('/')
     },
     MoveProjectList() {

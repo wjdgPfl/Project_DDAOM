@@ -14,6 +14,7 @@
             class="inputBoxes"
             placeholder="프로젝트 명을 입력해주세요."
             autofocus
+            v-model="makeProjectinf.makeProject.name"
           />
         </div>
         <div class="sectionDiv" id="addMembersDiv">
@@ -49,6 +50,7 @@
             id="startDate"
             class="inputBoxes"
             style="margin-right: 15px"
+            v-model="makeProjectinf.makeProject.start_date"
             @change="sameDatePlan()"
           />
           <div id="TodayDiv">
@@ -63,6 +65,7 @@
             id="deadlineDate"
             class="inputBoxes"
             @change="sameDatePlan()"
+            v-model="makeProjectinf.makeProject.end_date"
           />
         </div>
         <div class="sectionDiv" id="projectDetailDiv">
@@ -71,6 +74,7 @@
             id="projectDetail"
             class="inputBoxes"
             placeholder="상세 설명을 입력해주세요."
+            @input="makeProjectinf.makeProject.description = $event.target.value"
           ></textarea>
         </div>
         <div id="linkDiv">
@@ -95,11 +99,18 @@
         </div>
         <div class="sectionDiv" id="addReoresehtativePictureDiv">
           <span class="sectionText">대표사진 :</span>
-          <input type="file" id="addReoresehtativePicture" />
+          <input
+            type="file"
+            id="addReoresehtativePicture"
+            @change="onImageChange()"/>
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
-          <input type="file" multiple="multiple" id="addFile" />
+          <input
+            type="file"
+            multiple="multiple"
+            id="addFile"
+            @change="onFileChange()" />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
           <input
@@ -121,14 +132,52 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import axios from 'axios'
+import { reactive } from 'vue'
 import Frame from '@/components/Frame.vue'
+
 export default {
-  name: '',
   components: {
     Frame
   },
+  data() {
+    return {}
+  },
+  setup() {
+    const makeProjectinf = reactive({
+      makeProject: {
+        name: '',
+        start_date: '',
+        end_date: '',
+        description: '',
+        image_path: [],
+        file_path: []
+      }
+    })
+
+    return { makeProjectinf }
+  },
   methods: {
+    saveCheck() {
+      const content = this.makeProjectinf.makeProject
+      const projectName = document.getElementById('getProjectName').value
+      const start = document.getElementById('startDate').value
+      const deadline = document.getElementById('deadlineDate').value
+      if ((projectName === '') & (start === '' || deadline === '')) {
+        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
+      } else if (projectName === '') {
+        alert('프로젝트 제목을 입력해주세요.')
+      } else if (start === '' || deadline === '') {
+        alert('기간을 입력해주세요.')
+      } else if (start > deadline) {
+        alert('잘못된 기간입니다. 다시 입력해주세요.')
+      } else {
+        if (confirm('제출하시겠습니까?')) {
+          axios.post('/api/makeProject', { content }).then((res) => {})
+          this.$router.push('/project')
+        }
+      }
+    },
     addMember() {
       const memberID = document.getElementById('addMembers').value
       const memberList = document.getElementById('memberList')
@@ -209,25 +258,19 @@ export default {
       if (todayCheckBox.checked) {
         document.getElementById('deadlineDate').value =
           document.getElementById('startDate').value
+        this.makeProjectinf.makeProject.end_date = this.makeProjectinf.makeProject.start_date
       }
     },
-    saveCheck() {
-      const projectName = document.getElementById('getProjectName').value
-      const start = document.getElementById('startDate').value
-      const deadline = document.getElementById('deadlineDate').value
-      if ((projectName === '') & (start === '' || deadline === '')) {
-        alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
-      } else if (projectName === '') {
-        alert('프로젝트 제목을 입력해주세요.')
-      } else if (start === '' || deadline === '') {
-        alert('기간을 입력해주세요.')
-      } else if (start > deadline) {
-        alert('잘못된 기간입니다. 다시 입력해주세요.')
-      } else {
-        if (confirm('제출하시겠습니까?')) {
-          this.$router.push('/project')
-        }
-      }
+    onImageChange(e) {
+      const imageFile = e.target.files
+      const url = URL.createObjectURL(imageFile[0])
+      this.image_path = url
+    },
+    onFileChange(e) {
+      const File = e.target.files
+      const url = URL.createObjectURL(File[0])
+      this.file_path = url
+      this.step++
     },
     cancleCheck() {
       if (confirm('취소하시겠습니까?')) {
