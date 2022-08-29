@@ -148,43 +148,51 @@ export default {
     return {}
   },
   setup() {
-    const logininf = reactive({
-      loginaccount: {
-        // 사용자 계정
-        id: null,
-        name: null
-      }
-    })
+    // const logininf = reactive({
+    //   loginaccount: {
+    //     // 사용자 계정
+    //     id: null,
+    //     name: null
+    //   }
+    // })
 
-    axios.get('/api/login').then((res) => {
-      // 사용자 계정 쿠키로 받아옴
-      logininf.loginaccount = res.data
-    })
+    // axios.get('/api/login').then((res) => {
+    //   // 사용자 계정 쿠키로 받아옴
+    //   logininf.loginaccount = res.data
+    // })
 
     const makeProjectinf = reactive({
+      // 프로젝트 정보들
       makeProject: {
         id: '',
         name: '',
         start_date: '',
         end_date: '',
         description: '',
-        user_id: '',
-        user_name: '',
         image_path: [],
-        file_path: []
+        file_path: [],
+
+        user_id: '',
+        user_name: ''
       },
+
+      // 함꼐하는 사용자
       projectPeer: {
         user_id: [],
         user_name: []
       },
-      projectData: {},
+
+      // 현재 테이블에 존재하는 id를 모두 가져옴
+      projectId: {},
+
+      // user table에서 아이디, 이름을 가져옴
       user: {}
     })
 
     return { makeProjectinf }
   },
-  mounted: function() {
-    this.randomNumber() // method1 will execute at pageload
+  mounted: function () {
+    this.randomNumber()
   },
   methods: {
     saveCheck() {
@@ -192,6 +200,7 @@ export default {
       const projectName = document.getElementById('getProjectName').value
       const start = document.getElementById('startDate').value
       const deadline = document.getElementById('deadlineDate').value
+
       if ((projectName === '') & (start === '' || deadline === '')) {
         alert('필수 항목이 입력되지 않았습니다. 다시 입력해 주세요.')
       } else if (projectName === '') {
@@ -203,74 +212,105 @@ export default {
       } else {
         if (confirm('제출하시겠습니까?')) {
           this.randomNumber()
+
           axios.post('/api/makeProject', { content }).then((res) => {})
+
+          // 함꼐하는 사용자의 아이디와 이름 content로 추가
           for (const i in this.makeProjectinf.projectPeer.user_id) {
             content.user_id = this.makeProjectinf.projectPeer.user_id[i]
             content.user_name = this.makeProjectinf.projectPeer.user_name[i]
-            axios.post('/api/makeProject/project_user', { content }).then((res) => {})
+
+            axios
+              .post('/api/makeProject/project_user', { content })
+              .then((res) => {})
           }
+
           this.$router.push('/project')
         }
       }
     },
+
     randomNumber() {
       const number = Math.random() * 1000000000
       let id = ''
-      axios.post('/api/makeProject/id').then(res => { this.makeProjectinf.projectData = res.data })
 
-      if (this.makeProjectinf.projectData.length === 0) {
+      axios.post('/api/makeProject/id').then((res) => {
+        // 현재 존재하는 id 모두 가져옴
+        this.makeProjectinf.projectId = res.data
+      })
+
+      // 테이블에 아이디가 존재하지 않을 경우,
+      if (this.makeProjectinf.projectId.length === 0) {
         id = number
       } else {
-        for (const i in this.makeProjectinf.projectData) {
-          const list = this.makeProjectinf.projectData[i]
+        for (const i in this.makeProjectinf.projectId) {
+          const list = this.makeProjectinf.projectId[i]
           const data = Object.values(list)
-
+          // id 값이 새로 존재할 경우
           if (data === number) {
+            // 새로운 아이디 추출
             this.randomNumber()
           } else {
             id = number
           }
         }
       }
+
+      // id 값 부여
       this.makeProjectinf.makeProject.id = id
     },
+
     addMember() {
       const memberID = document.getElementById('addMembers').value
       const memberList = document.getElementById('memberList')
+
       const addedMember = document.createElement('button')
       addedMember.className = 'inputBoxes'
       addedMember.setAttribute('id', 'addedMember')
+
       const memberMent = document.getElementById('noMembers')
       const removeIDButton = document.createElement('button')
       removeIDButton.setAttribute('id', 'removeIDbutton')
       removeIDButton.innerText = 'X'
 
-      axios.post('/api/makeProject/user').then(res => { this.makeProjectinf.projectData = res.data })
+      // user table에 아이디, 네임 추출하여 존재하는지 확인
+      axios.post('/api/makeProject/user').then((res) => {
+        this.makeProjectinf.user = res.data
+      })
+
+      // // 가져온 id와 name의 length 확인
       const IDlength = this.makeProjectinf.projectPeer.user_id.length
       const nameLength = this.makeProjectinf.projectPeer.user_name.length
 
+      let count = 0
       if (memberID === '') {
         alert('팀원의 아이디를 입력해주세요.')
       } else {
-        for (const i in this.makeProjectinf.projectData) {
-          const list = this.makeProjectinf.projectData[i]
+        // 팀원의 아이디를 입력했을 때
+        for (const i in this.makeProjectinf.user) {
+          const list = this.makeProjectinf.user[i]
           const userID = list.id
           const userName = list.name
+
+          // 입력한 팀원의 아이디가 동일할 경우,
           if (memberID === userID) {
             memberMent.setAttribute('style', 'display:none;')
             memberList.appendChild(addedMember)
-            addedMember.innerText = memberID
+            addedMember.innerText = userName
             addedMember.appendChild(removeIDButton)
             document.getElementById('addMembers').value = ''
+
             this.makeProjectinf.projectPeer.user_id[IDlength] = userID
             this.makeProjectinf.projectPeer.user_name[nameLength] = userName
             break
           } else {
-            const length = this.makeProjectinf.projectData.length - 1
-            if (i === length) {
-              alert('존재하지 않는 아이디입니다.')
-            }
+            // 동일하지 않을 경우, count +1
+            count = count + 1
           }
+        }
+        const length = this.makeProjectinf.user.length
+        if (count === length) {
+          alert('팀원의 아이디를 다시 확인해주세요.')
         }
       }
       removeIDButton.addEventListener('click', function () {
