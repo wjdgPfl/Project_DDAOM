@@ -59,13 +59,6 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/checkid", async (req, res) => {
-  // const query = await database.run(`SELECT id FROM User where id ='${req.body.content}';`)
-  // if (query[0].id === null){
-  //   res.send('사용가능')
-  // } else {
-  //   res.send('사용불가능')
-  // }
-
   const query = await database.run(`SELECT id FROM User;`)
   let result = '사용가능'
   for (i in query) {
@@ -166,12 +159,17 @@ app.post("/api/makeProject/user", async (req, res) => {
     `SELECT id, name FROM User`
   );
   res.send(user);
-  console.log(user);
 });
 
 app.post("/api/makeProject/project_user", async (req, res) => {
   await database.run(
-    `INSERT INTO Project_user (id,user_id,user_name,checked,color) VALUES ('${req.body.content.id}','${req.body.content.user_id}','${req.body.content.user_name}',FALSE,'#000000')`
+    `INSERT INTO Project_User (user_id,project_id,user_name,checked,color) VALUES ('${req.body.content.user_id}',${req.body.content.id},'${req.body.content.user_name}',FALSE,'#000000')`
+  );
+  const name = await database.run(
+    `SELECT name FROM User WHERE id = '${a}';`
+  );
+  await database.run(
+    `INSERT INTO Project_User (user_id,project_id,user_name,checked,color) VALUES ('${a}',${req.body.content.id},'${name[0].name}',FALSE,'#000000')`
   );
 });
 
