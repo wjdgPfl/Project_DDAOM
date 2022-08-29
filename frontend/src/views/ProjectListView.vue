@@ -10,7 +10,7 @@
           </label>
         </div>
       </div>
-      <ul :key="i" v-for="(project, i) in project.a">
+      <ul :key="i" v-for="(project, i) in projectstatus.status">
         <li class="projectname">
           <div>
             <input type="text" :value="project.name" readonly class="title" />
@@ -18,7 +18,12 @@
         </li>
         <li class="projectlist">
           <div>
-            <img class="mainphoto" :src="project.image_path" />
+            <img
+              v-if="project.image_path === null"
+              class="mainphoto"
+              src="../assets/cat.jpg"
+            />
+            <img v-else class="mainphoto" :src="project.image_path" />
             <span style="display: none">
               <button type="button" class="btnSubmit" @click="readOnlyFalse(i)">
                 &nbsp;수정&nbsp;
@@ -137,6 +142,11 @@ export default {
     const project = reactive({
       projectList: []
     })
+
+    const projectstatus = reactive({
+      status: []
+    })
+
     const linklist = reactive({
       Link: []
     })
@@ -158,33 +168,75 @@ export default {
     axios.get('/api/list').then((res) => {
       // projectList : project table
       project.projectList = res.data
+      projectstatus.status = res.data
     })
 
-    return { project, logininf, linklist, peerlist, process }
+    const toggle = () => {
+      projectstatus.status = []
+      const projectstatusValue = projectstatus.status
+      const togglebutton = document.getElementById('custom_input')
+      const today = new Date()
+      for (const i in project.projectList) {
+        const projectdata = project.projectList[i]
+        const dateformat = new Date(projectdata.end_date)
+        if (togglebutton.checked === false) {
+          // 진행중일때 ongoing
+          if (dateformat > today) {
+            projectstatusValue.push(projectdata)
+            projectstatus.status = projectstatusValue
+            console.log(projectstatus.status)
+          }
+        } else {
+          // 완료된거a
+          if (dateformat < today) {
+            projectstatusValue.push(projectdata)
+            projectstatus.status = projectstatusValue
+            console.log(projectstatus.status[0])
+          }
+        }
+      }
+      console.log(project.projectList[0])
+      alert('complete')
+    }
+
+    return {
+      project,
+      logininf,
+      linklist,
+      peerlist,
+      process,
+      projectstatus,
+      toggle
+    }
   },
   methods: {
-    toggle() {
+    togglea() {
+      this.projectstatus.status = []
+      const projectstatusValue = this.projectstatus.status
       const togglebutton = document.getElementById('custom_input')
-      // const today = new Date()
-
-      if (togglebutton.checked === false) {
-        // 진행중인
-        // for (let i = 0; i < projectend.length; i++) {
-        //   const projectend = this.project.projectList[i].end_Data
-        //   const projectName = document.getElementById(
-        //     this.project.projectList[i].name
-        //   )
-        //   if (projectend[i] > today) {
-        //     projectName.parentElement.parentElement.display = 'none'
-        //   }
-        // }
-
-        alert('ongoing')
-      } else {
-        alert('complete')
+      const today = new Date()
+      for (const i in this.project.projectList) {
+        const projectdata = this.project.projectList[i]
+        const dateformat = new Date(projectdata.end_date)
+        if (togglebutton.checked === false) {
+          // 진행중일때 ongoing
+          if (dateformat > today) {
+            projectstatusValue.push(projectdata)
+            this.projectstatus.status = projectstatusValue
+            console.log(this.projectstatus.status)
+          }
+        } else {
+          // 완료된거a
+          if (dateformat < today) {
+            projectstatusValue.push(projectdata)
+            this.projectstatus.status = projectstatusValue
+            console.log(this.projectstatus.status)
+          }
+        }
       }
-    },
 
+      alert('complete')
+    },
     openClose(k) {
       // 부모의 이전형제의 두번째 자식
       const projectName = document.getElementById(
@@ -265,7 +317,6 @@ export default {
           .childNodes[0].childNodes[0].value
       const fixedDesc = projectName.childNodes[0].value
       const fixed = [fixedProjectName, fixedDesc]
-      alert(fixed)
       axios.put('/api/fix/' + nameid, { fixed }).then((res) => {
         this.project.projectList = res.data
       })
