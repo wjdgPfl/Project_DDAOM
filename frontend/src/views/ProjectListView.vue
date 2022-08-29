@@ -10,7 +10,6 @@
           </label>
         </div>
       </div>
-
       <ul :key="i" v-for="(project, i) in projectstatus.status">
         <li class="projectname">
           <div>
@@ -157,16 +156,17 @@ export default {
     })
 
     axios.get('/api/link').then((res) => {
+      // link : link table
       linklist.Link = res.data
     })
 
     axios.get('/api/peer').then((res) => {
-      // console.log(res.data)
+      // Peer : Project_User table
       peerlist.Peer = res.data
-      // console.log(peerlist.Peer)
     })
 
     axios.get('/api/list').then((res) => {
+      // projectList : project table
       project.projectList = res.data
       projectstatus.status = res.data
     })

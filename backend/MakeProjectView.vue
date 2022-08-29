@@ -148,43 +148,18 @@ export default {
     return {}
   },
   setup() {
-    const logininf = reactive({
-      loginaccount: {
-        // 사용자 계정
-        id: null,
-        name: null
-      }
-    })
-
-    axios.get('/api/login').then((res) => {
-      // 사용자 계정 쿠키로 받아옴
-      logininf.loginaccount = res.data
-    })
-
     const makeProjectinf = reactive({
       makeProject: {
-        id: '',
         name: '',
         start_date: '',
         end_date: '',
         description: '',
-        user_id: '',
-        user_name: '',
         image_path: [],
         file_path: []
-      },
-      projectPeer: {
-        user_id: [],
-        user_name: []
-      },
-      projectData: {},
-      user: {}
+      }
     })
 
     return { makeProjectinf }
-  },
-  mounted: function() {
-    this.randomNumber() // method1 will execute at pageload
   },
   methods: {
     saveCheck() {
@@ -202,37 +177,10 @@ export default {
         alert('잘못된 기간입니다. 다시 입력해주세요.')
       } else {
         if (confirm('제출하시겠습니까?')) {
-          this.randomNumber()
           axios.post('/api/makeProject', { content }).then((res) => {})
-          for (const i in this.makeProjectinf.projectPeer.user_id) {
-            content.user_id = this.makeProjectinf.projectPeer.user_id[i]
-            content.user_name = this.makeProjectinf.projectPeer.user_name[i]
-            axios.post('/api/makeProject/project_user', { content }).then((res) => {})
-          }
           this.$router.push('/project')
         }
       }
-    },
-    randomNumber() {
-      const number = Math.random() * 1000000000
-      let id = ''
-      axios.post('/api/makeProject/id').then(res => { this.makeProjectinf.projectData = res.data })
-
-      if (this.makeProjectinf.projectData.length === 0) {
-        id = number
-      } else {
-        for (const i in this.makeProjectinf.projectData) {
-          const list = this.makeProjectinf.projectData[i]
-          const data = Object.values(list)
-
-          if (data === number) {
-            this.randomNumber()
-          } else {
-            id = number
-          }
-        }
-      }
-      this.makeProjectinf.makeProject.id = id
     },
     addMember() {
       const memberID = document.getElementById('addMembers').value
@@ -245,45 +193,20 @@ export default {
       removeIDButton.setAttribute('id', 'removeIDbutton')
       removeIDButton.innerText = 'X'
 
-      axios.post('/api/makeProject/user').then(res => { this.makeProjectinf.projectData = res.data })
-      const IDlength = this.makeProjectinf.projectPeer.user_id.length
-      const nameLength = this.makeProjectinf.projectPeer.user_name.length
-
       if (memberID === '') {
         alert('팀원의 아이디를 입력해주세요.')
       } else {
-        for (const i in this.makeProjectinf.projectData) {
-          const list = this.makeProjectinf.projectData[i]
-          const userID = list.id
-          const userName = list.name
-          if (memberID === userID) {
-            memberMent.setAttribute('style', 'display:none;')
-            memberList.appendChild(addedMember)
-            addedMember.innerText = memberID
-            addedMember.appendChild(removeIDButton)
-            document.getElementById('addMembers').value = ''
-            this.makeProjectinf.projectPeer.user_id[IDlength] = userID
-            this.makeProjectinf.projectPeer.user_name[nameLength] = userName
-            break
-          } else {
-            const length = this.makeProjectinf.projectData.length - 1
-            if (i === length) {
-              alert('존재하지 않는 아이디입니다.')
-            }
-          }
-        }
+        memberMent.setAttribute('style', 'display:none;')
+        memberList.appendChild(addedMember)
+        addedMember.innerText = memberID
+        addedMember.appendChild(removeIDButton)
+        document.getElementById('addMembers').value = ''
       }
       removeIDButton.addEventListener('click', function () {
         const parentID = this.parentElement
         const ID = parentID.innerText.slice(0, -1)
         if (confirm(ID + '님을 삭제하시겠습니까?')) {
           parentID.remove()
-          for (const i in this.makeProjectinf.projectPeer.user_id) {
-            if (ID === this.makeProjectinf.projectPeer.user_id[i]) {
-              this.makeProjectinf.projectPeer.user_id.splice(i, 1)
-              this.makeProjectinf.projectPeer.user_name.splice(i, 1)
-            }
-          }
         }
         const number = document.querySelectorAll('#addedMember').length
         if (number === 0) {
