@@ -151,9 +151,30 @@ app.delete("/api/login", (req, res) => {
 
 // 프로젝트 생성 시작
 
+app.post("/api/makeProject/id", async (req, res) => {
+  const project = await database.run(
+    `SELECT id FROM Project`
+  );
+  res.send(project);
+});
+
 app.post("/api/makeProject", async (req, res) => {
   await database.run(
-    `INSERT INTO Project (name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
+    `INSERT INTO Project (id,name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
+  );
+});
+
+app.post("/api/makeProject/user", async (req, res) => {
+  const user = await database.run(
+    `SELECT id, name FROM User`
+  );
+  res.send(user);
+  console.log(user);
+});
+
+app.post("/api/makeProject/project_user", async (req, res) => {
+  await database.run(
+    `INSERT INTO Project_user (id,user_id,user_name,checked,color) VALUES ('${req.body.content.id}','${req.body.content.user_id}','${req.body.content.user_name}',FALSE,'#000000')`
   );
 });
 
