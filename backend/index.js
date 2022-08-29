@@ -156,16 +156,17 @@ app.post("/api/password", async (req, res) => {
       result = '사용가능'
     }
   }
-
-  const gethint = req.body.content.hint
+  if(result === '사용불가능'){
+    return res.send('사용불가능')
+  }
   const query = await database.run(`SELECT hint,password FROM User WHERE name = '${req.body.content.name}' and id = '${req.body.content.id}';`)
   for(i in query){
     const hintValue = query[i].hint
     const search = query[i].password
-    if(gethint === hintValue){
-      return res.send(search)
+    if(req.body.content.hint === hintValue){
+       return res.send(search)
     } else{
-      return res.send('힌트 답변 틀림')
+       return res.send('힌트 답변 틀림')
     }
   }
 });
