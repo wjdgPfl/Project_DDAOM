@@ -62,12 +62,6 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/checkid", async (req, res) => {
-  // const query = await database.run(`SELECT id FROM User where id ='${req.body.content}';`)
-  // if (query[0].id === null){
-  //   res.send('사용가능')
-  // } else {
-  //   res.send('사용불가능')
-  // }
 
   const query = await database.run(`SELECT id FROM User;`)
   let result = '사용가능'
@@ -79,6 +73,7 @@ app.post("/api/checkid", async (req, res) => {
   }
   res.send(result)
 });
+
 // 회원가입 끝
 
 // 로그인 시작
@@ -148,6 +143,34 @@ app.delete("/api/login", (req, res) => {
 });
 
 // 로그인 끝
+
+//비밀번호 시작
+
+app.post("/api/password", async (req, res) => {
+  const checkdata = await database.run(`SELECT name,id FROM User WHERE name='${req.body.content.name}' and id='${req.body.content.id}';`)
+  let result = '사용불가능'
+  for(i in checkdata){
+    const exist_name = checkdata[i].name
+    const exist_id = checkdata[i].id
+    if(req.body.content.name === exist_name & req.body.content.id === exist_id) {
+      result = '사용가능'
+    }
+  }
+
+  const gethint = req.body.content.hint
+  const query = await database.run(`SELECT hint,password FROM User WHERE name = '${req.body.content.name}' and id = '${req.body.content.id}';`)
+  for(i in query){
+    const hintValue = query[i].hint
+    const search = query[i].password
+    if(gethint === hintValue){
+      return res.send(search)
+    } else{
+      return res.send('힌트 답변 틀림')
+    }
+  }
+});
+
+//비밀번호 끝
 
 // 프로젝트 생성 시작
 
