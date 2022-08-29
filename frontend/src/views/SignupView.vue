@@ -153,10 +153,12 @@ export default {
         pwhint: ''
       }
     })
+
     axios.get('/api/signup').then((res) => {})
     axios.get('/api/checkid').then((res) => {
       signupinf.signup.id = res.data
     })
+
     return { signupinf }
   },
   created() {},

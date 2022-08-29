@@ -5,7 +5,7 @@
       <span id="logo">? Forgot your password</span>
       <div class="passwordContainer">
         <label for="userName"><b>이름</b></label>
-        <input type="text" id= "pw_name" placeholder="Enter Username" name="userName" required />
+        <input type="text" id= "pw_name" placeholder="Enter Username" name="userName" required v-model="passwordinf.password.name" />
         <label for="psw"><b>아이디</b></label>
         <input
           type="text"
@@ -13,6 +13,7 @@
           placeholder="Enter ID"
           name="ID"
           required
+          v-model="passwordinf.password.id"
         />
         <label for="psw"><b>비밀번호 힌트 답변</b></label>
         <input
@@ -21,6 +22,7 @@
           placeholder="Enter Answer"
           name="Answer"
           required
+          v-model="passwordinf.password.hint"
         />
         <table>
           <td>
@@ -38,6 +40,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import { reactive } from 'vue'
+
 export default {
   components: {},
   data() {
@@ -45,7 +50,20 @@ export default {
       sampleData: ''
     }
   },
-  setup() {},
+  setup() {
+    const passwordinf = reactive({
+      password: {
+        name: '',
+        id: '',
+        hint: '',
+        pw: ''
+      }
+    })
+    axios.get('/api/password').then((res) => {
+      passwordinf.password.pw = res.data
+    })
+    return { passwordinf }
+  },
   created() {},
   mounted() {},
   unmounted() {},
@@ -70,7 +88,16 @@ export default {
       } else if (hintPw === '') {
         alert('비밀번호 힌트 답변을 입력해주세요.')
       } else {
-        alert('비밀번호는 XXXXXXX입니다.')
+        const content = this.passwordinf.password
+        axios.post('/api/password', { content }).then((res) => {
+          if (res.data === '사용불가능') {
+            alert('존재하지 않는 계정입니다.')
+          } else if (res.data === '힌트 답변 틀림') {
+            alert('비밀번호 힌트 답변이 일치하지 않습니다.')
+          } else {
+            alert(res.data)
+          }
+        })
       }
     }
   }
