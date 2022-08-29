@@ -51,7 +51,7 @@ app.post("/api/frame/update/color", async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   await database.run(
-    `INSERT INTO User (id,name,password,hint) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.password}','${req.body.content.pwhint}')`
+    `INSERT IGNORE INTO User (id,name,password,hint) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.password}','${req.body.content.pwhint}')`
   );
   await database.run(
     `INSERT INTO Project_User (user_id,user_name,color, checked) VALUES ('${req.body.content.id}','${req.body.content.name}','#000000', FALSE)`
