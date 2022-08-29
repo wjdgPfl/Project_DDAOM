@@ -51,7 +51,7 @@ app.post("/api/frame/update/color", async (req, res) => {
 
 app.post("/api/signup", async (req, res) => {
   await database.run(
-    `INSERT INTO User (id,name,password,hint) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.password}','${req.body.content.pwhint}')`
+    `INSERT IGNORE INTO User (id,name,password,hint) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.password}','${req.body.content.pwhint}')`
   );
   await database.run(
     `INSERT INTO Project_User (user_id,user_name,color, checked) VALUES ('${req.body.content.id}','${req.body.content.name}','#000000', FALSE)`
@@ -59,6 +59,7 @@ app.post("/api/signup", async (req, res) => {
 });
 
 app.post("/api/checkid", async (req, res) => {
+
   const query = await database.run(`SELECT id FROM User;`)
   let result = '사용가능'
   for (i in query) {
@@ -69,6 +70,7 @@ app.post("/api/checkid", async (req, res) => {
   }
   res.send(result)
 });
+
 // 회원가입 끝
 
 // 로그인 시작
@@ -138,6 +140,35 @@ app.delete("/api/login", (req, res) => {
 });
 
 // 로그인 끝
+
+//비밀번호 시작
+
+app.post("/api/password", async (req, res) => {
+  const checkdata = await database.run(`SELECT name,id FROM User WHERE name='${req.body.content.name}' and id='${req.body.content.id}';`)
+  let result = '사용불가능'
+  for(i in checkdata){
+    const exist_name = checkdata[i].name
+    const exist_id = checkdata[i].id
+    if(req.body.content.name === exist_name & req.body.content.id === exist_id) {
+      result = '사용가능'
+    }
+  }
+  if(result === '사용불가능'){
+    return res.send('사용불가능')
+  }
+  const query = await database.run(`SELECT hint,password FROM User WHERE name = '${req.body.content.name}' and id = '${req.body.content.id}';`)
+  for(i in query){
+    const hintValue = query[i].hint
+    const search = query[i].password
+    if(req.body.content.hint === hintValue){
+       return res.send(search)
+    } else{
+       return res.send('힌트 답변 틀림')
+    }
+  }
+});
+
+//비밀번호 끝
 
 // 프로젝트 생성 시작
 
