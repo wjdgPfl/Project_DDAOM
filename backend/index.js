@@ -14,24 +14,21 @@ app.use(cookieParser());
 app.post("/api/frame/color", async (req, res) => {
   const Project_User = await database.run(
     `SELECT * FROM Project_User WHERE user_id = "${a}" ORDER BY project_id`
-  )
+  );
   res.send(Project_User);
-
 });
 
 app.post("/api/frame/project_name", async (req, res) => {
-
   const Project = await database.run(
     `SELECT * FROM Project WHERE id IN
     (SELECT project_id FROM Project_User WHERE user_id ='${a}' ORDER BY project_id);`
   );
   res.send(Project);
-
 });
 
 app.post("/api/frame/update/checked", async (req, res) => {
   // content : [0] = 프로젝트 id, [1] = 체크 value
-  const checkValue = req.body.content
+  const checkValue = req.body.content;
 
   await database.run(
     `UPDATE Project_User SET checked = ${checkValue[1]} WHERE id = ${checkValue[0]}`
@@ -40,7 +37,7 @@ app.post("/api/frame/update/checked", async (req, res) => {
 
 app.post("/api/frame/update/color", async (req, res) => {
   // content : [0] = 프로젝트 id, [1] = 색상 value
-  const colorValue = req.body.content
+  const colorValue = req.body.content;
 
   await database.run(
     `UPDATE Project_User SET color = '${colorValue[1]}' WHERE id = ${colorValue[0]}`
@@ -175,9 +172,30 @@ app.post("/api/password", async (req, res) => {
 
 // 프로젝트 생성 시작
 
+app.post("/api/makeProject/id", async (req, res) => {
+  const project = await database.run(
+    `SELECT id FROM Project`
+  );
+  res.send(project);
+});
+
 app.post("/api/makeProject", async (req, res) => {
   await database.run(
-    `INSERT INTO Project (name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
+    `INSERT INTO Project (id,name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
+  );
+});
+
+app.post("/api/makeProject/user", async (req, res) => {
+  const user = await database.run(
+    `SELECT id, name FROM User`
+  );
+  res.send(user);
+  console.log(user);
+});
+
+app.post("/api/makeProject/project_user", async (req, res) => {
+  await database.run(
+    `INSERT INTO Project_user (id,user_id,user_name,checked,color) VALUES ('${req.body.content.id}','${req.body.content.user_id}','${req.body.content.user_name}',FALSE,'#000000')`
   );
 });
 
@@ -223,7 +241,7 @@ app.get("/api/list", async (req, res) => {
   const result = await database.run(
     `SELECT * FROM Project WHERE id IN (SELECT project_id FROM Project_User WHERE user_id ='${a}')`
   );
-  console.log(a);
+  // console.log(a);
 
   res.send(result);
 });
@@ -259,49 +277,42 @@ app.put("/api/fix/:nameid", async (req, res) => {
 // 메인 페이지 시작
 
 app.post("/api/main/Project_User", async (req, res) => {
-
   const Project_User = await database.run(
     `SELECT * FROM Project_User WHERE user_id = "${a}" ORDER BY project_id`
-  )
+  );
   res.send(Project_User);
-
 });
 
 app.post("/api/main/Project", async (req, res) => {
-
   const Project = await database.run(
     `SELECT * FROM Project WHERE id IN
     (SELECT project_id FROM Project_User WHERE user_id ='${a}' ORDER BY project_id);`
   );
   res.send(Project);
-
 });
 
-app.post('/api/main/Schedule', async (req, res) => {
-
+app.post("/api/main/Schedule", async (req, res) => {
   const Schedule = await database.run(
     `SELECT * FROM Schedule WHERE user_id = '${a}';`
   );
   res.send(Schedule);
-})
+});
 
-app.post('/api/main/Schedule/edit', async (req, res) => {
+app.post("/api/main/Schedule/edit", async (req, res) => {
   // textValue[0] : schedule id, textValue[1] : text 내용
-  const textValue = req.body.content
+  const textValue = req.body.content;
 
   await database.run(
     `UPDATE Schedule SET description = '${textValue[1]}' WHERE id = ${textValue[0]};`
   );
-})
+});
 
-app.post('/api/main/Schedule/remove', async (req, res) => {
+app.post("/api/main/Schedule/remove", async (req, res) => {
   // removeValue : 삭제 할 schedule id
-  const removeValue = req.body.content
+  const removeValue = req.body.content;
 
-  await database.run(
-    `DELETE FROM Schedule WHERE id = ${removeValue};`
-  );
-})
+  await database.run(`DELETE FROM Schedule WHERE id = ${removeValue};`);
+});
 
 // 메인 페이지 끝
 
