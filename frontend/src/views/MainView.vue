@@ -1,7 +1,11 @@
 <template>
   <div id="bigbody">
-    <Frame />
-
+    <Frame
+      @checkValue="updateRange"
+      @percheckValue="updateRange"
+      @colorValue="updateRange"
+      @percolorValue="updateRange"
+    />
     <div id="heightt">
       <div id="app">
         <v-app id="inspire">
@@ -85,7 +89,7 @@
                         v-html="selectedEvent.name"
                       ></v-toolbar-title>
                       <v-spacer></v-spacer>
-                      <v-btn icon @click="editDesc()">
+                      <v-btn icon @click="editDesc(percheckValue)">
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
                       <v-btn icon @click="saveDesc()">
@@ -269,14 +273,19 @@ export default {
       nativeEvent.stopPropagation()
     },
 
-    updateRange() {
+    updateRange(percheckValue) {
       const events = []
+      const acc = percheckValue
+      console.log(acc)
+
       for (const i in this.state.Schedule) {
+        // 로그인 한 유저가 가지고있는 모든 일정 돌림
         // schedule table
-        const schedule = this.state.Schedule[i]
+        const schedule = this.state.Schedule[i] // 일정
 
         // Project_User table
         for (const j in this.state.Project_User) {
+          // 로그인 한 유저가 하고있는 프로젝트 돌림
           const projectUser = this.state.Project_User[j]
 
           // project_User table에서 checked가 1인 경우
