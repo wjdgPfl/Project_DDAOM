@@ -221,8 +221,9 @@ export default {
     openClose(k) {
       // 부모의 이전형제의 두번째 자식
       const projectName = document.getElementById(
-        this.project.projectList[k].id
+        this.projectstatus.status[k].id
       )
+      console.log(this.projectstatus.status[k].id)
       const buttons =
         projectName.parentElement.previousElementSibling.childNodes[1]
       if (projectName.style.display === 'block') {
@@ -235,10 +236,10 @@ export default {
     },
     readOnlyTrue(k) {
       const link = document.getElementsByClassName(
-        this.project.projectList[k].name
+        this.projectstatus.status[k].name
       )
       const projectName = document.getElementById(
-        this.project.projectList[k].id
+        this.projectstatus.status[k].id
       )
       projectName.parentElement.parentElement.previousElementSibling.childNodes[0].childNodes[0].readOnly = true
       projectName.childNodes[0].readOnly = true
@@ -250,10 +251,10 @@ export default {
       this.fixedData(k)
     },
     readOnlyFalse(k) {
-      const project = this.project.projectList[k]
+      const project = this.projectstatus.status[k]
       const link = document.getElementsByClassName(project.name)
       const projectName = document.getElementById(
-        this.project.projectList[k].id
+        this.projectstatus.status[k].id
       )
       projectName.parentElement.parentElement.previousElementSibling.childNodes[0].childNodes[0].readOnly = false // 프로젝트 제목
 
@@ -287,9 +288,9 @@ export default {
     },
     fixedData(k) {
       const projectName = document.getElementById(
-        this.project.projectList[k].id
+        this.projectstatus.status[k].id
       )
-      const nameid = this.project.projectList[k].id
+      const nameid = this.projectstatus.status[k].id
       const fixedProjectName =
         projectName.parentElement.parentElement.previousElementSibling
           .childNodes[0].childNodes[0].value
