@@ -132,6 +132,9 @@ app.post("/api/login", async (req, res) => {
 });
 
 app.delete("/api/login", (req, res) => {
+
+
+
   if (req.cookies && req.cookies.token) {
     res.clearCookie("token");
   }
@@ -180,9 +183,19 @@ app.post("/api/makeProject/id", async (req, res) => {
 });
 
 app.post("/api/makeProject", async (req, res) => {
+  const content = req.body.content
+
   await database.run(
-    `INSERT INTO Project (id,name,start_date,end_date,description,image_path,file_path) VALUES ('${req.body.content.id}','${req.body.content.name}','${req.body.content.start_date}','${req.body.content.end_date}','${req.body.content.description}','${req.body.content.image_path}','${req.body.content.file_path}')`
+    `INSERT INTO Project (id,name,start_date,end_date,description,image_path,file_path) VALUES ('${content.id}','${content.name}','${content.start_date}','${content.end_date}','${content.description}','${content.image_path}','${content.file_path}')`
   );
+
+  for(let j = 0; j < content.linkName.length; j++) {
+    const url = content.linkurl[j]
+    const name = content.linkName[j]
+    await database.run(
+      `INSERT INTO Link (url,title,project_id) VALUES ('${url}','${name}','${content.id}')`
+    );
+  }
 });
 
 app.post("/api/makeProject/user", async (req, res) => {
