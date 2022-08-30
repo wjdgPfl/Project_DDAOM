@@ -85,13 +85,13 @@
             <input
               type="text"
               id="addLinkName"
-              class="inputBoxes"
+              class="inputLinkBoxes"
               placeholder="링크명을 입력해주세요."
             />
             <input
               type="url"
               id="addLinkURL"
-              class="inputBoxes"
+              class="inputLinkBoxes"
               placeholder="URL을 입력해주세요."
             />
             <button class="addNewLinkButton" v-on:click="createNewLinkDiv()">
@@ -104,17 +104,12 @@
           <input
             type="file"
             id="addReoresehtativePicture"
-            @change="onImageChange()"
+            @change="onImageChange"
           />
         </div>
         <div class="sectionDiv" id="addFileDiv">
           <span class="sectionText">파일 첨부 :</span>
-          <input
-            type="file"
-            multiple="multiple"
-            id="addFile"
-            @change="onFileChange()"
-          />
+          <input type="file" id="addFile" @change="onFileChange" />
         </div>
         <div class="sectionDiv" id="saveOrCancleDiv">
           <input
@@ -148,19 +143,6 @@ export default {
     return {}
   },
   setup() {
-    // const logininf = reactive({
-    //   loginaccount: {
-    //     // 사용자 계정
-    //     id: null,
-    //     name: null
-    //   }
-    // })
-
-    // axios.get('/api/login').then((res) => {
-    //   // 사용자 계정 쿠키로 받아옴
-    //   logininf.loginaccount = res.data
-    // })
-
     const makeProjectinf = reactive({
       // 프로젝트 정보들
       makeProject: {
@@ -169,11 +151,10 @@ export default {
         start_date: '',
         end_date: '',
         description: '',
-        image_path: [],
-        file_path: [],
-
-        user_id: '',
-        user_name: ''
+        image_path: '',
+        file_path: '',
+        linkName: [],
+        linkurl: []
       },
 
       // 함꼐하는 사용자
@@ -196,6 +177,8 @@ export default {
   },
   methods: {
     saveCheck() {
+      this.saveLink()
+
       const content = this.makeProjectinf.makeProject
       const projectName = document.getElementById('getProjectName').value
       const start = document.getElementById('startDate').value
@@ -292,7 +275,7 @@ export default {
           const userID = list.id
           const userName = list.name
 
-          // 입력한 팀원의 아이디가 동일할 경우,
+          // 입력한 팀원의 아이디가 존재할 경우
           if (memberID === userID) {
             memberMent.setAttribute('style', 'display:none;')
             memberList.appendChild(addedMember)
@@ -304,7 +287,7 @@ export default {
             this.makeProjectinf.projectPeer.user_name[nameLength] = userName
             break
           } else {
-            // 동일하지 않을 경우, count +1
+            // 존재하지 않을 경우, count +1
             count = count + 1
           }
         }
@@ -340,12 +323,12 @@ export default {
       addNewLinkDiv.setAttribute('id', 'addNewLinkDiv')
       const addLinkName = document.createElement('input')
       addLinkName.type = 'text'
-      addLinkName.className = 'inputBoxes'
+      addLinkName.className = 'inputLinkBoxes'
       addLinkName.setAttribute('id', 'addLinkName')
       addLinkName.setAttribute('placeholder', '링크명을 입력해주세요.')
       const addLinkURL = document.createElement('input')
       addLinkURL.type = 'text'
-      addLinkURL.className = 'inputBoxes'
+      addLinkURL.className = 'inputLinkBoxes'
       addLinkURL.setAttribute('id', 'addLinkURL')
       addLinkURL.setAttribute('placeholder', 'URL을 입력해주세요.')
       const removeLinkButton = document.createElement('button')
@@ -385,19 +368,42 @@ export default {
       }
     },
     onImageChange(e) {
-      const imageFile = e.target.files
-      const url = URL.createObjectURL(imageFile[0])
-      this.image_path = url
+      const imageFile = e.target.files[0]
+      const url = URL.createObjectURL(imageFile)
+      this.makeProjectinf.makeProject.image_path = url
+      URL.revokeObjectURL(url)
     },
     onFileChange(e) {
       const File = e.target.files
       const url = URL.createObjectURL(File[0])
-      this.file_path = url
-      this.step++
+      this.makeProjectinf.makeProject.file_path = url
+      URL.revokeObjectURL(url)
     },
     cancleCheck() {
       if (confirm('취소하시겠습니까?')) {
         this.$router.push('/project')
+      }
+    },
+    saveLink() {
+      const linkDiv = document.getElementsByClassName('inputLinkBoxes')
+      const linkname = []
+      const linkurl = []
+
+      for (const i in linkDiv) {
+        if (i === 0) {
+          linkname.push(linkDiv[i].value)
+        } else if (i % 2 === 0) {
+          // name인 경우
+          linkname.push(linkDiv[i].value)
+        } else if (i % 2 === 1) {
+          // url인 경우
+          linkurl.push(linkDiv[i].value)
+        }
+      }
+
+      for (let j = 0; j < linkname.length; j++) {
+        this.makeProjectinf.makeProject.linkName[j] = linkname[j]
+        this.makeProjectinf.makeProject.linkurl[j] = linkurl[j]
       }
     }
   }
@@ -408,11 +414,7 @@ export default {
 template {
   width: 100%;
 }
-/* #bigbody {
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-} */
+
 section {
   margin: 0;
   padding: 0 5% 0 5%;
@@ -430,6 +432,12 @@ section {
   flex-direction: column;
 }
 .inputBoxes {
+  background-color: white;
+  border: 1px solid rgb(84, 84, 84);
+  border-radius: 5px;
+  padding: 5px;
+}
+.inputLinkBoxes {
   background-color: white;
   border: 1px solid rgb(84, 84, 84);
   border-radius: 5px;
