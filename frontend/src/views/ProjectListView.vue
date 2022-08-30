@@ -144,18 +144,6 @@ export default {
     axios.get('/api/login').then((res) => {
       logininf.loginaccount = res.data
     })
-    const process = reactive({
-      // progress_width:
-      //   'width:' +
-      //   this.viewProgress(
-      //     this.project.projectList.start_date,
-      //     this.project.projectList.end_date
-      //   ),
-      // progress: this.viewProgress(
-      //   this.project.projectList.start_date,
-      //   this.project.projectList.end_date
-      // )
-    })
 
     const project = reactive({
       projectList: []
