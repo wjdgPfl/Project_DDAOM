@@ -11,8 +11,8 @@
         </div>
       </div>
 
-      <ul :key="i" v-for="(project, i) in projectstatus.status">
-        <li class="projectname">
+      <ul :key="i" v-for="(project, i) in projectstatus.status" id="ulborder">
+        <li class="projectname" style="margin-top: 20px">
           <div>
             <input type="text" :value="project.name" readonly class="title" />
           </div>
@@ -32,20 +32,22 @@
               <button type="button" class="btnSubmit" @click="readOnlyTrue(i)">
                 &nbsp;완료&nbsp;
               </button>
-              <button type="button" class="btnSubmit" @click="fixedLink(i)">
+              <button type="button" class="btnSubmit" @click="projectDelete(i)">
                 &nbsp;삭제&nbsp;
               </button>
             </span>
           </div>
           <div class="projectinf">
-            <p>함께하는 사람:</p>
-            <div :key="t" v-for="(peer, t) in peerlist.Peer">
-              <p class="with" v-if="project.id === peer.project_id">
-                {{ peer.user_name }}
-              </p>
+            <div id="peers">
+              <p>함께하는 사람: &nbsp;&nbsp;</p>
+              <span :key="t" v-for="(peer, t) in peerlist.Peer">
+                <p class="with" v-if="project.id === peer.project_id">
+                  {{ peer.user_name }}&nbsp;,&nbsp;&nbsp;
+                </p>
+              </span>
             </div>
             <p>
-              일정: {{ dateFormat(project.start_date) }} ~
+              일정: &nbsp;&nbsp;{{ dateFormat(project.start_date) }} ~
               {{ dateFormat(project.end_date) }}
             </p>
 
@@ -63,7 +65,7 @@
             </div>
 
             <br />
-            <div :id="project.name" style="display: none">
+            <div :id="project.id" style="display: none">
               <textarea
                 class="with"
                 :value="project.description"
@@ -107,7 +109,7 @@
             <button
               type="button"
               class="btn btn-secondary btn-sm"
-              style="float: right"
+              style="float: right; margin-bottom: 30px"
               @click="openClose(i)"
             >
               view more
@@ -120,7 +122,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Frame from '@/components/Frame.vue'
 import axios from 'axios'
 import { reactive } from 'vue'
@@ -174,9 +175,7 @@ export default {
     })
 
     axios.get('/api/peer').then((res) => {
-      // console.log(res.data)
       peerlist.Peer = res.data
-      // console.log(peerlist.Peer)
     })
 
     axios.get('/api/list').then((res) => {
@@ -206,8 +205,6 @@ export default {
           }
         }
       }
-      console.log(project.projectList[0])
-      alert('complete')
     }
 
     return {
@@ -224,7 +221,7 @@ export default {
     openClose(k) {
       // 부모의 이전형제의 두번째 자식
       const projectName = document.getElementById(
-        this.project.projectList[k].name
+        this.project.projectList[k].id
       )
       const buttons =
         projectName.parentElement.previousElementSibling.childNodes[1]
@@ -237,20 +234,17 @@ export default {
       }
     },
     readOnlyTrue(k) {
-      // const project = this.project.projectList[k]
       const link = document.getElementsByClassName(
         this.project.projectList[k].name
       )
       const projectName = document.getElementById(
-        this.project.projectList[k].name
+        this.project.projectList[k].id
       )
       projectName.parentElement.parentElement.previousElementSibling.childNodes[0].childNodes[0].readOnly = true
       projectName.childNodes[0].readOnly = true
       for (let i = 0; i < link.length; i++) {
-        // link[i].childNodes[0].readonly = true
-
         link[i].style.display = 'none'
-        link[i].previousElementSibling.style.display = 'block'
+        link[i].previousElementSibling.style.display = 'inline'
       }
       this.fixedLink(k)
       this.fixedData(k)
@@ -258,11 +252,9 @@ export default {
     readOnlyFalse(k) {
       const project = this.project.projectList[k]
       const link = document.getElementsByClassName(project.name)
-      // project[k]
       const projectName = document.getElementById(
-        this.project.projectList[k].name
+        this.project.projectList[k].id
       )
-      alert(projectName.childNodes[0])
       projectName.parentElement.parentElement.previousElementSibling.childNodes[0].childNodes[0].readOnly = false // 프로젝트 제목
 
       projectName.childNodes[0].readOnly = false // 상세설명
@@ -295,7 +287,7 @@ export default {
     },
     fixedData(k) {
       const projectName = document.getElementById(
-        this.project.projectList[k].name
+        this.project.projectList[k].id
       )
       const nameid = this.project.projectList[k].id
       const fixedProjectName =
@@ -320,7 +312,6 @@ export default {
         const fixlinkurl = link[i].childNodes[1].value
         fixlink = [fixlinkname, fixlinkurl]
         linkid = link[i].previousSibling.innerText
-        console.log(linkid)
 
         axios.put('/api/fixlink/' + linkid, { fixlink }).then((res) => {
           this.linklist.Link = res.data
@@ -340,7 +331,7 @@ export default {
     },
     projectDelete(k) {
       const projectid = this.project.projectList[k].id
-      // console.log(this.project.projectList[k].id)
+
       if (confirm('삭제하시겠습니까?')) {
         axios.delete('/api/list/delete/' + projectid).then((res) => {})
       }
@@ -398,6 +389,14 @@ section {
 .projectlist {
   display: flex;
   overflow: hidden;
+}
+
+#peers {
+  display: flex;
+}
+#ulborder {
+  border: 5px solid rgb(218, 216, 216);
+  border-radius: 15px;
 }
 
 /* 진행률 */
@@ -477,7 +476,7 @@ section {
 /*< -- toggle -->*/
 
 .title {
-  font-size: 30px;
+  font-size: 40px;
   font-weight: bold;
 }
 </style>
