@@ -131,9 +131,9 @@ app.post("/api/login", async (req, res) => {
   }
 });
 
-app.delete("/api/login", (req, res) => {
-
-
+app.delete("/api/login", async (req, res) => {
+  
+  await database.run(`UPDATE Project_User SET checked = 0 WHERE user_id = '${a}';`)
 
   if (req.cookies && req.cookies.token) {
     res.clearCookie("token");
