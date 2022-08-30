@@ -215,7 +215,6 @@ export default {
       logininf,
       linklist,
       peerlist,
-      process,
       projectstatus,
       toggle,
       proschedule
