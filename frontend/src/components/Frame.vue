@@ -57,9 +57,8 @@
           <!-- 프로젝트 일정 필터 -->
           <li :key="i" v-for="(project, i) in state.Project">
             <div class="filterList">
-              <input type="checkbox" @change="changeChecked(i)" />{{
-                project.name
-              }}
+              <input type="checkbox" @change="changeChecked(i)" />
+              {{ project.name }}
               <!-- 색상 = value값 & 현재의 project name = id -->
               <input
                 type="color"
@@ -142,24 +141,24 @@ export default {
       }
 
       this.testFunction()
-
+      this.$emit('checkValue', checkValue) // 전자의 이름으로 후자의 변수를 넘겨줌
       const content = checkValue
       axios.post('/api/frame/update/checked', { content }).then((res) => {})
     },
     changePersonalChecked() {
-      const checkValue = []
-      checkValue[0] = this.state.Project_User[0].id
-      checkValue[1] = this.state.Project_User[0].checked
-      alert(checkValue)
+      const percheckValue = 'aaaaaa'
+      // percheckValue[0] = this.state.Project_User[0].id
+      // percheckValue[1] = this.state.Project_User[0].checked
+      // alert(percheckValue)
 
-      if (checkValue[1] === 0) {
-        checkValue[1] = 1
-      } else if (checkValue[1] === 1) {
-        checkValue[1] = 0
-      }
-
-      const content = checkValue
-      axios.post('/api/frame/update/checked', { content }).then((res) => {})
+      // if (percheckValue[1] === 0) {
+      //   percheckValue[1] = 1
+      // } else if (percheckValue[1] === 1) {
+      //   percheckValue[1] = 0
+      // }
+      this.$emit('percheckValue', percheckValue)
+      // const content = percheckValue
+      // axios.post('/api/frame/update/checked', { content }).then((res) => {})
     },
     changeColor(i) {
       const colorValue = []
@@ -168,18 +167,19 @@ export default {
       colorValue[1] = document.getElementById(
         this.state.Project_User[i + 1].id
       ).value
-
+      this.$emit('colorValue', colorValue)
       const content = colorValue
       axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
+      // 데이터베이스에 전송
     },
     changePersonalColor() {
-      const colorValue = []
-      colorValue[0] = this.state.Project_User[0].id
-      colorValue[1] = document.getElementById(
+      const percolorValue = []
+      percolorValue[0] = this.state.Project_User[0].id
+      percolorValue[1] = document.getElementById(
         this.state.Project_User[0].id
       ).value // 유저네임으로 추출
-
-      const content = colorValue
+      this.$emit('percolorValue', percolorValue)
+      const content = percolorValue
       axios.post('/api/frame/update/color', { content }).then((res) => {}) // 데이터베이스에 전송
     },
     Isnone() {
