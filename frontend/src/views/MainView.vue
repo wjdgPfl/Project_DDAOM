@@ -1,11 +1,6 @@
 <template>
   <div id="bigbody">
-    <Frame
-      @checkValue="updateRange"
-      @percheckValue="updateRange"
-      @colorValue="updateRange"
-      @percolorValue="updateRange"
-    />
+    <Frame @checkValue="catchCheck" />
     <div id="heightt">
       <div id="app">
         <v-app id="inspire">
@@ -89,7 +84,7 @@
                         v-html="selectedEvent.name"
                       ></v-toolbar-title>
                       <v-spacer></v-spacer>
-                      <v-btn icon @click="editDesc(percheckValue)">
+                      <v-btn icon @click="editDesc()">
                         <v-icon>mdi-pencil</v-icon>
                       </v-btn>
                       <v-btn icon @click="saveDesc()">
@@ -163,7 +158,7 @@ export default {
     selectedEvent: {}, // 선택한 일정 양방향 바인딩
     selectedElement: null, // 사용자가 클릭한 일정 타겟
     selectedOpen: false, // 레이어 오픈 여부 확인
-    events: [] // 한 달 일정들을 담고 있는 느낌
+    events: []
   }),
 
   setup() {
@@ -225,7 +220,6 @@ export default {
 
       const content = textValue
       axios.post('/api/main/Schedule/edit', { content }).then((res) => {})
-      // this.updateRange()
     },
     removeDesc() {
       if (confirm('삭제하시겠습니까?')) {
@@ -235,7 +229,6 @@ export default {
 
         const content = removeValue
         axios.post('/api/main/Schedule/remove', { content }).then((res) => {})
-        // this.updateRange()
       }
     },
     viewDay({ date }) {
@@ -247,6 +240,7 @@ export default {
     },
     setToday() {
       this.focus = ''
+      this.checktest()
     },
     prev() {
       this.$refs.calendar.prev()
@@ -272,62 +266,88 @@ export default {
 
       nativeEvent.stopPropagation()
     },
+    catchCheck(checkValue) {
+      this.updateRange(checkValue)
+    },
+    addCalendar(checkValue, schedule) {
+      const events = this.events
+      const eventsId = []
 
-    updateRange(percheckValue) {
-      const events = []
-      const acc = percheckValue
-      console.log(acc)
+      for (const i in events) {
+        eventsId.push(events[i].id)
+      }
 
-      for (const i in this.state.Schedule) {
-        // 로그인 한 유저가 가지고있는 모든 일정 돌림
-        // schedule table
-        const schedule = this.state.Schedule[i] // 일정
-
-        // Project_User table
-        for (const j in this.state.Project_User) {
-          // 로그인 한 유저가 하고있는 프로젝트 돌림
-          const projectUser = this.state.Project_User[j]
-
-          // project_User table에서 checked가 1인 경우
-          if (projectUser.checked === 1) {
-            // project_id가 동일한 경우를 찾아 event push
-            if (projectUser.project_id === schedule.project_id) {
-              const Color = projectUser.color
-
-              const first = new Date(schedule.start_date)
-              const second = new Date(schedule.end_date)
-
-              const firstmon = first.getMonth() + 1
-              const secondmon = second.getMonth() + 1
-
-              events.push({
-                id: schedule.id,
-                name: schedule.title,
-                start: first,
-                end: second,
-                color: Color,
-                dateDetails:
-                  '기간 : ' +
-                  first.getFullYear() +
-                  '년 ' +
-                  firstmon +
-                  '월 ' +
-                  first.getDate() +
-                  '일' +
-                  ' ~ ' +
-                  second.getFullYear() +
-                  '년 ' +
-                  secondmon +
-                  '월 ' +
-                  second.getDate() +
-                  '일',
-                descDetails: schedule.description
-              })
+      if (checkValue[1] === true) {
+        const check = eventsId.some((item) => item === schedule.id)
+        if (check === false) {
+          const first = new Date(schedule.start_date)
+          const second = new Date(schedule.end_date)
+          const firstmon = first.getMonth() + 1
+          const secondmon = second.getMonth() + 1
+          events.push({
+            id: schedule.id,
+            name: schedule.title,
+            start: first,
+            end: second,
+            color: checkValue[2],
+            dateDetails:
+              '기간 : ' +
+              first.getFullYear() +
+              '년 ' +
+              firstmon +
+              '월 ' +
+              first.getDate() +
+              '일' +
+              ' ~ ' +
+              second.getFullYear() +
+              '년 ' +
+              secondmon +
+              '월 ' +
+              second.getDate() +
+              '일',
+            descDetails: schedule.description
+          })
+        } else {
+          for (const i in events) {
+            if (events[i].id === schedule.id) {
+              events[i].color = checkValue[2]
             }
+          }
+        }
+      } else if (checkValue[1] === false) {
+        for (let i in events) {
+          if (events[i].id === schedule.id) {
+            events.splice(i, 1)
+            i--
           }
         }
       }
       this.events = events
+    },
+    updateRange(checkValue) {
+      for (const i in this.state.Project_User) {
+        const projectUser = this.state.Project_User[i]
+
+        if (projectUser.id === checkValue[0]) {
+          for (const j in this.state.Schedule) {
+            const schedule = this.state.Schedule[j]
+
+            if (projectUser.project_id === null) {
+              // 개인일정
+              if (
+                schedule.user_id === this.logininf.loginaccount.id &&
+                schedule.project_id === null
+              ) {
+                this.addCalendar(checkValue, schedule)
+              }
+            } else {
+              if (schedule.project_id === projectUser.project_id) {
+                this.addCalendar(checkValue, schedule)
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
